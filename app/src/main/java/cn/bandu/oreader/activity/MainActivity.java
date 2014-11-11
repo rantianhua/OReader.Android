@@ -50,6 +50,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void showItemView() {
+        //TODO detail page show function init with web view,show a web page
         itemViewFragment = new ItemViewFragment_();
         getSupportFragmentManager().beginTransaction().replace(R.id.itemView, itemViewFragment).commit();
         onViewItem = true;
