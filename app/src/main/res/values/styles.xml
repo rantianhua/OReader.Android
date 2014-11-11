@@ -2,10 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Sherlock.NoActionBar">
-        <!-- Customize your theme here. -->
-    </style>
-
-    <style name="StyledIndicators">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
 
