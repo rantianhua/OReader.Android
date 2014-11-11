@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+        <com.viewpagerindicator.TabPageIndicator
+            android:id="@+id/tabTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mainPager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/itemView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+</FrameLayout>
