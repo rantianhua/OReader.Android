@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OReader</string>
+    <string name="test">控制子元素排列 与 在父元素中排列</string>
 </resources>

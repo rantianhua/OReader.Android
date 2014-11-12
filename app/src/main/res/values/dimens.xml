@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_size">18sp</dimen>
+    <dimen name="img_width">80dp</dimen>
+    <dimen name="img_height">51dp</dimen>
+    <dimen name="linearlayout_padding">5dp</dimen>
+</resources>
