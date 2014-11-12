@@ -1,7 +1,12 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cn.bandu.oreader">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.bandu.oreader">
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme">
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme">
 
         <activity android:name=".activity.WelcomeActivity_">
             <intent-filter>
@@ -10,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity_" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.MainActivity_"/>
     </application>
 
 </manifest>
