@@ -1,19 +1,12 @@
 package cn.bandu.oreader.adapter;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.zip.Inflater;
 
 import cn.bandu.oreader.R;
 
@@ -62,22 +55,22 @@ public class ListAdapter extends BaseAdapter {
     }
 
     private View initTextView(int i) {
-        View convertView = mInflater.inflate(R.layout.item_text, null);
+        View convertView = mInflater.inflate(R.layout.layout_item_text, null);
         return convertView;
     }
 
     private View initImgTextView(int i) {
-        View convertView = mInflater.inflate(R.layout.item_img_text, null);
+        View convertView = mInflater.inflate(R.layout.layout_item_img_text, null);
         return convertView;
     }
 
     private View initImgsTextView(int i) {
-        View convertView = mInflater.inflate(R.layout.item_imgs_text, null);
+        View convertView = mInflater.inflate(R.layout.layout_item_imgs_text, null);
         return convertView;
     }
 
     private View initImgView(int i) {
-        View convertView = mInflater.inflate(R.layout.item_img, null);
+        View convertView = mInflater.inflate(R.layout.layout_item_img, null);
 //        ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
 //        imageView.setImageResource();
         return convertView;

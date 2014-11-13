@@ -7,30 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.MainActivity_;
 import cn.bandu.oreader.adapter.ListAdapter;
-
-/**
- * Created by yangmingfu on 14-11-11.
- */
 
 public class MainListViewFragment extends ListFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        setListAdapter(new ListAdapter(getActivity()));
         return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        this.initAdapter();
-    }
-
-    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
         MainActivity_ a = (MainActivity_) this.getActivity();
         a.showItemView();
     }
@@ -39,9 +32,5 @@ public class MainListViewFragment extends ListFragment{
         Bundle args = new Bundle();
         args.putString("mContent", mContent);
         this.setArguments(args);
-    }
-
-    public void initAdapter() {
-        setListAdapter(new ListAdapter(getActivity()));
     }
 }
