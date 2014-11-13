@@ -18,7 +18,7 @@ import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
 import cn.bandu.oreader.fragments.ItemViewFragment_;
 import cn.bandu.oreader.fragments.SlidingMenuFragment_;
-
+import cn.bandu.oreader.view.CustomTabPageIndicator;
 
 @WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
 @Fullscreen
@@ -30,7 +30,7 @@ public class MainActivity extends FragmentActivity {
     @ViewById
     ViewPager mainPager;
     @ViewById
-    TabPageIndicator tabTitle;
+    CustomTabPageIndicator tabTitle;
 
 
     ItemViewFragment_ itemViewFragment;
