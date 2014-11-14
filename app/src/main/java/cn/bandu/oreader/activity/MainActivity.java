@@ -2,6 +2,7 @@ package cn.bandu.oreader.activity;
 
 
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
 
@@ -31,7 +32,7 @@ public class MainActivity extends FragmentActivity {
     @ViewById
     CustomTabPageIndicator tabTitle;
 
-
+    FragmentManager sm = getSupportFragmentManager();
     ItemViewFragment_ itemViewFragment;
     boolean onViewItem;
 
@@ -70,14 +71,18 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void showItemView() {
+        if( null == itemViewFragment){
+            itemViewFragment = new ItemViewFragment_();
+            sm.beginTransaction().replace(R.id.itemView, itemViewFragment).commit();
+        } else {
+            sm.beginTransaction().show(itemViewFragment).commit();
+        }
         //TODO detail page show function init with web view,show a web page
-        itemViewFragment = new ItemViewFragment_();
-        getSupportFragmentManager().beginTransaction().replace(R.id.itemView, itemViewFragment).commit();
         onViewItem = true;
     }
 
     public void hideItemView() {
-        getSupportFragmentManager().beginTransaction().remove(itemViewFragment).commit();
+        getSupportFragmentManager().beginTransaction().hide(itemViewFragment).commit();
         onViewItem = false;
     }
 }
