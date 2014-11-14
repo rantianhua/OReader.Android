@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Window;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.viewpagerindicator.TabPageIndicator;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

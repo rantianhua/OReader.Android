@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import cn.bandu.oreader.fragments.MainListViewFragment;
+import cn.bandu.oreader.fragments.MainListViewFragment_;
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -22,7 +22,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Log.d(TAG, "get Item: " + position);
-        MainListViewFragment mainListViewFragment = new MainListViewFragment();
+        MainListViewFragment_ mainListViewFragment = new MainListViewFragment_();
         mainListViewFragment.setContent(CONTENT[position % CONTENT.length]);
         return mainListViewFragment;
     }

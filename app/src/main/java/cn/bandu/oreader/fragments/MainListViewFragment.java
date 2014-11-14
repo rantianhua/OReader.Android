@@ -2,30 +2,36 @@ package cn.bandu.oreader.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import android.util.Log;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.MainActivity_;
 import cn.bandu.oreader.adapter.ListAdapter;
 
-public class MainListViewFragment extends ListFragment{
+@EFragment(R.layout.fragment_list)
+public class MainListViewFragment extends ListFragment {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
-        setListAdapter(new ListAdapter(getActivity()));
-        return view;
+    private final static String TAG = MainListViewFragment.class.getSimpleName();
+
+    private ListAdapter adapter;
+
+    private MainActivity_ mainActivity;
+
+    @AfterViews
+    public void afterViews() {
+        mainActivity = (MainActivity_) getActivity();
+        adapter = new ListAdapter(mainActivity);
+        setListAdapter(adapter);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        MainActivity_ a = (MainActivity_) this.getActivity();
-        a.showItemView();
+    @ItemClick
+    void list(int position) {
+        Log.e(TAG, "......." + position);
+        mainActivity.showItemView();
     }
 
     public void setContent(String mContent) {
