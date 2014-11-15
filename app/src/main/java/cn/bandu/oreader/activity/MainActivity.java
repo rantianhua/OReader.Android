@@ -67,9 +67,9 @@ public class MainActivity extends FragmentActivity {
 
 
     public void onBackPressed() {
-        if(onViewItem) {
-            hideItemView();
-        }
+//        if(onViewItem) {
+//            hideItemView();
+//        }
     }
 
     public void showSlidingMenu() {
@@ -93,6 +93,11 @@ public class MainActivity extends FragmentActivity {
 
     public void hideItemView() {
         getSupportFragmentManager().beginTransaction().hide(itemViewFragment).commit();
+        onViewItem = false;
+    }
+    public void removeItemView() {
+        getSupportFragmentManager().beginTransaction().remove(itemViewFragment).commit();
+        itemViewFragment = null;
         onViewItem = false;
     }
 }

@@ -108,7 +108,7 @@ public class ItemViewFragment extends Fragment {
 
     @Click
     public void backTextView() {
-        mainActivity.hideItemView();
+        mainActivity.removeItemView();
         mainActivity.showSlidingMenu();
     }
 }
