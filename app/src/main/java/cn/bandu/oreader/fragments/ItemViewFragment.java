@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,7 +47,7 @@ public class ItemViewFragment extends Fragment {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-        webView.addJavascriptInterface(new JavascriptInterface(getActivity().getApplicationContext()), "imagelistner");
+        webView.addJavascriptInterface(new JsObj(getActivity()), "imagelistner");
         webView.setWebViewClient(new MyWebViewClient());
 
         webView.loadUrl(webUrl);
@@ -62,14 +63,15 @@ public class ItemViewFragment extends Fragment {
                 + "    }  " + "}" + "})()");
     }
 
-    public class JavascriptInterface {
+    public class JsObj {
 
         private Context context;
 
-        public JavascriptInterface(Context context) {
+        public JsObj(Context context) {
             this.context = context;
         }
 
+        @JavascriptInterface
         public void openImage(String img) {
             Intent intent = new Intent();
             intent.putExtra("imgUri", img);
