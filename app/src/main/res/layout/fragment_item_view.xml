@@ -3,16 +3,31 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/red"
     android:id="@+id/root">
 
     <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
 
-    <ImageView
-        android:id="@+id/imgView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
-        android:background="@color/green"
-        />
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/backTextView"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:text="@string/go_back"
+            android:autoText="false"
+            android:background="@color/green"
+            android:clickable="false" />
+
+        </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
 </LinearLayout>

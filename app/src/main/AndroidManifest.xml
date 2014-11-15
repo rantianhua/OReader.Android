@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity_" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ImageShowActivity_" android:screenOrientation="portrait"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

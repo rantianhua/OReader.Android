@@ -32,6 +32,7 @@ public class MainListViewFragment extends ListFragment {
     void list(int position) {
         Log.e(TAG, "......." + position);
         mainActivity.showItemView();
+        mainActivity.hideSlidingMenu();
     }
 
     public void setContent(String mContent) {

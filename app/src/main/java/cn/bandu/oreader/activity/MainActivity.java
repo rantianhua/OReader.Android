@@ -35,6 +35,8 @@ public class MainActivity extends FragmentActivity {
     FragmentManager sm = getSupportFragmentManager();
     ItemViewFragment_ itemViewFragment;
     boolean onViewItem;
+    SlidingMenuFragment_ menuFragment;
+    SlidingMenu menu;
 
     MainViewPagerAdapter mainPagerAdapter;
 
@@ -47,9 +49,9 @@ public class MainActivity extends FragmentActivity {
         initSlidingMenu();
     }
 
-    private void  initSlidingMenu() {
-        SlidingMenuFragment_ menuFragment = new SlidingMenuFragment_();
-        SlidingMenu menu = new SlidingMenu(this);
+    private void initSlidingMenu() {
+        menuFragment = new SlidingMenuFragment_();
+        menu = new SlidingMenu(this);
 
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 //        menu.setShadowDrawable(R.drawable.sliding_shadow);
@@ -68,6 +70,14 @@ public class MainActivity extends FragmentActivity {
         if(onViewItem) {
             hideItemView();
         }
+    }
+
+    public void showSlidingMenu() {
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+    }
+
+    public void hideSlidingMenu() {
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
     }
 
     public void showItemView() {
