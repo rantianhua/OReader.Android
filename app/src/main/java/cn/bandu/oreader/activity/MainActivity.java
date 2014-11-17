@@ -20,7 +20,7 @@ import cn.bandu.oreader.fragments.ItemViewFragment_;
 import cn.bandu.oreader.fragments.SlidingMenuFragment_;
 import cn.bandu.oreader.view.CustomTabPageIndicator;
 
-@WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
+//@WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
 @Fullscreen
 @EActivity(R.layout.layout_main)
 public class MainActivity extends FragmentActivity {
@@ -44,6 +44,9 @@ public class MainActivity extends FragmentActivity {
     public void afterViews() {
         mainPagerAdapter = new MainViewPagerAdapter(this.getSupportFragmentManager());
         mainPager.setAdapter(mainPagerAdapter);
+        if(mainPagerAdapter.getCount() < 2) {
+            //TODO only one pager, we should hide indicator.
+        }
         tabTitle.setViewPager(mainPager);
         //初始化滑动菜单
         initSlidingMenu();
