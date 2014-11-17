@@ -9,6 +9,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,10 +37,14 @@ public class ItemViewFragment extends Fragment {
     @ViewById
     WebView webView;
 
+    @ViewById
+    ProgressBar progressBar;
+
     private MainActivity_ mainActivity;
 
     @AfterViews
     public void afterViews() {
+
         mainActivity  = (MainActivity_) this.getActivity();
 
         webUrl = "http://news.163.com/14/1114/05/AB04M0UI00014AED.html";
@@ -86,7 +91,8 @@ public class ItemViewFragment extends Fragment {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return super.shouldOverrideUrlLoading(view, url);
+            webView.loadUrl(url);
+            return true;
         }
 
         @Override
@@ -95,10 +101,12 @@ public class ItemViewFragment extends Fragment {
             super.onPageFinished(view, url);
             addImageClickListner();
             webView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            progressBar.setVisibility(View.VISIBLE);
             view.getSettings().setJavaScriptEnabled(true);
             super.onPageStarted(view, url, favicon);
         }
