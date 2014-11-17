@@ -31,17 +31,6 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
     @ViewById
     ListView list;
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        Log.e(TAG, listSwipeContainer.toString());
-//        listSwipeContainer.setOnRefreshListener(this);
-//        listSwipeContainer.setColorScheme(android.R.color.holo_blue_bright,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_red_light);
-//    }
-
     @AfterViews
     public void afterViews() {
         mainActivity = (MainActivity_) getActivity();
@@ -56,9 +45,11 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
 
     public void onRefresh() {
         Toast.makeText(mainActivity, "Refreshing", Toast.LENGTH_SHORT).show();
+        //TODO add refreshing act here
+        listSwipeContainer.setRefreshing(false);
 //        new Handler().postDelayed(new Runnable() {
 //            @Override public void run() {
-//                listSwipeContainer.setRefreshing(false);
+//
 //            }
 //        }, 5000);
     }
