@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -28,6 +29,8 @@ import cn.bandu.oreader.activity.MainActivity_;
 @EFragment(R.layout.fragment_item_view)
 public class ItemViewFragment extends Fragment {
 
+    final static String TAG = ItemViewFragment.class.getSimpleName();
+
     private String webUrl;
 
 
@@ -45,7 +48,7 @@ public class ItemViewFragment extends Fragment {
     @AfterViews
     public void afterViews() {
 
-        mainActivity  = (MainActivity_) this.getActivity();
+        mainActivity = (MainActivity_) this.getActivity();
 
         webUrl = "http://news.163.com/14/1114/05/AB04M0UI00014AED.html";
         WebSettings webSettings = webView.getSettings();
@@ -123,4 +126,5 @@ public class ItemViewFragment extends Fragment {
         mainActivity.removeItemView();
         mainActivity.showSlidingMenu();
     }
+
 }

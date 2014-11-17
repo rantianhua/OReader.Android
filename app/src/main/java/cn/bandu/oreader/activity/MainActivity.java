@@ -67,9 +67,12 @@ public class MainActivity extends FragmentActivity {
 
 
     public void onBackPressed() {
-//        if(onViewItem) {
-//            hideItemView();
-//        }
+       if(onViewItem) {
+           removeItemView();
+       } else {
+           super.onBackPressed();
+       }
+
     }
 
     public void showSlidingMenu() {
@@ -81,7 +84,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void showItemView() {
-        if( null == itemViewFragment){
+        if (null == itemViewFragment) {
             itemViewFragment = new ItemViewFragment_();
             sm.beginTransaction().replace(R.id.itemView, itemViewFragment).commit();
         } else {
@@ -95,6 +98,7 @@ public class MainActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction().hide(itemViewFragment).commit();
         onViewItem = false;
     }
+
     public void removeItemView() {
         getSupportFragmentManager().beginTransaction().remove(itemViewFragment).commit();
         itemViewFragment = null;
