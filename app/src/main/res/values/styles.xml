@@ -37,7 +37,7 @@
     </style>
 
     <style name="item_title">
-        <item name="android:textSize">18.0sp</item>
+        <item name="android:textSize">16.0sp</item>
         <item name="android:textColor">@color/item_text</item>
     </style>
 

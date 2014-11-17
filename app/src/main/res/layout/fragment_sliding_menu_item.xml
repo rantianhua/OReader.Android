@@ -6,12 +6,12 @@
     android:padding="1dp"
     android:orientation="horizontal">
     <ImageView
-        android:id="@+id/sliding_menu_img"
+        android:id="@+id/imageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/menu_test"/>
     <TextView
-        android:id="@+id/sliding_menu_txt"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/menu_test"/>

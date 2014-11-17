@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -26,7 +25,7 @@ import cn.bandu.oreader.activity.MainActivity_;
 /**
  * Created by wanghua on 14/11/11.
  */
-@EFragment(R.layout.fragment_item_view)
+@EFragment(R.layout.fragment_detail)
 public class ItemViewFragment extends Fragment {
 
     final static String TAG = ItemViewFragment.class.getSimpleName();

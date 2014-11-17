@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -14,9 +13,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.WindowFeature;
-
-import java.util.Date;
 
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
@@ -26,7 +22,7 @@ import cn.bandu.oreader.view.CustomTabPageIndicator;
 
 //@WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
 @Fullscreen
-@EActivity(R.layout.layout_main)
+@EActivity(R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -70,9 +66,9 @@ public class MainActivity extends FragmentActivity {
         menu.setFadeDegree(0f);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.layout_sliding_menu);
+        menu.setMenu(R.layout.fragment_sliding_menu);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.sliding_menu, menuFragment).commit();
+                .replace(R.id.slidingMenu, menuFragment).commit();
     }
 
 

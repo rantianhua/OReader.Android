@@ -11,6 +11,7 @@
         android:orientation="vertical">
         <cn.bandu.oreader.view.CustomTabPageIndicator
             android:id="@+id/tabTitle"
+            android:background="@color/gray"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 

@@ -26,21 +26,33 @@
                 android:text="@string/test"
                 style="@style/item_title" />
         </RelativeLayout>
-        <ImageView
-            android:id="@+id/large_image"
-            android:background="@drawable/image_holder_listpage"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/multi_image_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
             android:layout_marginTop="@dimen/list_item_vertical_inside_padding"
             android:layout_marginRight="@dimen/list_item_horizontal_outside_padding"
-            android:layout_marginBottom="@dimen/list_item_vertical_inside_padding"
-            android:scaleType="fitXY" />
+            android:layout_marginBottom="@dimen/list_item_vertical_inside_padding">
+            <ImageView
+                android:id="@+id/item_image_0"
+                style="@style/item_image" />
+            <View style="@style/item_image_gap" />
+            <ImageView
+                android:id="@+id/item_image_1"
+                style="@style/item_image" />
+            <View style="@style/item_image_gap" />
+            <ImageView
+                android:id="@+id/item_image_2"
+                style="@style/item_image" />
+        </LinearLayout>
         <ImageView
             android:layout_marginTop="8.0dp"
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
             android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
             android:layout_marginRight="@dimen/list_item_horizontal_outside_padding"
-            android:src="@color/divider" />    </LinearLayout>
+            android:src="@color/divider" />
+    </LinearLayout>
 </FrameLayout>

@@ -55,22 +55,22 @@ public class ListAdapter extends BaseAdapter {
     }
 
     private View initTextView(int i) {
-        View convertView = mInflater.inflate(R.layout.layout_item_text, null);
+        View convertView = mInflater.inflate(R.layout.fragment_item_text, null);
         return convertView;
     }
 
     private View initImgTextView(int i) {
-        View convertView = mInflater.inflate(R.layout.layout_item_img_text, null);
+        View convertView = mInflater.inflate(R.layout.fragment_item_img_text, null);
         return convertView;
     }
 
     private View initImgsTextView(int i) {
-        View convertView = mInflater.inflate(R.layout.layout_item_imgs_text, null);
+        View convertView = mInflater.inflate(R.layout.fragment_item_imgs_text, null);
         return convertView;
     }
 
     private View initImgView(int i) {
-        View convertView = mInflater.inflate(R.layout.layout_item_large_img, null);
+        View convertView = mInflater.inflate(R.layout.fragment_item_large_img, null);
 //        ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
 //        imageView.setImageResource();
         return convertView;

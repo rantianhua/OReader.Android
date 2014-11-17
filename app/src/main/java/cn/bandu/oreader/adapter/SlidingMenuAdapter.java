@@ -2,13 +2,10 @@ package cn.bandu.oreader.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-import java.util.zip.Inflater;
 
 import cn.bandu.oreader.R;
 
@@ -43,7 +40,7 @@ public class SlidingMenuAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View convertView = mInflater.inflate(R.layout.layout_sliding_menu_item, null);
+        View convertView = mInflater.inflate(R.layout.fragment_sliding_menu_item, null);
         return convertView;
     }
 }

@@ -18,7 +18,7 @@ import cn.bandu.oreader.data.AppPrefs_;
 /**
  * Created by yangmingfu on 14/11/14.
  */
-@EActivity(R.layout.image_show)
+@EActivity(R.layout.activity_image_show)
 public class ImageShowActivity extends Activity {
     @ViewById
     ImageView imgView;

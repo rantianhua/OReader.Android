@@ -20,7 +20,7 @@ import cn.bandu.oreader.data.AppPrefs_;
 
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 @Fullscreen
-@EActivity(R.layout.layout_welcome)
+@EActivity(R.layout.activity_welcome)
 public class WelcomeActivity extends Activity{
 
     private final static String TAG = WelcomeActivity.class.getSimpleName();
