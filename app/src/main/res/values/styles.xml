@@ -19,4 +19,31 @@
         <item name="android:typeface">monospace</item>
         <item name="android:textColor">@drawable/selector_tabtext</item>
     </style>
+
+    <style name="article_list_style">
+        <item name="android:background">#00000000</item>
+        <item name="android:listSelector">@drawable/transparent_selector</item>
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0.0dp</item>
+        <item name="android:drawSelectorOnTop">false</item>
+    </style>
+
+    <style name="item_image">
+        <item name="android:background">@drawable/small_image_holder_listpage</item>
+        <item name="android:layout_width">@dimen/item_image_width</item>
+        <item name="android:layout_height">@dimen/item_image_height</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="item_title">
+        <item name="android:textSize">18.0sp</item>
+        <item name="android:textColor">@color/item_text</item>
+    </style>
+
+    <style name="item_image_gap">
+        <item name="android:layout_width">10.dp</item>
+        <item name="android:layout_height">1.0dp</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
 </resources>

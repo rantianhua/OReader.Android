@@ -70,7 +70,7 @@ public class ListAdapter extends BaseAdapter {
     }
 
     private View initImgView(int i) {
-        View convertView = mInflater.inflate(R.layout.layout_item_img, null);
+        View convertView = mInflater.inflate(R.layout.layout_item_large_img, null);
 //        ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
 //        imageView.setImageResource();
         return convertView;

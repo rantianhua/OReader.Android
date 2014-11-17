@@ -27,6 +27,16 @@
                 style="@style/item_title" />
         </RelativeLayout>
         <ImageView
+            android:id="@+id/large_image"
+            android:background="@drawable/image_holder_listpage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
+            android:layout_marginTop="@dimen/list_item_vertical_inside_padding"
+            android:layout_marginRight="@dimen/list_item_horizontal_outside_padding"
+            android:layout_marginBottom="@dimen/list_item_vertical_inside_padding"
+            android:scaleType="fitXY" />
+        <ImageView
             android:layout_marginTop="8.0dp"
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"

@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:id="@+id/root"
+    android:background="@drawable/newsbg_listpage"
+    android:paddingTop="@dimen/list_item_vertical_outside_padding"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:baselineAligned="true"
-    android:background="@color/bg_color"
-    android:orientation="horizontal"
-    android:padding="@dimen/linearlayout_padding">
-    <TextView
-        android:id="@+id/title"
-        android:text="@string/test"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:textSize="@dimen/title_size"
-        android:textColor="@color/black"
-        android:autoText="false" />
-    <ImageView
-        android:id="@+id/img"
-        android:src="@drawable/example"
-        android:layout_width="@dimen/img_width"
-        android:layout_height="@dimen/img_height"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="@dimen/linearlayout_padding"
-        android:layout_marginLeft="@dimen/linearlayout_padding" />
-</LinearLayout>
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/title_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
+            android:layout_marginRight="@dimen/list_item_horizontal_outside_padding">
+            <ImageView
+                android:id="@+id/right_image"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                style="@style/item_image" />
+            <TextView
+                android:ellipsize="end"
+                android:id="@+id/title"
+                android:text="@string/test"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_item_vertical_inside_padding"
+                android:maxLines="3" android:singleLine="false"
+                android:layout_toLeftOf="@id/right_image"
+                android:layout_alignParentTop="true"
+                style="@style/item_title" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dip"
+            android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
+            android:layout_marginRight="@dimen/list_item_horizontal_outside_padding"
+            android:layout_marginTop="8dp"
+            android:src="@color/divider" />
+    </LinearLayout>
+
+</FrameLayout>
