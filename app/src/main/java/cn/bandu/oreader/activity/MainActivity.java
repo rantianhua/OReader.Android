@@ -4,7 +4,9 @@ package cn.bandu.oreader.activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -13,6 +15,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
+
+import java.util.Date;
 
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
@@ -31,6 +35,9 @@ public class MainActivity extends FragmentActivity {
     ViewPager mainPager;
     @ViewById
     CustomTabPageIndicator tabTitle;
+
+    long lastBackPressed = 0;
+    Toast quitToast;
 
     FragmentManager sm = getSupportFragmentManager();
     ItemViewFragment_ itemViewFragment;
@@ -73,7 +80,20 @@ public class MainActivity extends FragmentActivity {
        if(onViewItem) {
            removeItemView();
        } else {
-           super.onBackPressed();
+           long now = System.currentTimeMillis();
+           if((now - lastBackPressed) < 2000) {
+               if(null != quitToast) {
+                   Log.e(TAG, "cancel toast");
+                   quitToast.cancel();
+                   quitToast = null;
+               }
+               super.onBackPressed();
+           } else {
+               lastBackPressed = now;
+               Log.e(TAG, "last back pressed: " + now);
+               quitToast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
+                       quitToast.show();
+           }
        }
 
     }
