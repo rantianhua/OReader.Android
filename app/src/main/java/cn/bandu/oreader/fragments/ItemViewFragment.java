@@ -45,6 +45,8 @@ public class ItemViewFragment extends Fragment {
         webUrl = "http://news.163.com/14/1114/05/AB04M0UI00014AED.html";
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+//        webSettings.setCacheMode(webSettings.LOAD_DEFAULT);
+        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
         webView.addJavascriptInterface(new JsObj(getActivity()), "imagelistner");
