@@ -2,7 +2,7 @@
     package="cn.bandu.oreader">
 
     <application
-        android:name=".MainApplication"
+        android:name=".OReaderApplication_"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
