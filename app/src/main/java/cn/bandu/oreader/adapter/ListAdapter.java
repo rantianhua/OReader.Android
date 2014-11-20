@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import cn.bandu.oreader.R;
@@ -17,18 +19,22 @@ import cn.bandu.oreader.R;
 public class ListAdapter extends BaseAdapter {
 
     private Context myContext;
+    private ArrayList datas;
 
     private LayoutInflater mInflater = null;
 
-    public ListAdapter(Context context) {
+    TextView title;
+
+    public ListAdapter(Context context, ArrayList datas) {
         this.myContext = context;
+        this.datas = datas;
         mInflater = (LayoutInflater) myContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return 20;
+        return datas.size();
     }
 
     @Override
@@ -56,21 +62,29 @@ public class ListAdapter extends BaseAdapter {
 
     private View initTextView(int i) {
         View convertView = mInflater.inflate(R.layout.fragment_item_text, null);
+        title = (TextView) convertView.findViewById(R.id.title);
+        title.setText((String)datas.get(i));
         return convertView;
     }
 
     private View initImgTextView(int i) {
         View convertView = mInflater.inflate(R.layout.fragment_item_img_text, null);
+        title = (TextView) convertView.findViewById(R.id.title);
+        title.setText((String)datas.get(i));
         return convertView;
     }
 
     private View initImgsTextView(int i) {
         View convertView = mInflater.inflate(R.layout.fragment_item_imgs_text, null);
+        title = (TextView) convertView.findViewById(R.id.title);
+        title.setText((String)datas.get(i));
         return convertView;
     }
 
     private View initImgView(int i) {
         View convertView = mInflater.inflate(R.layout.fragment_item_large_img, null);
+        title = (TextView) convertView.findViewById(R.id.title);
+        title.setText((String)datas.get(i));
 //        ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
 //        imageView.setImageResource();
         return convertView;
