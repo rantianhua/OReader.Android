@@ -16,7 +16,6 @@ import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
-import cn.bandu.oreader.fragments.ItemViewFragment_;
 import cn.bandu.oreader.fragments.SlidingMenuFragment_;
 import cn.bandu.oreader.view.CustomTabPageIndicator;
 
@@ -36,8 +35,6 @@ public class MainActivity extends FragmentActivity {
     Toast quitToast;
 
     FragmentManager sm = getSupportFragmentManager();
-    ItemViewFragment_ itemViewFragment;
-    boolean onViewItem;
     SlidingMenuFragment_ menuFragment;
     SlidingMenu menu;
 
@@ -73,25 +70,20 @@ public class MainActivity extends FragmentActivity {
 
 
     public void onBackPressed() {
-       if(onViewItem) {
-           removeItemView();
-       } else {
-           long now = System.currentTimeMillis();
+        long now = System.currentTimeMillis();
            if((now - lastBackPressed) < 2000) {
                if(null != quitToast) {
                    Log.e(TAG, "cancel toast");
                    quitToast.cancel();
                    quitToast = null;
-               }
-               super.onBackPressed();
-           } else {
-               lastBackPressed = now;
-               Log.e(TAG, "last back pressed: " + now);
-               quitToast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
-                       quitToast.show();
            }
-       }
-
+           super.onBackPressed();
+        } else {
+            lastBackPressed = now;
+            Log.e(TAG, "last back pressed: " + now);
+            quitToast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
+            quitToast.show();
+        }
     }
 
     public void showSlidingMenu() {
@@ -100,27 +92,5 @@ public class MainActivity extends FragmentActivity {
 
     public void hideSlidingMenu() {
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-    }
-
-    public void showItemView() {
-        if (null == itemViewFragment) {
-            itemViewFragment = new ItemViewFragment_();
-            sm.beginTransaction().replace(R.id.itemView, itemViewFragment).commit();
-        } else {
-            sm.beginTransaction().show(itemViewFragment).commit();
-        }
-        //TODO detail page show function init with web view,show a web page
-        onViewItem = true;
-    }
-
-    public void hideItemView() {
-        getSupportFragmentManager().beginTransaction().hide(itemViewFragment).commit();
-        onViewItem = false;
-    }
-
-    public void removeItemView() {
-        getSupportFragmentManager().beginTransaction().remove(itemViewFragment).commit();
-        itemViewFragment = null;
-        onViewItem = false;
     }
 }

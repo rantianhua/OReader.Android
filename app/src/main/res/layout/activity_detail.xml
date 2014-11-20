@@ -1,0 +1,30 @@
+<RelativeLayout
+    android:id="@+id/root_view"
+    android:background="#ffffffff"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/fragment_title_bar" />
+    <FrameLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_bar">
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title_bar"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:max="100"
+            style="@style/CustomTabPageIndicator.Text" />
+        </FrameLayout>
+    <View android:layout_below="@id/title_bar" style="@style/title_bar_shadow" />
+    <View android:layout_below="@id/swipeContainer" style="@style/title_bar_shadow" />
+</RelativeLayout>

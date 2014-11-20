@@ -9,6 +9,7 @@ import com.squareup.picasso.Picasso;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -18,6 +19,7 @@ import cn.bandu.oreader.data.AppPrefs_;
 /**
  * Created by yangmingfu on 14/11/14.
  */
+@Fullscreen
 @EActivity(R.layout.activity_image_show)
 public class ImageShowActivity extends Activity {
     @ViewById

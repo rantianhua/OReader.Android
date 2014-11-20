@@ -11,4 +11,6 @@
     <dimen name="list_item_vertical_inside_padding">5.0dp</dimen>
     <dimen name="item_image_width">80dp</dimen>
     <dimen name="item_image_height">60dp</dimen>
+    <dimen name="title_bar_height">44.0dp</dimen>
+    <dimen name="shadow_height">5.0dp</dimen>
 </resources>

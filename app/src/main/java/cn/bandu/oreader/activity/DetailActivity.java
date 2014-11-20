@@ -1,9 +1,10 @@
-package cn.bandu.oreader.fragments;
+package cn.bandu.oreader.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -14,31 +15,26 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.R;
-import cn.bandu.oreader.activity.ImageShowActivity_;
-import cn.bandu.oreader.activity.MainActivity_;
-
 
 /**
- * Created by wanghua on 14/11/11.
+ * Created by yangmingfu on 14/11/14.
  */
-@EFragment(R.layout.fragment_detail)
-public class ItemViewFragment extends Fragment {
-
-    final static String TAG = ItemViewFragment.class.getSimpleName();
+@Fullscreen
+@EActivity(R.layout.activity_detail)
+public class DetailActivity extends Activity {
 
     private String webUrl;
-
-
-    @ViewById
-    TextView backTextView;
+    private String cateName;
 
     @ViewById
     WebView webView;
-
+    @ViewById
+    TextView title;
     @ViewById
     ProgressBar progressBar;
 
@@ -47,21 +43,27 @@ public class ItemViewFragment extends Fragment {
     @AfterViews
     public void afterViews() {
 
-        mainActivity = (MainActivity_) this.getActivity();
+        webUrl = getIntent().getStringExtra("webUrl");
+        cateName = getIntent().getStringExtra("cateName");
 
-        webUrl = "http://news.163.com/14/1114/05/AB04M0UI00014AED.html";
+        initTitleBar();
+        initWebView();
+    }
+    private void initTitleBar() {
+        Log.e("cateName", cateName);
+        title.setText(cateName);
+    }
+    private void initWebView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-//        webSettings.setCacheMode(webSettings.LOAD_DEFAULT);
         webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-        webView.addJavascriptInterface(new JsObj(getActivity()), "imagelistner");
+        webView.addJavascriptInterface(new JsObj(getApplicationContext()), "imagelistner");
         webView.setWebViewClient(new MyWebViewClient());
 
         webView.loadUrl(webUrl);
     }
-
     private void addImageClickListner() {
         webView.loadUrl("javascript:(function(){"
                 + "var objs = document.getElementsByTagName(\"img\");"
@@ -102,8 +104,8 @@ public class ItemViewFragment extends Fragment {
             view.getSettings().setJavaScriptEnabled(true);
             super.onPageFinished(view, url);
             addImageClickListner();
-            webView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
+            webView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -122,8 +124,10 @@ public class ItemViewFragment extends Fragment {
 
     @Click
     public void backTextView() {
-        mainActivity.removeItemView();
-        mainActivity.showSlidingMenu();
+        this.finish();
     }
 
+    public void onBackPressed() {
+        backTextView();
+    }
 }

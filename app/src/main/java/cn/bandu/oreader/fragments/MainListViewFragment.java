@@ -1,9 +1,9 @@
 package cn.bandu.oreader.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -13,6 +13,7 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.R;
+import cn.bandu.oreader.activity.DetailActivity_;
 import cn.bandu.oreader.activity.MainActivity_;
 import cn.bandu.oreader.adapter.ListAdapter;
 
@@ -56,9 +57,15 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
 
     @ItemClick
     void list(int position) {
-        Log.e(TAG, "......." + position);
-        mainActivity.showItemView();
-        mainActivity.hideSlidingMenu();
+        Intent intent = new Intent();
+        String webUrl = "http://news.163.com/14/1114/05/AB04M0UI00014AED.html";
+        String cateName = "英语教学";
+        intent.putExtra("webUrl", webUrl);
+        intent.putExtra("cateName", cateName);
+
+        intent.setClass(getActivity(), DetailActivity_.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(intent);
     }
 
     public void setContent(String mContent) {
