@@ -30,7 +30,6 @@
     </style>
 
     <style name="item_image">
-        <item name="android:background">@drawable/small_image_holder_listpage</item>
         <item name="android:layout_width">@dimen/item_image_width</item>
         <item name="android:layout_height">@dimen/item_image_height</item>
         <item name="android:scaleType">fitCenter</item>
@@ -110,5 +109,16 @@
         <item name="android:background">@drawable/title_bar_shadow</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/shadow_height</item>
+    </style>
+
+    <style name="item_description">
+        <item name="android:textSize">15.0sp</item>
+        <item name="android:textColor">@color/item_description</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="item_secondary_text">
+        <item name="android:textSize">12.0sp</item>
+        <item name="android:textColor">@color/create_time</item>
     </style>
 </resources>

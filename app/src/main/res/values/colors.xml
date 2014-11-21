@@ -15,4 +15,8 @@
     <color name="item_title_disabled">#ff888888</color>
     <color name="item_title_normal">#ff444444</color>
     <color name="detail_title_text_color">#ff464646</color>
+    <color name="essay_content_disabled">#ff999999</color>
+    <color name="essay_content_pressed">#ff999999</color>
+    <color name="essay_content_normal">#ff454545</color>
+    <color name="create_time">#ff999999</color>
 </resources>
