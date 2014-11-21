@@ -92,12 +92,10 @@ public class ListAdapter extends BaseAdapter {
             if (listDo.description == "") {
                 viewTextHolder.description.setVisibility(View.GONE);
             } else {
+                viewTextHolder.description.setVisibility(View.VISIBLE);
                 viewTextHolder.description.setText(listDo.description);
             }
             viewTextHolder.createTime.setText(listDo.createTime);
-        }
-        if (datas.get(i).description == "") {
-            viewTextHolder.description.setVisibility(View.GONE);
         }
         return convertView;
     }
@@ -126,6 +124,7 @@ public class ListAdapter extends BaseAdapter {
             if (listDo.description == "") {
                 viewImageTextHolder.description.setVisibility(View.GONE);
             } else {
+                viewImageTextHolder.description.setVisibility(View.VISIBLE);
                 viewImageTextHolder.description.setText(listDo.description);
             }
             viewImageTextHolder.createTime.setText(listDo.createTime);
@@ -135,10 +134,6 @@ public class ListAdapter extends BaseAdapter {
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImageTextHolder.image0);
         }
-        if (datas.get(i).description == "") {
-            viewImageTextHolder.description.setVisibility(View.GONE);
-        }
-
         return convertView;
     }
 
@@ -172,6 +167,7 @@ public class ListAdapter extends BaseAdapter {
             if (listDo.description == "") {
                 viewImagesHolder.description.setVisibility(View.GONE);
             } else {
+                viewImagesHolder.description.setVisibility(View.VISIBLE);
                 viewImagesHolder.description.setText(listDo.description);
             }
             viewImagesHolder.createTime.setText(listDo.createTime);
@@ -191,10 +187,6 @@ public class ListAdapter extends BaseAdapter {
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image2);
         }
-        if (datas.get(i).description == "") {
-            viewImagesHolder.description.setVisibility(View.GONE);
-        }
-
         return convertView;
     }
 
@@ -218,6 +210,7 @@ public class ListAdapter extends BaseAdapter {
             if (listDo.description == "") {
                 ((TextView) convertView.findViewById(R.id.description)).setVisibility(View.GONE);
             } else {
+                viewLargeImageTextHolder.description.setVisibility(View.VISIBLE);
                 viewLargeImageTextHolder.description.setText(listDo.description);
             }
             viewLargeImageTextHolder.createTime.setText(listDo.createTime);

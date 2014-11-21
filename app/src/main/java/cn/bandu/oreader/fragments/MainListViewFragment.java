@@ -63,27 +63,34 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
 
     private void genPullDatas() {
         Random random = new Random();
+        List<ListDo> datasTmp = new ArrayList<ListDo>();
         //重构datas，将新数据放到上面
         for (int j=0 ; j<20; j++) {
             ListDo listDo = new ListDo();
-            listDo.title = "item - " + i;
-            listDo.description = "";
+            listDo.title = "在流行歌曲还被认为是“靡靡之音”的时候 item - " + i;
             SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
             listDo.createTime = sfd.format(new Date());
-            Random random1 = new Random();
-            int tmp = random1.nextInt(20) % 4;
+            int tmp = random.nextInt(20) % 4;
+            listDo.description = "著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱";
+
+
             listDo.imageUrls = new ArrayList<String>();
             listDo.model = tmp;
-            if (tmp == 2) {
-                listDo.imageUrls.add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg");
-                listDo.imageUrls.add("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg");
-                listDo.imageUrls.add("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg");
-            } else if (tmp > 0) {
-                listDo.imageUrls.add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg");
-            }
-            datas.add(listDo);
+            listDo.imageUrls.add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
+            listDo.imageUrls.add("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
+            listDo.imageUrls.add("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
+
+            datasTmp.add(listDo);
             i++;
         }
+        for (int m=datas.size()-1;m>=0;m--){
+            datasTmp.add(datas.get(m));
+        }
+        datas.clear();
+        for (int m=0;m<datasTmp.size();m++){
+            datas.add(datasTmp.get(m));
+        }
+
     }
 
     public void onRefresh() {

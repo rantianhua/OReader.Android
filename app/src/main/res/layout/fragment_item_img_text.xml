@@ -27,12 +27,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/list_item_vertical_inside_padding"
-                android:maxLines="3" android:singleLine="false"
+                android:maxLines="3"
+                android:singleLine="false"
                 android:layout_toLeftOf="@id/right_image"
                 android:layout_alignParentTop="true"
                 style="@style/item_title" />
             <TextView
                 android:id="@+id/description"
+                android:maxLines="3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"

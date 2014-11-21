@@ -27,6 +27,7 @@
                 style="@style/item_title" />
             <TextView
                 android:id="@+id/description"
+                android:maxLines="3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
