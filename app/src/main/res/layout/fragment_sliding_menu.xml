@@ -1,7 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
-    android:id="@+id/slidingMenu">
-
-</FrameLayout>
+<RelativeLayout android:id="@+id/slidingMenu"
+    android:background="@color/black"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        style="@style/title_bar_style">
+        <TextView
+            android:id="@id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_mine"
+            android:layout_centerInParent="true"
+            style="@style/title_text_style" />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar">
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <View android:id="@+id/divider1" style="@style/mine_item_divider" />
+            <RelativeLayout
+                android:id="@+id/favorite_btn"
+                style="@style/mine_item">
+                <TextView
+                    android:id="@+id/favor_text"
+                    android:text="@string/mine_item_favorite"
+                    android:drawableLeft="@drawable/favoriteicon_profile"
+                    style="@style/mine_item_text" />
+                <ImageView
+                    android:id="@+id/favor_arrow"
+                    style="@style/mine_arrow" />
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/clear_cacahe_btn"
+                style="@style/mine_item">
+                <TextView
+                    android:id="@+id/clear_cacahe"
+                    android:text="@string/mine_item_clearcache"
+                    android:drawableLeft="@drawable/feedbackicon_profile"
+                    style="@style/mine_item_text" />
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/about_btn"
+                style="@style/mine_item">
+                <TextView
+                    android:id="@+id/about_text"
+                    android:text="@string/mine_item_about"
+                    android:drawableLeft="@drawable/feedbackicon_profile"
+                    style="@style/mine_item_text" />
+                <ImageView
+                    android:id="@+id/about_arrow"
+                    style="@style/mine_arrow" />
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/appstore_btn"
+                style="@style/mine_item">
+                <TextView android:id="@+id/appstore_text"
+                    android:text="@string/mine_item_appstore"
+                    android:drawableLeft="@drawable/recomicon_profile"
+                    style="@style/mine_item_text" />
+                <ImageView
+                    android:id="@+id/appstore_arrow"
+                    style="@style/mine_arrow" />
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/feedback_btn"
+                style="@style/mine_item">
+                <TextView
+                    android:id="@+id/feedback_text"
+                    android:text="@string/mine_item_feedback"
+                    android:drawableLeft="@drawable/feedbackicon_profile"
+                    style="@style/mine_item_text" />
+                <ImageView
+                    android:id="@+id/feedback_arrow"
+                    style="@style/mine_arrow" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

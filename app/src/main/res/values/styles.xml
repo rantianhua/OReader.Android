@@ -121,4 +121,56 @@
         <item name="android:textSize">12.0sp</item>
         <item name="android:textColor">@color/create_time</item>
     </style>
+
+    <style name="title_text_style">
+        <item name="android:textSize">20.0sp</item>
+        <item name="android:textColor">@color/title_text_color</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="mine_item_divider">
+        <item name="android:background">@drawable/transparent</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">20.0dip</item>
+    </style>
+
+    <style name="mine_item_text">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/mine_item_text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:drawablePadding">16.0dip</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="mine_item">
+        <item name="android:gravity">top</item>
+        <item name="android:background">@drawable/mine_item_bg</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">44.0dip</item>
+    </style>
+
+    <style name="mine_arrow">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingRight">15.0dip</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/mine_arrow</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+    <style name="mine_item_line">
+        <item name="android:background">@color/mine_item_line</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dip</item>
+    </style>
+    <style name="mine_btn_line" parent="@style/mine_item_line">
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
 </resources>

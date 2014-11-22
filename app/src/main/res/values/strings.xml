@@ -4,4 +4,10 @@
     <string name="menu_test">个人中心</string>
     <string name="go_back">返回</string>
     <string name="load">加载数据中....</string>
+    <string name="title_mine">我的</string>
+    <string name="mine_item_favorite">我的收藏</string>
+    <string name="mine_item_feedback">意见反馈</string>
+    <string name="mine_item_clearcache">清除缓存</string>
+    <string name="mine_item_about">关于我们</string>
+    <string name="mine_item_appstore">应用推荐</string>
 </resources>
