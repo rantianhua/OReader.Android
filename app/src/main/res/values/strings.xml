@@ -10,4 +10,9 @@
     <string name="mine_item_clearcache">清除缓存</string>
     <string name="mine_item_about">关于我们</string>
     <string name="mine_item_appstore">应用推荐</string>
+    <string name="favorite">收藏</string>
+    <string name="comment_write">写评论</string>
+    <string name="comment_look">看评论</string>
+    <string name="favorite_text">收藏</string>
+    <string name="share_text">分享</string>
 </resources>

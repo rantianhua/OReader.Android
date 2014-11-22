@@ -24,4 +24,5 @@
     <color name="mine_item_bg_pressed">#ffeeeeee</color>
     <color name="mine_item_bg_normal">#fffafafa</color>
     <color name="mine_item_line">#ffdddddd</color>
+    <color name="detail_divider_day">#ffb4b4b4</color>
 </resources>

@@ -173,4 +173,9 @@
     <style name="mine_btn_line" parent="@style/mine_item_line">
         <item name="android:layout_alignParentBottom">true</item>
     </style>
+
+    <style name="tool_item_text" parent="mine_item_text">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

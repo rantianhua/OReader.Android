@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/swipeContainer"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/title_bar">
         <WebView
             android:id="@+id/webView"
@@ -27,4 +27,15 @@
         </FrameLayout>
     <View android:layout_below="@id/title_bar" style="@style/title_bar_shadow" />
     <View android:layout_below="@id/swipeContainer" style="@style/title_bar_shadow" />
+    <FrameLayout
+        android:id="@+id/tool_bar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="44.0dp"
+        android:layout_alignParentBottom="true" >
+        <include
+            layout="@layout/fragment_bottom_bar"
+            android:layout_below="@id/swipeContainer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </FrameLayout>
 </RelativeLayout>

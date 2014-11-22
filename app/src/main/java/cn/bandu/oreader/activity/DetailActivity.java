@@ -131,4 +131,24 @@ public class DetailActivity extends Activity {
     public void onBackPressed() {
         backTextView();
     }
+
+    @Click
+    public void commentWriteAction() {
+
+    }
+
+    @Click
+    public void commentLookAction(){
+
+    }
+
+    @Click
+    public void favorAction() {
+
+    }
+
+    @Click
+    public void shareAction() {
+
+    }
 }

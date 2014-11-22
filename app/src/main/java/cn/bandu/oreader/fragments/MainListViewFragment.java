@@ -153,7 +153,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
     @ItemClick
     void list(int position) {
         Intent intent = new Intent();
-        String webUrl = "http://news.163.com/14/1114/05/AB04M0UI00014AED.html";
+        String webUrl = "http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==";
         String cateName = "英语教学";
         intent.putExtra("webUrl", webUrl);
         intent.putExtra("cateName", cateName);
