@@ -3,4 +3,5 @@
     <string name="test">控制子元素排列 与 在父元素中排列</string>
     <string name="menu_test">个人中心</string>
     <string name="go_back">返回</string>
+    <string name="load">加载数据中....</string>
 </resources>
