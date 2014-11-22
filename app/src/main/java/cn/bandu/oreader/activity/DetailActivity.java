@@ -20,6 +20,7 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.R;
+import cn.bandu.oreader.model.ListDo;
 
 /**
  * Created by yangmingfu on 14/11/14.
@@ -28,8 +29,8 @@ import cn.bandu.oreader.R;
 @EActivity(R.layout.activity_detail)
 public class DetailActivity extends Activity {
 
-    private String webUrl;
-    private String cateName;
+    String cateName;
+    private ListDo data;
 
     @ViewById
     WebView webView;
@@ -43,8 +44,8 @@ public class DetailActivity extends Activity {
     @AfterViews
     public void afterViews() {
 
-        webUrl = getIntent().getStringExtra("webUrl");
         cateName = getIntent().getStringExtra("cateName");
+        data = (ListDo) getIntent().getSerializableExtra("data");
 
         initTitleBar();
         initWebView();
@@ -62,7 +63,7 @@ public class DetailActivity extends Activity {
         webView.addJavascriptInterface(new JsObj(getApplicationContext()), "imagelistner");
         webView.setWebViewClient(new MyWebViewClient());
 
-        webView.loadUrl(webUrl);
+        webView.loadUrl(data.webUrl);
     }
     private void addImageClickListner() {
         webView.loadUrl("javascript:(function(){"
@@ -144,7 +145,7 @@ public class DetailActivity extends Activity {
 
     @Click
     public void favorAction() {
-
+        Log.i("title", data.title);
     }
 
     @Click

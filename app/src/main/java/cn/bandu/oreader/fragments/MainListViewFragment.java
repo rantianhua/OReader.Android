@@ -72,7 +72,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
             listDo.createTime = sfd.format(new Date());
             int tmp = random.nextInt(20) % 4;
             listDo.description = "著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱";
-
+            listDo.webUrl = "http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==";
 
             listDo.imageUrls = new ArrayList<String>();
             listDo.model = tmp;
@@ -119,7 +119,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
             listDo.createTime = sfd.format(new Date());
             int tmp = random.nextInt(20) % 4;
             listDo.description = "著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱";
-
+            listDo.webUrl = "http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==";
 
             listDo.imageUrls = new ArrayList<String>();
             listDo.model = tmp;
@@ -152,16 +152,16 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
 
     @ItemClick
     void list(int position) {
-        Intent intent = new Intent();
-        String webUrl = "http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==";
         String cateName = "英语教学";
-        intent.putExtra("webUrl", webUrl);
-        intent.putExtra("cateName", cateName);
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("data", datas.get(position));
+        bundle.putString("cateName", cateName);
+        intent.putExtras(bundle);
 
         intent.setClass(getActivity(), DetailActivity_.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
-//        getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

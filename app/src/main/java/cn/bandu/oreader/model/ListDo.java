@@ -12,5 +12,6 @@ public class ListDo implements Serializable {
     public String description;
     public String createTime;
     public ArrayList<String> imageUrls;
+    public String webUrl;
     public int model;
 }
