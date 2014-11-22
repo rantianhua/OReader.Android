@@ -125,6 +125,7 @@ public class DetailActivity extends Activity {
     @Click
     public void backTextView() {
         this.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     public void onBackPressed() {

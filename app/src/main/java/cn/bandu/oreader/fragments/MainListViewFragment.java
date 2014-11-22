@@ -161,6 +161,9 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
         intent.setClass(getActivity(), DetailActivity_.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
+//        getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void setContent(String mContent) {
