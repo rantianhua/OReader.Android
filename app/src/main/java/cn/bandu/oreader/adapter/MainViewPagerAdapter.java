@@ -1,5 +1,6 @@
 package cn.bandu.oreader.adapter;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -13,10 +14,11 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     protected static final String[] CONTENT = new String[]{"语文", "数学", "化学", "物理", "政治", "天文", "语文", "数学", "化学", "物理", "政治", "天文", "地理"};
     private int mCount = CONTENT.length;
+    Activity activity;
 
-
-    public MainViewPagerAdapter(FragmentManager fm) {
+    public MainViewPagerAdapter(FragmentManager fm, Activity activity) {
         super(fm);
+        this.activity = activity;
     }
 
     @Override
@@ -24,6 +26,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         Log.d(TAG, "get Item: " + position);
         MainListViewFragment_ mainListViewFragment = new MainListViewFragment_();
         mainListViewFragment.setContent(CONTENT[position % CONTENT.length]);
+        mainListViewFragment.setLoadDatasListener((cn.bandu.oreader.fragments.MainListViewFragment.LoadDatasListener) activity);
         return mainListViewFragment;
     }
 

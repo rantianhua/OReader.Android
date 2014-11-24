@@ -178,4 +178,9 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="tool_item_text_selected" parent="mine_item_text">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
 </resources>

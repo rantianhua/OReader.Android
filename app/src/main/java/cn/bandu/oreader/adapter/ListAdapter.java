@@ -40,7 +40,7 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return datas.get(position).model;
+        return datas.get(position).getModel();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        switch (datas.get(i).model) {
+        switch (datas.get(i).getModel()) {
             case 0 : convertView = initTextView(i, convertView);break;
             case 1 : convertView = initImgTextView(i, convertView);break;
             case 2 : convertView = initImgsTextView(i, convertView);break;
@@ -88,14 +88,14 @@ public class ListAdapter extends BaseAdapter {
 
         ListDo listDo = datas.get(i);
         if (null != listDo) {
-            viewTextHolder.title.setText(listDo.title);
-            if (listDo.description == "") {
+            viewTextHolder.title.setText(listDo.getTitle());
+            if (listDo.getDescription() == "") {
                 viewTextHolder.description.setVisibility(View.GONE);
             } else {
                 viewTextHolder.description.setVisibility(View.VISIBLE);
-                viewTextHolder.description.setText(listDo.description);
+                viewTextHolder.description.setText(listDo.getDescription());
             }
-            viewTextHolder.createTime.setText(listDo.createTime);
+            viewTextHolder.createTime.setText(listDo.getCreateTime());
         }
         return convertView;
     }
@@ -120,16 +120,16 @@ public class ListAdapter extends BaseAdapter {
 
         ListDo listDo = datas.get(i);
         if (null != listDo) {
-            viewImageTextHolder.title.setText(listDo.title);
-            if (listDo.description == "") {
+            viewImageTextHolder.title.setText(listDo.getTitle());
+            if (listDo.getDescription() == "") {
                 viewImageTextHolder.description.setVisibility(View.GONE);
             } else {
                 viewImageTextHolder.description.setVisibility(View.VISIBLE);
-                viewImageTextHolder.description.setText(listDo.description);
+                viewImageTextHolder.description.setText(listDo.getDescription());
             }
-            viewImageTextHolder.createTime.setText(listDo.createTime);
+            viewImageTextHolder.createTime.setText(listDo.getCreateTime());
             Picasso.with(myContext)
-                    .load(listDo.imageUrls.get(0))
+                    .load(listDo.getImageUrls().get(0))
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImageTextHolder.image0);
@@ -163,26 +163,26 @@ public class ListAdapter extends BaseAdapter {
         ListDo listDo = datas.get(i);
 
         if (null != listDo) {
-            viewImagesHolder.title.setText(listDo.title);
-            if (listDo.description == "") {
+            viewImagesHolder.title.setText(listDo.getTitle());
+            if (listDo.getDescription() == "") {
                 viewImagesHolder.description.setVisibility(View.GONE);
             } else {
                 viewImagesHolder.description.setVisibility(View.VISIBLE);
-                viewImagesHolder.description.setText(listDo.description);
+                viewImagesHolder.description.setText(listDo.getDescription());
             }
-            viewImagesHolder.createTime.setText(listDo.createTime);
+            viewImagesHolder.createTime.setText(listDo.getCreateTime());
             Picasso.with(myContext)
-                    .load(listDo.imageUrls.get(0))
+                    .load(listDo.getImageUrls().get(0))
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image0);
             Picasso.with(myContext)
-                    .load(listDo.imageUrls.get(1))
+                    .load(listDo.getImageUrls().get(1))
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image1);
             Picasso.with(myContext)
-                    .load(listDo.imageUrls.get(2))
+                    .load(listDo.getImageUrls().get(2))
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image2);
@@ -206,16 +206,16 @@ public class ListAdapter extends BaseAdapter {
 
         ListDo listDo = datas.get(i);
         if (null != listDo) {
-            ((TextView) convertView.findViewById(R.id.title)).setText(listDo.title);
-            if (listDo.description == "") {
+            ((TextView) convertView.findViewById(R.id.title)).setText(listDo.getTitle());
+            if (listDo.getDescription() == "") {
                 ((TextView) convertView.findViewById(R.id.description)).setVisibility(View.GONE);
             } else {
                 viewLargeImageTextHolder.description.setVisibility(View.VISIBLE);
-                viewLargeImageTextHolder.description.setText(listDo.description);
+                viewLargeImageTextHolder.description.setText(listDo.getDescription());
             }
-            viewLargeImageTextHolder.createTime.setText(listDo.createTime);
+            viewLargeImageTextHolder.createTime.setText(listDo.getCreateTime());
             Picasso.with(myContext)
-                    .load(listDo.imageUrls.get(0))
+                    .load(listDo.getImageUrls().get(0))
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewLargeImageTextHolder.image0);

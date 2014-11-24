@@ -20,12 +20,4 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/itemView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal">
-    </LinearLayout>
-
 </FrameLayout>

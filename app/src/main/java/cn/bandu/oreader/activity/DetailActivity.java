@@ -37,6 +37,8 @@ public class DetailActivity extends Activity {
     @ViewById
     TextView title;
     @ViewById
+    TextView favorAction;
+    @ViewById
     ProgressBar progressBar;
 
     private MainActivity_ mainActivity;
@@ -63,7 +65,7 @@ public class DetailActivity extends Activity {
         webView.addJavascriptInterface(new JsObj(getApplicationContext()), "imagelistner");
         webView.setWebViewClient(new MyWebViewClient());
 
-        webView.loadUrl(data.webUrl);
+        webView.loadUrl(data.getWebUrl());
     }
     private void addImageClickListner() {
         webView.loadUrl("javascript:(function(){"
@@ -145,7 +147,15 @@ public class DetailActivity extends Activity {
 
     @Click
     public void favorAction() {
-        Log.i("title", data.title);
+        Log.i("favorAction.getTag()", String.valueOf(favorAction.getTag()));
+        if (favorAction.getTag() == "selected") {
+            favorAction.setTextAppearance(this, R.style.tool_item_text);
+            favorAction.setTag("");
+            //TODO 取消收藏
+        } else {
+            favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
+        }
+        Log.i("title", data.getTitle());
     }
 
     @Click

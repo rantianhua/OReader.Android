@@ -14,15 +14,23 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
+import cn.bandu.oreader.fragments.MainListViewFragment_;
 import cn.bandu.oreader.fragments.SlidingMenuFragment_;
+import cn.bandu.oreader.model.ListDo;
 import cn.bandu.oreader.view.CustomTabPageIndicator;
 
 //@WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
 @Fullscreen
 @EActivity(R.layout.activity_main)
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements MainListViewFragment_.LoadDatasListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -42,7 +50,7 @@ public class MainActivity extends FragmentActivity {
 
     @AfterViews
     public void afterViews() {
-        mainPagerAdapter = new MainViewPagerAdapter(this.getSupportFragmentManager());
+        mainPagerAdapter = new MainViewPagerAdapter(this.getSupportFragmentManager(), this);
         mainPager.setAdapter(mainPagerAdapter);
         if(mainPagerAdapter.getCount() < 2) {
             //TODO only one pager, we should hide indicator.
@@ -92,5 +100,61 @@ public class MainActivity extends FragmentActivity {
 
     public void hideSlidingMenu() {
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+    }
+
+
+    @Override
+    public void refreshData(List<ListDo> datas) {
+        Random random = new Random();
+        List<ListDo> datasTmp = new ArrayList<ListDo>();
+        //重构datas，将新数据放到上面
+        for (int j=0 ; j<2; j++) {
+            ListDo listDo = new ListDo();
+            listDo.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
+            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
+            listDo.setCreateTime(sfd.format(new Date()));
+            int tmp = random.nextInt(20) % 4;
+            listDo.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
+            listDo.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
+
+            listDo.setImageUrls(new ArrayList<String>());
+            listDo.setModel(tmp);
+            listDo.getImageUrls().add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
+            listDo.getImageUrls().add("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
+            listDo.getImageUrls().add("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
+
+            datasTmp.add(listDo);
+        }
+        for (int m=datas.size()-1;m>=0;m--){
+            datasTmp.add(datas.get(m));
+        }
+        datas.clear();
+        for (int m=0;m<datasTmp.size();m++){
+            datas.add(datasTmp.get(m));
+        }
+
+    }
+
+    @Override
+    public void loadData(List<ListDo> datas) {
+        Random random = new Random();
+        //重构datas，将新数据放到上面
+        for (int j=0 ; j<2; j++) {
+            ListDo listDo = new ListDo();
+            listDo.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
+            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
+            listDo.setCreateTime(sfd.format(new Date()));
+            int tmp = random.nextInt(20) % 4;
+            listDo.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
+            listDo.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
+
+            listDo.setImageUrls(new ArrayList<String>());
+            listDo.setModel(tmp);
+            listDo.getImageUrls().add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
+            listDo.getImageUrls().add("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
+            listDo.getImageUrls().add("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
+
+            datas.add(listDo);
+        }
     }
 }

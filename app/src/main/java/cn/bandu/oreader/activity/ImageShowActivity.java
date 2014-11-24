@@ -2,6 +2,8 @@ package cn.bandu.oreader.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -21,7 +23,7 @@ import cn.bandu.oreader.data.AppPrefs_;
  */
 @Fullscreen
 @EActivity(R.layout.activity_image_show)
-public class ImageShowActivity extends Activity {
+public class ImageShowActivity extends Activity implements Picasso.Listener {
     @ViewById
     ImageView imgView;
 
@@ -36,13 +38,18 @@ public class ImageShowActivity extends Activity {
         imgUri = intent.getStringExtra("imgUri");
         Picasso.with(this)
                 .load(imgUri)
-//                .placeholder(R.drawable.user_placeholder)
-//                .error(R.drawable.user_placeholder_error)
+                .placeholder(R.drawable.small_image_holder_listpage_loading)
+                .error(R.drawable.example)
                 .into(imgView);
     }
 
     @Click
     public void imgView() {
         this.finish();
+    }
+
+    @Override
+    public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+        Log.i("failed", "failed");
     }
 }

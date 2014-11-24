@@ -43,7 +43,6 @@
             android:background="@drawable/mine_item_bg"
             android:layout_weight="1"
             style="@style/tool_item_text" />
-
         <TextView
             android:id="@+id/shareAction"
             android:layout_width="fill_parent"
