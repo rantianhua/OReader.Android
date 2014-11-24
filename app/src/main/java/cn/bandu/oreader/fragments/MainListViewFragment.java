@@ -17,7 +17,7 @@ import java.util.List;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.DetailActivity_;
 import cn.bandu.oreader.adapter.ListAdapter;
-import cn.bandu.oreader.model.ListDo;
+import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.view.SwipeRefreshLayout;
 
 @EFragment(R.layout.fragment_list)
@@ -31,7 +31,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
 
     private boolean isRefreshing = false;
 
-    List<ListDo> datas = new ArrayList<ListDo>();
+    List<Fav> datas = new ArrayList<Fav>();
 
 
     @ViewById
@@ -117,7 +117,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
         this.setArguments(args);
     }
     public interface LoadDatasListener {
-        public void refreshData(List<ListDo> datas);
-        public void loadData(List<ListDo> datas);
+        public void refreshData(List<Fav> datas);
+        public void loadData(List<Fav> datas);
     }
 }

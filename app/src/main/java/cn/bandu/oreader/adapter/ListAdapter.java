@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cn.bandu.oreader.R;
-import cn.bandu.oreader.model.ListDo;
+import cn.bandu.oreader.dao.Fav;
 
 /**
  * Created by yangmingfu on 14-11-11.
@@ -22,11 +22,11 @@ import cn.bandu.oreader.model.ListDo;
 public class ListAdapter extends BaseAdapter {
 
     private Context myContext;
-    private List<ListDo> datas;
+    private List<Fav> datas;
 
     private LayoutInflater mInflater = null;
 
-    public ListAdapter(Context context, List<ListDo> datas) {
+    public ListAdapter(Context context, List<Fav> datas) {
         this.myContext = context;
         this.datas = datas;
         mInflater = (LayoutInflater) myContext
@@ -86,16 +86,16 @@ public class ListAdapter extends BaseAdapter {
             viewTextHolder = (ViewTextHolder) convertView.getTag();
         }
 
-        ListDo listDo = datas.get(i);
-        if (null != listDo) {
-            viewTextHolder.title.setText(listDo.getTitle());
-            if (listDo.getDescription() == "") {
+        Fav fav = datas.get(i);
+        if (null != fav) {
+            viewTextHolder.title.setText(fav.getTitle());
+            if (fav.getDescription() == "") {
                 viewTextHolder.description.setVisibility(View.GONE);
             } else {
                 viewTextHolder.description.setVisibility(View.VISIBLE);
-                viewTextHolder.description.setText(listDo.getDescription());
+                viewTextHolder.description.setText(fav.getDescription());
             }
-            viewTextHolder.createTime.setText(listDo.getCreateTime());
+            viewTextHolder.createTime.setText((CharSequence) fav.getDate());
         }
         return convertView;
     }
@@ -118,18 +118,18 @@ public class ListAdapter extends BaseAdapter {
             viewImageTextHolder = (ViewImageTextHolder) convertView.getTag();
         }
 
-        ListDo listDo = datas.get(i);
-        if (null != listDo) {
-            viewImageTextHolder.title.setText(listDo.getTitle());
-            if (listDo.getDescription() == "") {
+        Fav fav = datas.get(i);
+        if (null != fav) {
+            viewImageTextHolder.title.setText(fav.getTitle());
+            if (fav.getDescription() == "") {
                 viewImageTextHolder.description.setVisibility(View.GONE);
             } else {
                 viewImageTextHolder.description.setVisibility(View.VISIBLE);
-                viewImageTextHolder.description.setText(listDo.getDescription());
+                viewImageTextHolder.description.setText(fav.getDescription());
             }
-            viewImageTextHolder.createTime.setText(listDo.getCreateTime());
+            viewImageTextHolder.createTime.setText(fav.getDate());
             Picasso.with(myContext)
-                    .load(listDo.getImageUrls().get(0))
+                    .load(fav.getImage0())
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImageTextHolder.image0);
@@ -160,29 +160,29 @@ public class ListAdapter extends BaseAdapter {
             viewImagesHolder = (ViewImagesHolder) convertView.getTag();
         }
 
-        ListDo listDo = datas.get(i);
+        Fav fav = datas.get(i);
 
-        if (null != listDo) {
-            viewImagesHolder.title.setText(listDo.getTitle());
-            if (listDo.getDescription() == "") {
+        if (null != fav) {
+            viewImagesHolder.title.setText(fav.getTitle());
+            if (fav.getDescription() == "") {
                 viewImagesHolder.description.setVisibility(View.GONE);
             } else {
                 viewImagesHolder.description.setVisibility(View.VISIBLE);
-                viewImagesHolder.description.setText(listDo.getDescription());
+                viewImagesHolder.description.setText(fav.getDescription());
             }
-            viewImagesHolder.createTime.setText(listDo.getCreateTime());
+            viewImagesHolder.createTime.setText(fav.getDate());
             Picasso.with(myContext)
-                    .load(listDo.getImageUrls().get(0))
+                    .load(fav.getImage0())
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image0);
             Picasso.with(myContext)
-                    .load(listDo.getImageUrls().get(1))
+                    .load(fav.getImage1())
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image1);
             Picasso.with(myContext)
-                    .load(listDo.getImageUrls().get(2))
+                    .load(fav.getImage2())
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewImagesHolder.image2);
@@ -204,18 +204,18 @@ public class ListAdapter extends BaseAdapter {
             viewLargeImageTextHolder = (ViewLargeImageTextHolder) convertView.getTag();
         }
 
-        ListDo listDo = datas.get(i);
-        if (null != listDo) {
-            ((TextView) convertView.findViewById(R.id.title)).setText(listDo.getTitle());
-            if (listDo.getDescription() == "") {
+        Fav fav = datas.get(i);
+        if (null != fav) {
+            ((TextView) convertView.findViewById(R.id.title)).setText(fav.getTitle());
+            if (fav.getDescription() == "") {
                 ((TextView) convertView.findViewById(R.id.description)).setVisibility(View.GONE);
             } else {
                 viewLargeImageTextHolder.description.setVisibility(View.VISIBLE);
-                viewLargeImageTextHolder.description.setText(listDo.getDescription());
+                viewLargeImageTextHolder.description.setText(fav.getDescription());
             }
-            viewLargeImageTextHolder.createTime.setText(listDo.getCreateTime());
+            viewLargeImageTextHolder.createTime.setText(fav.getDate());
             Picasso.with(myContext)
-                    .load(listDo.getImageUrls().get(0))
+                    .load(fav.getImage0())
                     .placeholder(R.drawable.small_image_holder_listpage_loading)
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewLargeImageTextHolder.image0);

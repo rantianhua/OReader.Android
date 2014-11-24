@@ -20,7 +20,7 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.R;
-import cn.bandu.oreader.model.ListDo;
+import cn.bandu.oreader.dao.Fav;
 
 /**
  * Created by yangmingfu on 14/11/14.
@@ -30,7 +30,7 @@ import cn.bandu.oreader.model.ListDo;
 public class DetailActivity extends Activity {
 
     String cateName;
-    private ListDo data;
+    private Fav data;
 
     @ViewById
     WebView webView;
@@ -47,7 +47,7 @@ public class DetailActivity extends Activity {
     public void afterViews() {
 
         cateName = getIntent().getStringExtra("cateName");
-        data = (ListDo) getIntent().getSerializableExtra("data");
+        data = (Fav) getIntent().getSerializableExtra("data");
 
         initTitleBar();
         initWebView();

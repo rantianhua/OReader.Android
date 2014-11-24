@@ -24,7 +24,7 @@ import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
 import cn.bandu.oreader.fragments.MainListViewFragment_;
 import cn.bandu.oreader.fragments.SlidingMenuFragment_;
-import cn.bandu.oreader.model.ListDo;
+import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.view.CustomTabPageIndicator;
 
 //@WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
@@ -104,26 +104,25 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
 
 
     @Override
-    public void refreshData(List<ListDo> datas) {
+    public void refreshData(List<Fav> datas) {
         Random random = new Random();
-        List<ListDo> datasTmp = new ArrayList<ListDo>();
+        List<Fav> datasTmp = new ArrayList<Fav>();
         //重构datas，将新数据放到上面
         for (int j=0 ; j<2; j++) {
-            ListDo listDo = new ListDo();
-            listDo.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
+            Fav fav = new Fav();
+            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
             SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            listDo.setCreateTime(sfd.format(new Date()));
+            fav.setDate(sfd.format(new Date()));
             int tmp = random.nextInt(20) % 4;
-            listDo.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
-            listDo.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
+            fav.setModel(tmp);
+            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
+            fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
 
-            listDo.setImageUrls(new ArrayList<String>());
-            listDo.setModel(tmp);
-            listDo.getImageUrls().add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
-            listDo.getImageUrls().add("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
-            listDo.getImageUrls().add("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
+            fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
+            fav.setImage1("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
+            fav.setImage2("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
 
-            datasTmp.add(listDo);
+            datasTmp.add(fav);
         }
         for (int m=datas.size()-1;m>=0;m--){
             datasTmp.add(datas.get(m));
@@ -136,25 +135,24 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
     }
 
     @Override
-    public void loadData(List<ListDo> datas) {
+    public void loadData(List<Fav> datas) {
         Random random = new Random();
         //重构datas，将新数据放到上面
         for (int j=0 ; j<2; j++) {
-            ListDo listDo = new ListDo();
-            listDo.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
+            Fav fav = new Fav();
+            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
             SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            listDo.setCreateTime(sfd.format(new Date()));
+            fav.setDate(sfd.format(new Date()));
             int tmp = random.nextInt(20) % 4;
-            listDo.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
-            listDo.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
+            fav.setModel(tmp);
+            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
+            fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
 
-            listDo.setImageUrls(new ArrayList<String>());
-            listDo.setModel(tmp);
-            listDo.getImageUrls().add("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
-            listDo.getImageUrls().add("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
-            listDo.getImageUrls().add("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
+            fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
+            fav.setImage1("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
+            fav.setImage2("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
 
-            datas.add(listDo);
+            datas.add(fav);
         }
     }
 }
