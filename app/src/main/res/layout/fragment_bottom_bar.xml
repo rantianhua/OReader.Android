@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="44.0dp"
+    android:layout_height="wrap_content"
     android:background="@color/bg_color"
     android:orientation="vertical" >
 
@@ -21,9 +21,10 @@
         <TextView
             android:id="@+id/commentWriteAction"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/comment_write"
             android:layout_weight="1"
+            android:drawableTop="@drawable/write_comment"
             android:background="@drawable/mine_item_bg"
             style="@style/tool_item_text" />
         <TextView
@@ -32,6 +33,7 @@
             android:layout_height="match_parent"
             android:text="@string/comment_look"
             android:background="@drawable/mine_item_bg"
+            android:drawableTop="@drawable/look_comment"
             android:layout_weight="1"
             style="@style/tool_item_text" />
 
@@ -40,6 +42,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:text="@string/favorite_text"
+            android:drawableTop="@drawable/fav"
             android:background="@drawable/mine_item_bg"
             android:layout_weight="1"
             style="@style/tool_item_text" />
@@ -48,6 +51,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:text="@string/share_text"
+            android:drawableTop="@drawable/share"
             android:background="@drawable/mine_item_bg"
             android:layout_weight="1"
             android:textAlignment="center"

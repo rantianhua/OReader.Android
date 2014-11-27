@@ -1,6 +1,5 @@
 package cn.bandu.oreader.activity;
 
-import android.database.Cursor;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
@@ -15,8 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.Fav;
+import cn.bandu.oreader.dao.FavDao;
 import cn.bandu.oreader.fragments.MainListViewFragment_;
 
 
@@ -30,7 +31,8 @@ public class FavoritesActivity extends FragmentActivity implements MainListViewF
 
     @ViewById
     TextView title;
-    private Cursor cursor;
+
+    private FavDao favDao;
 
     @AfterViews
     public void afterViews() {
@@ -49,11 +51,17 @@ public class FavoritesActivity extends FragmentActivity implements MainListViewF
 
     @Override
     public void refreshData(List<Fav> datas) {
-        loadData(datas);
+        datas.clear();
+        favDao = OReaderApplication.getDaoSession(this).getFavDao();
+        datas = favDao.loadAll();
+        for(int i=0;i<datas.size();i++) {
+
+        }
     }
 
     @Override
     public void loadData(List<Fav> datas) {
+
         Random random = new Random();
         //重构datas，将新数据放到上面
         for (int j=0 ; j<2; j++) {

@@ -19,8 +19,10 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
+import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.Fav;
+import cn.bandu.oreader.dao.FavDao;
 
 /**
  * Created by yangmingfu on 14/11/14.
@@ -42,6 +44,7 @@ public class DetailActivity extends Activity {
     ProgressBar progressBar;
 
     private MainActivity_ mainActivity;
+    private long favId = 0;
 
     @AfterViews
     public void afterViews() {
@@ -151,9 +154,15 @@ public class DetailActivity extends Activity {
         if (favorAction.getTag() == "selected") {
             favorAction.setTextAppearance(this, R.style.tool_item_text);
             favorAction.setTag("");
-            //TODO 取消收藏
+            if (favId != 0) {
+                FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
+                favDao.deleteByKey(favId);
+            }
         } else {
             favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
+            favorAction.setTag("selected");
+            FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
+            favId = favDao.insertOrReplace(data);
         }
         Log.i("title", data.getTitle());
     }

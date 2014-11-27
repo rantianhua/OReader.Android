@@ -70,8 +70,4 @@ public class CustomTabPageIndicator extends TabPageIndicator {
         Log.e(TAG, "selcted: " + position);
         super.onPageSelected(position);
     }
-
-
-
-
 }

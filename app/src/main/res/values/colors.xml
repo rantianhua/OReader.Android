@@ -10,7 +10,7 @@
     <color name="gray">#ffcccccc</color>
     <color name="bg_color">#fffafafa</color>
     <color name="white">#ffffffff</color>
-    <color name="divider">#ffdddddd</color>
+    <color name="divider">#FFC7C7C7</color>
     <color name="image_loading_bg">#ffefefef</color>
     <color name="item_title_disabled">#ff888888</color>
     <color name="item_title_normal">#ff444444</color>
@@ -18,11 +18,13 @@
     <color name="essay_content_disabled">#ff999999</color>
     <color name="essay_content_pressed">#ff999999</color>
     <color name="essay_content_normal">#ff454545</color>
-    <color name="create_time">#ff999999</color>
+    <color name="create_time">#ffa3a49e</color>
     <color name="title_text_color">#ff464646</color>
     <color name="mine_item_text">#ff464646</color>
     <color name="mine_item_bg_pressed">#ffeeeeee</color>
     <color name="mine_item_bg_normal">#fffafafa</color>
     <color name="mine_item_line">#ffdddddd</color>
     <color name="detail_divider_day">#ffb4b4b4</color>
+    <color name="tab_backgroud">#FFE7E7E7</color>
+    <color name="common_text">#FF333333</color>
 </resources>

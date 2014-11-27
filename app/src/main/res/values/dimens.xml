@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="title_size">18sp</dimen>
-    <dimen name="img_width">80dp</dimen>
-    <dimen name="img_height">51dp</dimen>
-    <dimen name="linearlayout_padding">5dp</dimen>
+    <dimen name="title_size">18dp</dimen>
     <dimen name="slidingmenu_shadow_width">15dp</dimen>
     <dimen name="slidingmenu_offset">100dp</dimen>
-    <dimen name="list_item_vertical_outside_padding">11.0dp</dimen>
-    <dimen name="list_item_horizontal_outside_padding">13.0dp</dimen>
-    <dimen name="list_item_vertical_inside_padding">5.0dp</dimen>
-    <dimen name="item_image_width">80dp</dimen>
-    <dimen name="item_image_height">60dp</dimen>
-    <dimen name="title_bar_height">44.0dp</dimen>
+    <dimen name="list_item_vertical_outside_padding">6.0dp</dimen>
+    <dimen name="list_item_horizontal_outside_padding">6.0dp</dimen>
+    <dimen name="item_image_width">95dp</dimen>
+    <dimen name="item_image_height">75dp</dimen>
+    <dimen name="title_bar_height">36.0dp</dimen>
     <dimen name="shadow_height">5.0dp</dimen>
+    <dimen name="item_inner_margin_height">4.0dp</dimen>
+    <dimen name="common_text_size">18dp</dimen>
+    <dimen name="divider">6.0dp</dimen>
 </resources>

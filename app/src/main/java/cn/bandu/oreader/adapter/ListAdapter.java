@@ -89,7 +89,7 @@ public class ListAdapter extends BaseAdapter {
         Fav fav = datas.get(i);
         if (null != fav) {
             viewTextHolder.title.setText(fav.getTitle());
-            if (fav.getDescription() == "") {
+            if (fav.getDescription() == "" || fav.getDescription() == null) {
                 viewTextHolder.description.setVisibility(View.GONE);
             } else {
                 viewTextHolder.description.setVisibility(View.VISIBLE);
@@ -121,7 +121,7 @@ public class ListAdapter extends BaseAdapter {
         Fav fav = datas.get(i);
         if (null != fav) {
             viewImageTextHolder.title.setText(fav.getTitle());
-            if (fav.getDescription() == "") {
+            if (fav.getDescription() == "" || fav.getDescription() == null) {
                 viewImageTextHolder.description.setVisibility(View.GONE);
             } else {
                 viewImageTextHolder.description.setVisibility(View.VISIBLE);
@@ -164,7 +164,7 @@ public class ListAdapter extends BaseAdapter {
 
         if (null != fav) {
             viewImagesHolder.title.setText(fav.getTitle());
-            if (fav.getDescription() == "") {
+            if (fav.getDescription() == "" || fav.getDescription() == null) {
                 viewImagesHolder.description.setVisibility(View.GONE);
             } else {
                 viewImagesHolder.description.setVisibility(View.VISIBLE);
@@ -207,7 +207,7 @@ public class ListAdapter extends BaseAdapter {
         Fav fav = datas.get(i);
         if (null != fav) {
             ((TextView) convertView.findViewById(R.id.title)).setText(fav.getTitle());
-            if (fav.getDescription() == "") {
+            if (fav.getDescription() == ""  || fav.getDescription() == null) {
                 ((TextView) convertView.findViewById(R.id.description)).setVisibility(View.GONE);
             } else {
                 viewLargeImageTextHolder.description.setVisibility(View.VISIBLE);
@@ -220,6 +220,7 @@ public class ListAdapter extends BaseAdapter {
                     .error(R.drawable.small_image_holder_listpage_loading)
                     .into(viewLargeImageTextHolder.image0);
         }
+
 
         return convertView;
     }

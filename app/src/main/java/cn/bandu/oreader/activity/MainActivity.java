@@ -69,7 +69,7 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
         menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0f);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.fragment_sliding_menu);
         getSupportFragmentManager().beginTransaction()
@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
     }
 
     public void showSlidingMenu() {
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
     }
 
     public void hideSlidingMenu() {
@@ -108,14 +108,17 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
         Random random = new Random();
         List<Fav> datasTmp = new ArrayList<Fav>();
         //重构datas，将新数据放到上面
-        for (int j=0 ; j<2; j++) {
+        for (int j=0 ; j<20; j++) {
             Fav fav = new Fav();
-            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
             SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            fav.setDate(sfd.format(new Date()));
             int tmp = random.nextInt(20) % 4;
+
+            fav.setSid(random.nextInt());
+            Log.i("favlist setsid", String.valueOf(fav.getSid()));
+            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
+            fav.setDate(sfd.format(new Date()));
             fav.setModel(tmp);
-            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
+//            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
             fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
 
             fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
@@ -124,28 +127,33 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
 
             datasTmp.add(fav);
         }
-        for (int m=datas.size()-1;m>=0;m--){
+        for (int m=datas.size()-1;m>=0;m--) {
             datasTmp.add(datas.get(m));
         }
         datas.clear();
-        for (int m=0;m<datasTmp.size();m++){
+        for (int m=0;m<datasTmp.size();m++) {
             datas.add(datasTmp.get(m));
+            if (m > 100) {
+                break;
+            }
         }
-
     }
 
     @Override
     public void loadData(List<Fav> datas) {
         Random random = new Random();
         //重构datas，将新数据放到上面
-        for (int j=0 ; j<2; j++) {
+        for (int j=0 ; j<20; j++) {
             Fav fav = new Fav();
-            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
             SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            fav.setDate(sfd.format(new Date()));
             int tmp = random.nextInt(20) % 4;
+
+
+            fav.setSid(random.nextLong());
+            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
+            fav.setDate(sfd.format(new Date()));
             fav.setModel(tmp);
-            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
+//            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
             fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
 
             fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));

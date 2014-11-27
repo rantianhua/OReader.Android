@@ -26,7 +26,6 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
     private final static String TAG = MainListViewFragment.class.getSimpleName();
 
     private ListAdapter adapter;
-    private int i;
     private LoadDatasListener loadDatasListener;
 
     private boolean isRefreshing = false;
@@ -42,7 +41,6 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
 
     @AfterViews
     public void afterViews() {
-        i = 0;
         loadDatasListener.refreshData(datas);
         adapter = new ListAdapter(getActivity(), datas);
         list.setAdapter(adapter);

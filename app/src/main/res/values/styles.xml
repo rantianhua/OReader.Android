@@ -8,11 +8,15 @@
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/tab_indicator</item>
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
         <item name="android:fadingEdge">horizontal</item>
         <item name="android:fadingEdgeLength">8dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
@@ -36,12 +40,12 @@
     </style>
 
     <style name="item_title">
-        <item name="android:textSize">16.0sp</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
         <item name="android:textColor">@color/item_text</item>
     </style>
 
     <style name="item_image_gap">
-        <item name="android:layout_width">10.dp</item>
+        <item name="android:layout_width">10.0dp</item>
         <item name="android:layout_height">1.0dp</item>
         <item name="android:layout_weight">1.0</item>
     </style>
@@ -57,46 +61,47 @@
     </style>
 
     <style name="detail_back_view" parent="@style/back_view">
-        <item name="android:background">@drawable/transparent</item>
+        <!--<item name="android:background">@drawable/transparent</item>-->
         <item name="android:drawableLeft">@drawable/btn_back_detail</item>
     </style>
     <style name="back_view" parent="@style/title_bar_button">
         <item name="android:gravity">right|center</item>
         <item name="android:background">@drawable/transparent</item>
-        <item name="android:paddingLeft">8.0dip</item>
-        <item name="android:paddingRight">0.0dip</item>
+        <item name="android:paddingLeft">8.0dp</item>
+        <item name="android:paddingRight">0.0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">0.0dip</item>
-        <item name="android:layout_marginRight">0.0dip</item>
-        <item name="android:minHeight">44.0dip</item>
+        <item name="android:layout_marginLeft">0.0dp</item>
+        <item name="android:layout_marginRight">0.0dp</item>
+        <item name="android:minHeight">36.0dp</item>
         <item name="android:text">"  "</item>
         <item name="android:drawableLeft">@drawable/btn_back</item>
-        <item name="android:drawablePadding">0.0dip</item>
+        <item name="android:drawablePadding">0.0dp</item>
     </style>
     <style name="title_bar_button" parent="@style/common_button">
-        <item name="android:textSize">16.0sp</item>
+        <item name="android:textSize">16.0dp</item>
         <item name="android:textColor">@color/btn_common_text</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@null</item>
-        <item name="android:paddingLeft">17.0dip</item>
-        <item name="android:paddingRight">17.0dip</item>
+        <item name="android:paddingLeft">0.0dp</item>
+        <item name="android:paddingRight">6.0dp</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
     <style name="common_button" parent="@style/text_on_button">
         <item name="android:background">@drawable/btn_common</item>
-        <item name="android:paddingLeft">6.0dip</item>
-        <item name="android:paddingRight">6.0dip</item>
+        <item name="android:paddingLeft">6.0dp</item>
+        <item name="android:paddingRight">6.0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minWidth">50.0dip</item>
-        <item name="android:minHeight">30.0dip</item>
+        <item name="android:minWidth">50.0dp</item>
+        <item name="android:minHeight">30.0dp</item>
     </style>
     <style name="text_on_button">
-        <item name="android:textSize">15.0sp</item>
+        <item name="android:textSize">15.0dp</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:shadowRadius">0.0</item>
     </style>
+
 
     <style name="deail_title_text_style">
         <item name="android:textColor">@color/detail_title_text_color</item>
@@ -112,18 +117,18 @@
     </style>
 
     <style name="item_description">
-        <item name="android:textSize">15.0sp</item>
+        <item name="android:textSize">15.0dp</item>
         <item name="android:textColor">@color/item_description</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
     <style name="item_secondary_text">
-        <item name="android:textSize">12.0sp</item>
+        <item name="android:textSize">14.0dp</item>
         <item name="android:textColor">@color/create_time</item>
     </style>
 
     <style name="title_text_style">
-        <item name="android:textSize">20.0sp</item>
+        <item name="android:textSize">20.0dp</item>
         <item name="android:textColor">@color/title_text_color</item>
         <item name="android:gravity">center_vertical</item>
     </style>
@@ -131,34 +136,34 @@
     <style name="mine_item_divider">
         <item name="android:background">@drawable/transparent</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">20.0dip</item>
+        <item name="android:layout_height">20.0dp</item>
     </style>
 
     <style name="mine_item_text">
-        <item name="android:textSize">14.0sp</item>
+        <item name="android:textSize">14.0dp</item>
         <item name="android:textColor">@color/mine_item_text</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:layout_marginLeft">10.0dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:drawablePadding">16.0dip</item>
+        <item name="android:drawablePadding">16.0dp</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="mine_item">
         <item name="android:gravity">top</item>
         <item name="android:background">@drawable/mine_item_bg</item>
-        <item name="android:paddingLeft">8dip</item>
+        <item name="android:paddingLeft">8dp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">44.0dip</item>
+        <item name="android:minHeight">44.0dp</item>
     </style>
 
     <style name="mine_arrow">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingRight">15.0dip</item>
+        <item name="android:paddingRight">15.0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/mine_arrow</item>
@@ -168,7 +173,7 @@
     <style name="mine_item_line">
         <item name="android:background">@color/mine_item_line</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">0.5dip</item>
+        <item name="android:layout_height">0.5dp</item>
     </style>
     <style name="mine_btn_line" parent="@style/mine_item_line">
         <item name="android:layout_alignParentBottom">true</item>
@@ -182,5 +187,9 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/red</item>
+    </style>
+    <style name="nav_title_bar_style" parent="@style/title_bar_style">
+        <item name="android:layout_height">36.0dp</item>
+        <item name="android:background">@drawable/title_bar</item>
     </style>
 </resources>

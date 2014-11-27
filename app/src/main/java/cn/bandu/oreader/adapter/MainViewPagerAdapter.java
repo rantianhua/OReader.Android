@@ -12,7 +12,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final static String TAG = MainViewPagerAdapter.class.getSimpleName();
 
-    protected static final String[] CONTENT = new String[]{"语文", "数学", "化学", "物理", "政治", "天文", "语文", "数学", "化学", "物理", "政治", "天文", "地理"};
+    protected static final String[] CONTENT = new String[]{"教学素材", "教学论文", "活动策划"};
     private int mCount = CONTENT.length;
     Activity activity;
 

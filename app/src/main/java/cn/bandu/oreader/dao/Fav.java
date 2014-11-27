@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class Fav implements Serializable {
 
     private Long id;
+    private long sid;
     /** Not-null value. */
     private String title;
     private String description;
@@ -28,8 +29,9 @@ public class Fav implements Serializable {
         this.id = id;
     }
 
-    public Fav(Long id, String title, String description, String date, String webUrl, String image0, String image1, String image2, Integer model) {
+    public Fav(Long id, long sid, String title, String description, String date, String webUrl, String image0, String image1, String image2, Integer model) {
         this.id = id;
+        this.sid = sid;
         this.title = title;
         this.description = description;
         this.date = date;
@@ -46,6 +48,14 @@ public class Fav implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getSid() {
+        return sid;
+    }
+
+    public void setSid(long sid) {
+        this.sid = sid;
     }
 
     /** Not-null value. */
