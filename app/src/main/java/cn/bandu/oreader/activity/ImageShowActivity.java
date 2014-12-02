@@ -37,6 +37,8 @@ public class ImageShowActivity extends Activity {
     public void initImageView() {
         Intent intent = getIntent();
         imgUri = intent.getStringExtra("imgUri");
+        imgView.setDefaultImageResId(R.drawable.small_pic_loading);
+        imgView.setErrorImageResId(R.drawable.small_load_png_failed);
         imgView.setImageUrl(imgUri, imageLoader);
     }
 

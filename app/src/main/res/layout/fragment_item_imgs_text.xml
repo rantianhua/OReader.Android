@@ -46,7 +46,8 @@
                         android:layout_width="@dimen/item_image_width"
                         android:layout_gravity="center"
                         android:gravity="center|center_vertical|center_horizontal">
-                        <com.android.volley.toolbox.NetworkImageView                            android:id="@+id/item_image_0"
+                        <com.android.volley.toolbox.NetworkImageView
+                            android:id="@+id/item_image_0"
                             style="@style/item_image" />
                     </TableRow>
                 </TableLayout>
@@ -60,7 +61,8 @@
                         android:layout_width="@dimen/item_image_width"
                         android:layout_gravity="center"
                         android:gravity="center|center_vertical|center_horizontal">
-                        <com.android.volley.toolbox.NetworkImageView                            android:id="@+id/item_image_1"
+                        <com.android.volley.toolbox.NetworkImageView
+                            android:id="@+id/item_image_1"
                             style="@style/item_image" />
                     </TableRow>
                 </TableLayout>
@@ -74,7 +76,8 @@
                         android:layout_width="@dimen/item_image_width"
                         android:layout_gravity="center"
                         android:gravity="center|center_vertical|center_horizontal">
-                        <com.android.volley.toolbox.NetworkImageView                            android:id="@+id/item_image_2"
+                        <com.android.volley.toolbox.NetworkImageView
+                            android:id="@+id/item_image_2"
                             style="@style/item_image" />
                     </TableRow>
                 </TableLayout>

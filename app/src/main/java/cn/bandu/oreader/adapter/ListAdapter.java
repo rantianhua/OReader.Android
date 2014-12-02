@@ -141,7 +141,8 @@ public class ListAdapter extends BaseAdapter {
                 viewHolder.description.setText(fav.getDescription());
             }
             viewHolder.createTime.setText(fav.getDate());
-
+            viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
+            viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);
             viewHolder.image0.setImageUrl(fav.getImage0(), imageLoader);
         }
         return convertView;
@@ -176,8 +177,14 @@ public class ListAdapter extends BaseAdapter {
             viewHolder.title.setText(fav.getTitle());
             viewHolder.description.setVisibility(View.GONE);
             viewHolder.createTime.setText(fav.getDate());
+            viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
+            viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);
             viewHolder.image0.setImageUrl(fav.getImage0(), imageLoader);
+            viewHolder.image1.setDefaultImageResId(R.drawable.small_pic_loading);
+            viewHolder.image1.setErrorImageResId(R.drawable.small_load_png_failed);
             viewHolder.image1.setImageUrl(fav.getImage1(), imageLoader);
+            viewHolder.image2.setDefaultImageResId(R.drawable.small_pic_loading);
+            viewHolder.image2.setErrorImageResId(R.drawable.small_load_png_failed);
             viewHolder.image2.setImageUrl(fav.getImage2(), imageLoader);
         }
         return convertView;
@@ -202,10 +209,10 @@ public class ListAdapter extends BaseAdapter {
             ((TextView) convertView.findViewById(R.id.title)).setText(fav.getTitle());
             ((TextView) convertView.findViewById(R.id.description)).setVisibility(View.GONE);
             viewHolder.createTime.setText(fav.getDate());
+            viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
+            viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);
             viewHolder.image0.setImageUrl(fav.getImage0(), imageLoader);;
         }
-
-
         return convertView;
     }
 

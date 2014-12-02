@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.bandu.oreader.dao.Fav;
@@ -15,9 +16,16 @@ import cn.bandu.oreader.dao.Fav;
  * Created by yangmingfu on 14/12/2.
  */
 public class ParseResponse {
-    public static List<Fav> parseFav(String str) throws JSONException {
-        List<Fav> data = new ArrayList<Fav>();
-        JSONArray dataJson = new JSONArray(str);
+    public static HashMap parseList(String str) throws JSONException {
+        HashMap data = new HashMap();
+        List<Fav> listData = new ArrayList<Fav>();
+
+        JSONArray resJson = new JSONArray(str);
+        data.put("total", resJson.get(0));
+        Log.i("total = %d", String.valueOf(resJson.get(0)));
+
+        JSONArray dataJson = resJson.getJSONArray(1);
+
         int dataLength = dataJson.length();
         for (int i=0;i<dataLength;i++) {
             JSONObject item = new JSONObject(dataJson.get(i).toString());
@@ -31,9 +39,9 @@ public class ParseResponse {
                     item.getInt("model"));
             Log.i("item title=", fav.getTitle());
 
-            data.add(fav);
+            listData.add(fav);
         }
-        Log.i("data.size", String.valueOf(data.size()));
+        data.put("list", listData);
         return data;
     }
 }
