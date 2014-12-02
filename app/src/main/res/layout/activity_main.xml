@@ -4,26 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/tab_backgroud"
         android:orientation="vertical">
-        <include
-            android:id="@+id/title_bar"
-            layout="@layout/fragment_nav_bar" />
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="50.0dp"
+            android:id="@+id/tab">
             <cn.bandu.oreader.view.CustomTabPageIndicator
                 android:id="@+id/tabTitle"
-                android:background="@color/tab_backgroud"
-                android:layout_width="fill_parent"
-                android:layout_height="36.0dp"/>
-            <android.support.v4.view.ViewPager
-                android:id="@+id/mainPager"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0">
+            </cn.bandu.oreader.view.CustomTabPageIndicator>
+            <TextView
+                android:id="@+id/moreBtn"
+                android:layout_width="80.0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:drawableRight="@drawable/more"
+                android:drawableLeft="@drawable/gray"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/list_item_horizontal_outside_padding"/>
         </LinearLayout>
-    </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mainPager"
+            android:layout_below="@id/tab"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
 </FrameLayout>

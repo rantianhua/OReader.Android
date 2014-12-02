@@ -26,7 +26,7 @@ import cn.bandu.oreader.fragments.MainListViewFragment_;
  */
 @Fullscreen
 @EActivity(R.layout.activity_favorites)
-public class FavoritesActivity extends FragmentActivity implements MainListViewFragment_.LoadDatasListener{
+public class FavoritesActivity extends FragmentActivity {
     private MainListViewFragment_ mainListViewFragment;
 
     @ViewById
@@ -39,7 +39,7 @@ public class FavoritesActivity extends FragmentActivity implements MainListViewF
         title.setText("我的收藏");
 
         mainListViewFragment = new MainListViewFragment_();
-        mainListViewFragment.setLoadDatasListener(this);
+//        mainListViewFragment.setLoadDatasListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.favList, mainListViewFragment).commit();
     }
 
@@ -49,7 +49,7 @@ public class FavoritesActivity extends FragmentActivity implements MainListViewF
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    @Override
+
     public void refreshData(List<Fav> datas) {
         datas.clear();
         favDao = OReaderApplication.getDaoSession(this).getFavDao();
@@ -59,7 +59,7 @@ public class FavoritesActivity extends FragmentActivity implements MainListViewF
         }
     }
 
-    @Override
+
     public void loadData(List<Fav> datas) {
 
         Random random = new Random();

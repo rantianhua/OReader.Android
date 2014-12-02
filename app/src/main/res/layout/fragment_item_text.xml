@@ -17,24 +17,20 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
             android:layout_marginRight="@dimen/list_item_horizontal_outside_padding">
-            <TextView android:ellipsize="end"
+            <TextView
+                android:ellipsize="end"
                 android:id="@+id/title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="3" android:singleLine="false"
-                android:layout_alignParentTop="true"
-                android:text="@string/test"
                 style="@style/item_title" />
             <TextView
                 android:id="@+id/description"
-                android:maxLines="3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
                 android:layout_below="@id/title"
                 style="@style/item_description"
                 android:layout_marginTop="@dimen/item_inner_margin_height" />
-            <TextView android:id="@+id/createTime"
+            <TextView
+                android:id="@+id/createTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description"

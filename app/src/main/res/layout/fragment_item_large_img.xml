@@ -19,35 +19,39 @@
             android:layout_marginRight="@dimen/list_item_horizontal_outside_padding">
             <TextView android:ellipsize="end"
                 android:id="@+id/title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="3" android:singleLine="false"
-                android:layout_alignParentTop="true"
-                android:text="@string/test"
                 style="@style/item_title" />
             <TextView
                 android:id="@+id/description"
-                android:maxLines="3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
                 android:layout_below="@id/title"
                 android:layout_toLeftOf="@id/right_image"
                 style="@style/item_description"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/item_inner_margin_height" />
-            <ImageView
-                android:id="@+id/large_image"
-                android:background="@drawable/image_holder_listpage"
-                android:layout_width="340dp"
-                android:layout_height="175dp"
-                android:layout_below="@id/description"
-                android:scaleType="fitXY"
-                android:layout_marginTop="@dimen/item_inner_margin_height"/>
+            <TableLayout
+                android:id="@+id/large_image_line"
+                android:layout_width="341dp"
+                android:layout_height="176dp"
+                android:background="@drawable/item_big_pic_line"
+                android:layout_marginTop="@dimen/item_inner_margin_height"
+                android:layout_below="@id/description">
+                <TableRow
+                    android:layout_width="340.0dp"
+                    android:layout_gravity="center"
+                    android:gravity="center|center_vertical|center_horizontal">
+                    <com.android.volley.toolbox.NetworkImageView                        android:id="@+id/large_image"
+                        android:layout_width="340dp"
+                        android:layout_height="175dp"
+                        android:scaleType="fitXY"
+                        android:gravity="center|center_vertical|center_horizontal"/>
+                </TableRow>
+            </TableLayout>
             <TextView android:id="@+id/createTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/large_image"
+                android:layout_below="@id/large_image_line"
                 style="@style/item_secondary_text"
                 android:layout_marginTop="@dimen/item_inner_margin_height"/>
         </RelativeLayout>

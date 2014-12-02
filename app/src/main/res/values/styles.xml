@@ -6,9 +6,9 @@
     </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/tab_indicator</item>
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textSize">@dimen/common_text_size</item>
+        <item name="android:background">@drawable/tab_indicator</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
         <item name="android:fadingEdge">horizontal</item>
@@ -40,8 +40,15 @@
     </style>
 
     <style name="item_title">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">4.0dp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:text">@string/test</item>
         <item name="android:textSize">@dimen/common_text_size</item>
         <item name="android:textColor">@color/item_text</item>
+        <item name="android:maxLines">3</item>
     </style>
 
     <style name="item_image_gap">
@@ -62,7 +69,7 @@
 
     <style name="detail_back_view" parent="@style/back_view">
         <!--<item name="android:background">@drawable/transparent</item>-->
-        <item name="android:drawableLeft">@drawable/btn_back_detail</item>
+        <item name="android:drawableLeft">@drawable/btn_back</item>
     </style>
     <style name="back_view" parent="@style/title_bar_button">
         <item name="android:gravity">right|center</item>
@@ -117,14 +124,17 @@
     </style>
 
     <style name="item_description">
-        <item name="android:textSize">15.0dp</item>
+        <item name="android:textSize">12.5dp</item>
         <item name="android:textColor">@color/item_description</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:layout_marginRight">4.0dp</item>
     </style>
 
     <style name="item_secondary_text">
         <item name="android:textSize">14.0dp</item>
         <item name="android:textColor">@color/create_time</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="title_text_style">
@@ -182,6 +192,7 @@
     <style name="tool_item_text" parent="mine_item_text">
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">-3dp</item>
     </style>
     <style name="tool_item_text_selected" parent="mine_item_text">
         <item name="android:layout_gravity">center</item>
@@ -189,7 +200,7 @@
         <item name="android:textColor">@color/red</item>
     </style>
     <style name="nav_title_bar_style" parent="@style/title_bar_style">
-        <item name="android:layout_height">36.0dp</item>
-        <item name="android:background">@drawable/title_bar</item>
+        <item name="android:layout_height">50.0dp</item>
+        <item name="android:background">@color/tab_backgroud</item>
     </style>
 </resources>

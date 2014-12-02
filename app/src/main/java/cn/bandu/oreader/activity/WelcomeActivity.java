@@ -1,13 +1,12 @@
 package cn.bandu.oreader.activity;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
@@ -33,16 +32,24 @@ public class WelcomeActivity extends Activity{
 
     @AfterViews
     public void afterViews() {
-        Log.d(TAG, "toast app prefs: splash");
-        Toast.makeText(this, appPrefs.splash().get() ? "show splash" : "do not show" , Toast.LENGTH_SHORT) ;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "root view clicked");
+                MainActivity_.intent(WelcomeActivity.this).start();
+                appPrefs.splash().put(false);
+                WelcomeActivity.this.finish();
+                WelcomeActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_in);
+            }
+        }, 1000);
     }
 
-    @Click
-    public void root()
-    {
-        Log.d(TAG, "root view clicked");
-        MainActivity_.intent(this).start();
-        appPrefs.splash().put(false);
-        this.finish();
-    }
+//    @Click
+//    public void root()
+//    {
+//        Log.d(TAG, "root view clicked");
+//        MainActivity_.intent(this).start();
+//        appPrefs.splash().put(false);
+//        this.finish();
+//    }
 }

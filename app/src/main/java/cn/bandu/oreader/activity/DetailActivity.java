@@ -16,7 +16,6 @@ import android.widget.TextView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.OReaderApplication;
@@ -27,7 +26,7 @@ import cn.bandu.oreader.dao.FavDao;
 /**
  * Created by yangmingfu on 14/11/14.
  */
-@Fullscreen
+//@Fullscreen
 @EActivity(R.layout.activity_detail)
 public class DetailActivity extends Activity {
 
@@ -63,12 +62,15 @@ public class DetailActivity extends Activity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
+
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
 
         webView.addJavascriptInterface(new JsObj(getApplicationContext()), "imagelistner");
         webView.setWebViewClient(new MyWebViewClient());
 
         webView.loadUrl(data.getWebUrl());
+
     }
     private void addImageClickListner() {
         webView.loadUrl("javascript:(function(){"

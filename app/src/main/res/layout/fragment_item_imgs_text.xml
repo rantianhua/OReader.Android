@@ -19,22 +19,16 @@
             android:layout_marginRight="@dimen/list_item_horizontal_outside_padding">
             <TextView android:ellipsize="end"
                 android:id="@+id/title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="3" android:singleLine="false"
-                android:layout_alignParentTop="true"
-                android:text="@string/test"
                 style="@style/item_title" />
             <TextView
                 android:id="@+id/description"
-                android:maxLines="3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
                 android:layout_below="@id/title"
                 android:layout_toLeftOf="@id/right_image"
                 style="@style/item_description"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/item_inner_margin_height" />
             <LinearLayout
                 android:orientation="horizontal"
@@ -43,17 +37,47 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/description"
                 android:layout_marginTop="@dimen/item_inner_margin_height">
-                <ImageView
-                    android:id="@+id/item_image_0"
-                    style="@style/item_image" />
+                <TableLayout
+                    android:layout_width="@dimen/item_image_width_line"
+                    android:layout_height="@dimen/item_image_height_line"
+                    android:background="@drawable/item_small_pic_line"
+                    android:layout_alignParentRight="true">
+                    <TableRow
+                        android:layout_width="@dimen/item_image_width"
+                        android:layout_gravity="center"
+                        android:gravity="center|center_vertical|center_horizontal">
+                        <com.android.volley.toolbox.NetworkImageView                            android:id="@+id/item_image_0"
+                            style="@style/item_image" />
+                    </TableRow>
+                </TableLayout>
                 <View style="@style/item_image_gap" />
-                <ImageView
-                    android:id="@+id/item_image_1"
-                    style="@style/item_image" />
+                <TableLayout
+                    android:layout_width="@dimen/item_image_width_line"
+                    android:layout_height="@dimen/item_image_height_line"
+                    android:background="@drawable/item_small_pic_line"
+                    android:layout_alignParentRight="true">
+                    <TableRow
+                        android:layout_width="@dimen/item_image_width"
+                        android:layout_gravity="center"
+                        android:gravity="center|center_vertical|center_horizontal">
+                        <com.android.volley.toolbox.NetworkImageView                            android:id="@+id/item_image_1"
+                            style="@style/item_image" />
+                    </TableRow>
+                </TableLayout>
                 <View style="@style/item_image_gap" />
-                <ImageView
-                    android:id="@+id/item_image_2"
-                    style="@style/item_image" />
+                <TableLayout
+                    android:layout_width="@dimen/item_image_width_line"
+                    android:layout_height="@dimen/item_image_height_line"
+                    android:background="@drawable/item_small_pic_line"
+                    android:layout_alignParentRight="true">
+                    <TableRow
+                        android:layout_width="@dimen/item_image_width"
+                        android:layout_gravity="center"
+                        android:gravity="center|center_vertical|center_horizontal">
+                        <com.android.volley.toolbox.NetworkImageView                            android:id="@+id/item_image_2"
+                            style="@style/item_image" />
+                    </TableRow>
+                </TableLayout>
             </LinearLayout>
             <TextView android:id="@+id/createTime"
                 android:layout_width="wrap_content"

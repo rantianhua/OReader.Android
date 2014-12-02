@@ -16,32 +16,37 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/list_item_horizontal_outside_padding"
             android:layout_marginRight="@dimen/list_item_horizontal_outside_padding">
-            <ImageView
-                android:id="@+id/right_image"
-                android:layout_height="@dimen/item_image_height"
-                android:layout_width="@dimen/item_image_width"
+            <TableLayout
+                android:layout_width="@dimen/item_image_width_line"
+                android:layout_height="@dimen/item_image_height_line"
+                android:background="@drawable/item_small_pic_line"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                style="@style/item_image" />
+                android:id="@+id/right_image_table">
+                <TableRow
+                    android:layout_width="@dimen/item_image_width"
+                    android:layout_gravity="center"
+                    android:gravity="center|center_vertical|center_horizontal">
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/right_image"
+                        android:layout_height="@dimen/item_image_height"
+                        android:layout_width="@dimen/item_image_width"
+                        style="@style/item_image"
+                        android:layout_gravity="center"
+                        android:layout_centerVertical="true"/>
+                </TableRow>
+            </TableLayout>
             <TextView
-                android:ellipsize="end"
                 android:id="@+id/title"
-                android:text="@string/test"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="3"
-                android:singleLine="false"
-                android:layout_toLeftOf="@id/right_image"
+                android:layout_toLeftOf="@id/right_image_table"
                 android:layout_alignParentTop="true"
                 style="@style/item_title" />
             <TextView
                 android:id="@+id/description"
-                android:maxLines="3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
                 android:layout_below="@id/title"
-                android:layout_toLeftOf="@id/right_image"
+                android:layout_toLeftOf="@id/right_image_table"
                 style="@style/item_description"
                 android:layout_marginTop="@dimen/item_inner_margin_height" />
             <TextView android:id="@+id/createTime"

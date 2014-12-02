@@ -10,27 +10,19 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.MainViewPagerAdapter;
-import cn.bandu.oreader.fragments.MainListViewFragment_;
 import cn.bandu.oreader.fragments.SlidingMenuFragment_;
-import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.view.CustomTabPageIndicator;
 
 //@WindowFeature({Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS})
-@Fullscreen
+//@Fullscreen
 @EActivity(R.layout.activity_main)
-public class MainActivity extends FragmentActivity implements MainListViewFragment_.LoadDatasListener {
+public class MainActivity extends FragmentActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -102,65 +94,8 @@ public class MainActivity extends FragmentActivity implements MainListViewFragme
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
     }
 
-
-    @Override
-    public void refreshData(List<Fav> datas) {
-        Random random = new Random();
-        List<Fav> datasTmp = new ArrayList<Fav>();
-        //重构datas，将新数据放到上面
-        for (int j=0 ; j<20; j++) {
-            Fav fav = new Fav();
-            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            int tmp = random.nextInt(20) % 4;
-
-            fav.setSid(random.nextInt());
-            Log.i("favlist setsid", String.valueOf(fav.getSid()));
-            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
-            fav.setDate(sfd.format(new Date()));
-            fav.setModel(tmp);
-//            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
-            fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
-
-            fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
-            fav.setImage1("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
-            fav.setImage2("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
-
-            datasTmp.add(fav);
-        }
-        for (int m=datas.size()-1;m>=0;m--) {
-            datasTmp.add(datas.get(m));
-        }
-        datas.clear();
-        for (int m=0;m<datasTmp.size();m++) {
-            datas.add(datasTmp.get(m));
-            if (m > 100) {
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void loadData(List<Fav> datas) {
-        Random random = new Random();
-        //重构datas，将新数据放到上面
-        for (int j=0 ; j<20; j++) {
-            Fav fav = new Fav();
-            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            int tmp = random.nextInt(20) % 4;
-
-
-            fav.setSid(random.nextLong());
-            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
-            fav.setDate(sfd.format(new Date()));
-            fav.setModel(tmp);
-//            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
-            fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
-
-            fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
-            fav.setImage1("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
-            fav.setImage2("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
-
-            datas.add(fav);
-        }
+    @Click
+    public void moreBtn() {
+        Toast.makeText(this, "更多功能即将实现，敬请期待！", Toast.LENGTH_SHORT).show();
     }
 }
