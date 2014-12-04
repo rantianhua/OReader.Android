@@ -23,16 +23,15 @@ public class FavDao extends AbstractDao<Fav, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Sid = new Property(1, long.class, "sid", false, "SID");
-        public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
-        public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
-        public final static Property Date = new Property(4, String.class, "date", false, "DATE");
-        public final static Property WebUrl = new Property(5, String.class, "webUrl", false, "WEB_URL");
-        public final static Property Image0 = new Property(6, String.class, "image0", false, "IMAGE0");
-        public final static Property Image1 = new Property(7, String.class, "image1", false, "IMAGE1");
-        public final static Property Image2 = new Property(8, String.class, "image2", false, "IMAGE2");
-        public final static Property Model = new Property(9, Integer.class, "model", false, "MODEL");
+        public final static Property Sid = new Property(0, long.class, "sid", true, "SID");
+        public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
+        public final static Property Description = new Property(2, String.class, "description", false, "DESCRIPTION");
+        public final static Property Date = new Property(3, String.class, "date", false, "DATE");
+        public final static Property WebUrl = new Property(4, String.class, "webUrl", false, "WEB_URL");
+        public final static Property Image0 = new Property(5, String.class, "image0", false, "IMAGE0");
+        public final static Property Image1 = new Property(6, String.class, "image1", false, "IMAGE1");
+        public final static Property Image2 = new Property(7, String.class, "image2", false, "IMAGE2");
+        public final static Property Model = new Property(8, Integer.class, "model", false, "MODEL");
     };
 
 
@@ -48,16 +47,15 @@ public class FavDao extends AbstractDao<Fav, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'FAV' (" + //
-                "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'SID' INTEGER NOT NULL ," + // 1: sid
-                "'TITLE' TEXT NOT NULL ," + // 2: title
-                "'DESCRIPTION' TEXT," + // 3: description
-                "'DATE' TEXT," + // 4: date
-                "'WEB_URL' TEXT NOT NULL ," + // 5: webUrl
-                "'IMAGE0' TEXT," + // 6: image0
-                "'IMAGE1' TEXT," + // 7: image1
-                "'IMAGE2' TEXT," + // 8: image2
-                "'MODEL' INTEGER);"); // 9: model
+                "'SID' INTEGER PRIMARY KEY ASC NOT NULL ," + // 0: sid
+                "'TITLE' TEXT NOT NULL ," + // 1: title
+                "'DESCRIPTION' TEXT," + // 2: description
+                "'DATE' TEXT," + // 3: date
+                "'WEB_URL' TEXT NOT NULL ," + // 4: webUrl
+                "'IMAGE0' TEXT," + // 5: image0
+                "'IMAGE1' TEXT," + // 6: image1
+                "'IMAGE2' TEXT," + // 7: image2
+                "'MODEL' INTEGER);"); // 8: model
     }
 
     /** Drops the underlying database table. */
@@ -70,66 +68,60 @@ public class FavDao extends AbstractDao<Fav, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, Fav entity) {
         stmt.clearBindings();
- 
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
-        stmt.bindLong(2, entity.getSid());
-        stmt.bindString(3, entity.getTitle());
+        stmt.bindLong(1, entity.getSid());
+        stmt.bindString(2, entity.getTitle());
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(4, description);
+            stmt.bindString(3, description);
         }
  
         String date = entity.getDate();
         if (date != null) {
-            stmt.bindString(5, date);
+            stmt.bindString(4, date);
         }
-        stmt.bindString(6, entity.getWebUrl());
+        stmt.bindString(5, entity.getWebUrl());
  
         String image0 = entity.getImage0();
         if (image0 != null) {
-            stmt.bindString(7, image0);
+            stmt.bindString(6, image0);
         }
  
         String image1 = entity.getImage1();
         if (image1 != null) {
-            stmt.bindString(8, image1);
+            stmt.bindString(7, image1);
         }
  
         String image2 = entity.getImage2();
         if (image2 != null) {
-            stmt.bindString(9, image2);
+            stmt.bindString(8, image2);
         }
  
         Integer model = entity.getModel();
         if (model != null) {
-            stmt.bindLong(10, model);
+            stmt.bindLong(9, model);
         }
     }
 
     /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+        return cursor.getLong(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public Fav readEntity(Cursor cursor, int offset) {
         Fav entity = new Fav( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getLong(offset + 1), // sid
-            cursor.getString(offset + 2), // title
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // description
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // date
-            cursor.getString(offset + 5), // webUrl
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // image0
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // image1
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // image2
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9) // model
+            cursor.getLong(offset + 0), // sid
+            cursor.getString(offset + 1), // title
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // description
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // date
+            cursor.getString(offset + 4), // webUrl
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // image0
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // image1
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // image2
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // model
         );
         return entity;
     }
@@ -137,22 +129,21 @@ public class FavDao extends AbstractDao<Fav, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Fav entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setSid(cursor.getLong(offset + 1));
-        entity.setTitle(cursor.getString(offset + 2));
-        entity.setDescription(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setDate(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setWebUrl(cursor.getString(offset + 5));
-        entity.setImage0(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setImage1(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setImage2(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setModel(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setSid(cursor.getLong(offset + 0));
+        entity.setTitle(cursor.getString(offset + 1));
+        entity.setDescription(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setWebUrl(cursor.getString(offset + 4));
+        entity.setImage0(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setImage1(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setImage2(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setModel(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
      }
     
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Fav entity, long rowId) {
-        entity.setId(rowId);
+        entity.setSid(rowId);
         return rowId;
     }
     
@@ -160,7 +151,7 @@ public class FavDao extends AbstractDao<Fav, Long> {
     @Override
     public Long getKey(Fav entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getSid();
         } else {
             return null;
         }

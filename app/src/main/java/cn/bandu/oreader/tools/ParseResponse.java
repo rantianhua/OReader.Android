@@ -31,7 +31,7 @@ public class ParseResponse {
         for (int i=0;i<dataLength;i++) {
             JSONObject item = new JSONObject(dataJson.get(i).toString());
             Log.i("item=", item.getString("image0"));
-            Fav fav = new Fav(null, item.getInt("sid"), item.getString("title"),
+            Fav fav = new Fav(item.getInt("sid"), item.getString("title"),
                     item.getString("description"), item.getString("date"),
                     item.getString("webUrl"),
                     item.getString("image0") == null || item.getString("image0") == "" ? null : item.getString("image0"),

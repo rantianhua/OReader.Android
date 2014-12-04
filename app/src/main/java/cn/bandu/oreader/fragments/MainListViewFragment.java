@@ -77,6 +77,10 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
         page = 1;
         String FirstPage = String.format(OReaderConst.QUERY_LIST_URL, cate.getSid(), page);
         requestDataFromCache(FirstPage);
+        //cache中没有任何数据, 主动请求一遍数据
+        if (datas.size() <= 0) {
+            onRefresh();
+        }
     }
 
     @Override

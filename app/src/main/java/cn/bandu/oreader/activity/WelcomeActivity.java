@@ -24,6 +24,8 @@ import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.Cate;
+import cn.bandu.oreader.dao.CateDao;
+import cn.bandu.oreader.dao.DaoSession;
 import cn.bandu.oreader.data.AppPrefs_;
 import cn.bandu.oreader.tools.ParseResponse;
 import cn.bandu.oreader.tools.VolleyErrorHelper;
@@ -32,7 +34,7 @@ import cn.bandu.oreader.tools.VolleyErrorHelper;
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 @Fullscreen
 @EActivity(R.layout.activity_welcome)
-public class WelcomeActivity extends Activity{
+public class WelcomeActivity extends Activity {
 
     private final static String TAG = WelcomeActivity.class.getSimpleName();
 
@@ -44,7 +46,6 @@ public class WelcomeActivity extends Activity{
 
     @AfterViews
     public void afterViews() {
-        //TODO 网络请求栏目信息
         String url = String.format(OReaderConst.QUERY_CATE_URL, 1);
 
         OReaderApplication.getInstance().getRequestQueue().getCache().invalidate(url, true);
@@ -57,10 +58,13 @@ public class WelcomeActivity extends Activity{
                     OReaderConst.CONTENT.clear();
                     for (int i=0;i<cate.size();i++) {
                         OReaderConst.CONTENT.add(cate.get(i));
+                        DaoSession daoSession = OReaderApplication.getDaoSession(WelcomeActivity.this);
+                        CateDao cateDao = daoSession.getCateDao();
+                        cateDao.insertOrReplace(cate.get(i));
                     }
-                    startMain();
+                    startMain(true);
                 } catch (JSONException e) {
-                    startMain();
+                    startMain(false);
                     e.printStackTrace();
                 }
             }
@@ -68,14 +72,25 @@ public class WelcomeActivity extends Activity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 String message = VolleyErrorHelper.getMessage(error, WelcomeActivity.this);
-                startMain();
+                startMain(false);
             }
         });
-        //timeout 3s retry 0
-        req.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, 1.0f));
+        //timeout 1s retry 0
+        req.setRetryPolicy(new DefaultRetryPolicy(1 * 1000, 0, 1.0f));
         OReaderApplication.getInstance().addToRequestQueue(req, TAG);
     }
-    private void startMain() {
+
+    private void startMain(boolean success) {
+        Log.i("success = ", String.valueOf(success));
+
+        if (success == false) {
+            DaoSession daoSession = OReaderApplication.getDaoSession(WelcomeActivity.this);
+            CateDao cateDao = daoSession.getCateDao();
+            if (cateDao.loadAll().size() > 0) {
+                OReaderConst.CONTENT.clear();
+                OReaderConst.CONTENT = cateDao.loadAll();
+            }
+        }
         MainActivity_.intent(WelcomeActivity.this).start();
         appPrefs.splash().put(false);
         WelcomeActivity.this.finish();
