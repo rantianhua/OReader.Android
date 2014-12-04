@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
 
 /**
@@ -42,6 +43,21 @@ public class ParseResponse {
             listData.add(fav);
         }
         data.put("list", listData);
+        return data;
+    }
+
+    public static List<Cate> parseCate(String response) throws JSONException {
+        JSONArray resJson = new JSONArray(response);
+        int length = resJson.length();
+        List<Cate> data = new ArrayList<Cate>();
+        Log.i("length=", String.valueOf(length));
+        for (int i=0;i<length;i++) {
+            JSONObject item = new JSONObject(resJson.get(i).toString());
+            Cate cate = new Cate();
+            cate.setSid(item.getLong("sid"));
+            cate.setName(item.getString("name"));
+            data.add(cate);
+        }
         return data;
     }
 }

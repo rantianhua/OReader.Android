@@ -14,7 +14,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     private final static String TAG = MainViewPagerAdapter.class.getSimpleName();
 
 
-    private int mCount = OReaderConst.CONTENT.length;
+    private int mCount = OReaderConst.CONTENT.size();
     Activity activity;
 
     public MainViewPagerAdapter(FragmentManager fm, Activity activity) {
@@ -26,7 +26,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Log.d(TAG, "get Item: " + position);
         MainListViewFragment_ mainListViewFragment = new MainListViewFragment_();
-        mainListViewFragment.setContent(OReaderConst.CONTENT[position % OReaderConst.CONTENT.length]);
+        mainListViewFragment.setContent(OReaderConst.CONTENT.get(position % OReaderConst.CONTENT.size()));
         return mainListViewFragment;
     }
 
@@ -37,6 +37,6 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return OReaderConst.CONTENT[position % OReaderConst.CONTENT.length];
+        return OReaderConst.CONTENT.get(position % OReaderConst.CONTENT.size()).getName();
     }
 }

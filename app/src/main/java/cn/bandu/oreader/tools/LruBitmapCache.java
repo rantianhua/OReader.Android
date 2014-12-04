@@ -3,12 +3,13 @@ package cn.bandu.oreader.tools;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageCache;
 
 /**
  * Created by yangmingfu on 14/12/2.
  */
-public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {
+public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache {
+
     public static int getDefaultLruCacheSize() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;

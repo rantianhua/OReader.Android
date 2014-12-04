@@ -140,6 +140,7 @@ public class ListAdapter extends BaseAdapter {
                 viewHolder.description.setVisibility(View.VISIBLE);
                 viewHolder.description.setText(fav.getDescription());
             }
+
             viewHolder.createTime.setText(fav.getDate());
             viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
             viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);

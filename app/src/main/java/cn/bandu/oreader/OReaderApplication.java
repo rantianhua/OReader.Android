@@ -97,9 +97,12 @@ public class OReaderApplication extends Application {
         }
     }
 
+    /**
+     * 获取imageLoader对象
+     * @return ImageLoader
+     */
     public ImageLoader getImageLoader() {
         getRequestQueue();
-
         if (mImageLoader == null) {
             mImageLoader = new ImageLoader(this.mRequestQueue,
                     new LruBitmapCache());
@@ -138,5 +141,7 @@ public class OReaderApplication extends Application {
         return daoSession;
     }
 
-
+    public static String getAppid() {
+        return "111";
+    }
 }

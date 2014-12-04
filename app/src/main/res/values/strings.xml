@@ -16,7 +16,7 @@
     <string name="comment_look">看评论</string>
     <string name="favorite_text">收藏</string>
     <string name="share_text">分享</string>
-    <string name="generic_server_down">连接超时</string>
-    <string name="no_internet">没有联网</string>
+    <string name="generic_server_down">网络超时，请检查网络设置</string>
+    <string name="no_internet">网络不可用，请检查网络设置</string>
     <string name="generic_error">未知错误</string>
 </resources>
