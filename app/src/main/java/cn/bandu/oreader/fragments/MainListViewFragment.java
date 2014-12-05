@@ -3,6 +3,7 @@ package cn.bandu.oreader.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
         listSwipeContainer.setLoadNoFull(false);
 
         adapter = new ListAdapter(getActivity(), datas);
+        Log.e("datas=", String.valueOf(datas.size()));
         list.setAdapter(adapter);
         initDefaultData();
     }
@@ -108,7 +110,6 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("data", datas.get(position));
-        bundle.putString("cateName", cate.getName());
         intent.putExtras(bundle);
 
         intent.setClass(getActivity(), DetailActivity_.class);

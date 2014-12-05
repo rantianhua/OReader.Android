@@ -1,24 +1,30 @@
 package cn.bandu.oreader.activity;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
+import cn.bandu.oreader.adapter.ListAdapter;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
 import cn.bandu.oreader.fragments.MainListViewFragment_;
+import cn.bandu.oreader.tools.DataTools;
 
 
 /**
@@ -31,16 +37,39 @@ public class FavoritesActivity extends FragmentActivity {
 
     @ViewById
     TextView title;
+    @ViewById
+    View notice;
 
+    private ListAdapter adapter;
+
+    private List<Fav> datas;
     private FavDao favDao;
 
-    @AfterViews
-    public void afterViews() {
-        title.setText("我的收藏");
+    @ViewById
+    ListView favList;
 
-        mainListViewFragment = new MainListViewFragment_();
-//        mainListViewFragment.setLoadDatasListener(this);
-        getSupportFragmentManager().beginTransaction().replace(R.id.favList, mainListViewFragment).commit();
+    @Override
+    protected void onStart() {
+        datas = new ArrayList<Fav>();
+        title.setText("我的收藏");
+        favDao = OReaderApplication.getDaoSession(this).getFavDao();
+
+        SQLiteDatabase db = OReaderApplication.getDaoMaster(this).getDatabase();
+        String textColumn = FavDao.Properties.CreateTime.columnName;
+        String orderBy = textColumn + " COLLATE LOCALIZED DESC";
+        Cursor cursor = db.query(favDao.getTablename(), favDao.getAllColumns(), null, null, null, null, orderBy);
+
+        adapter = new ListAdapter(this, DataTools.cursorToFav(cursor, datas));
+        favList.setAdapter(adapter);
+
+        if (datas.size() <=0 ) {
+            notice.setVisibility(View.VISIBLE);
+            favList.setVisibility(View.GONE);
+        } else {
+            notice.setVisibility(View.GONE);
+            favList.setVisibility(View.VISIBLE);
+        }
+        super.onStart();
     }
 
     @Click
@@ -49,37 +78,18 @@ public class FavoritesActivity extends FragmentActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    @ItemClick
+    void favList(int position) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("data", datas.get(position));
+        intent.putExtras(bundle);
 
-    public void refreshData(List<Fav> datas) {
-        datas.clear();
-        favDao = OReaderApplication.getDaoSession(this).getFavDao();
-        datas = favDao.loadAll();
-        for(int i=0;i<datas.size();i++) {
+        intent.setClass(this, DetailActivity_.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
 
-        }
-    }
+        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-
-    public void loadData(List<Fav> datas) {
-
-        Random random = new Random();
-        //重构datas，将新数据放到上面
-        for (int j=0 ; j<2; j++) {
-            Fav fav = new Fav();
-            fav.setTitle("在流行歌曲还被认为是“靡靡之音”的时候 item - " + j);
-            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-            fav.setDate(sfd.format(new Date()));
-            int tmp = random.nextInt(20) % 4;
-            fav.setModel(tmp);
-            fav.setDescription("著名歌唱家王昆去世。上世纪80年代，在流行歌曲还被认为是“靡靡之音”的时候，她就曾力挺流行乐。歌很能打动人，所以我就批准他唱");
-            fav.setWebUrl("http://m2.people.cn/r/MV80XzEzMjI1NTBfODNfMTQxNjU1ODc0Ng==");
-
-
-            fav.setImage0("http://ww3.sinaimg.cn/thumbnail/7d47b003jw1emgmzkh5wsj20c3085ab3.jpg?" + random.nextInt(20));
-            fav.setImage1("http://ww2.sinaimg.cn/thumbnail/60718250jw1emida7kpogj20fa0ahwfc.jpg?" + random.nextInt(20));
-            fav.setImage2("http://ww2.sinaimg.cn/bmiddle/d0513221jw1emicwxta35j20dw0993zk.jpg?" + random.nextInt(20));
-
-            datas.add(fav);
-        }
     }
 }

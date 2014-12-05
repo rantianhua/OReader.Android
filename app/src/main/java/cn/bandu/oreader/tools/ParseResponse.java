@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class ParseResponse {
                     item.getString("image0") == null || item.getString("image0") == "" ? null : item.getString("image0"),
                     item.getString("image1") == null || item.getString("image1") == "" ? null : item.getString("image1"),
                     item.getString("image2") == null || item.getString("image2") == "" ? null : item.getString("image2"),
-                    item.getInt("model"));
+                    item.getInt("model"), item.getLong("cateId"), item.getString("cateName"), 0);
             Log.i("item title=", fav.getTitle());
 
             listData.add(fav);
@@ -56,6 +57,7 @@ public class ParseResponse {
             Cate cate = new Cate();
             cate.setSid(item.getLong("sid"));
             cate.setName(item.getString("name"));
+            cate.setDate(new Date().getTime());
             data.add(cate);
         }
         return data;

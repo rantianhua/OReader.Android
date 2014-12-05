@@ -42,11 +42,6 @@ public class SlidingMenuFragment extends Fragment{
     }
 
     @Click
-    public void appstore_btn() {
-
-    }
-
-    @Click
     public void feedback_btn() {
 
     }

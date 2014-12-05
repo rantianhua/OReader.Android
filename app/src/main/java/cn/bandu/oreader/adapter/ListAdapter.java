@@ -37,8 +37,8 @@ public class ListAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setDatas(List<Fav> datas) {
-        this.datas = datas;
+    public <T> void setDatas(List<T> datas) {
+        this.datas = (List<Fav>) datas;
     }
 
     public List<Fav> getDatas() {

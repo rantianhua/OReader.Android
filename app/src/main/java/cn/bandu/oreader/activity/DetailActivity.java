@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -18,10 +19,13 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.Date;
+
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
+import cn.bandu.oreader.tools.DataTools;
 
 /**
  * Created by yangmingfu on 14/11/14.
@@ -30,7 +34,6 @@ import cn.bandu.oreader.dao.FavDao;
 @EActivity(R.layout.activity_detail)
 public class DetailActivity extends Activity {
 
-    String cateName;
     private Fav data;
 
     @ViewById
@@ -43,20 +46,26 @@ public class DetailActivity extends Activity {
     ProgressBar progressBar;
 
     private MainActivity_ mainActivity;
-    private long favId = 0;
 
     @AfterViews
     public void afterViews() {
-
-        cateName = getIntent().getStringExtra("cateName");
         data = (Fav) getIntent().getSerializableExtra("data");
-
         initTitleBar();
         initWebView();
+        initBottomBar();
     }
     private void initTitleBar() {
-        Log.e("cateName", cateName);
-        title.setText(cateName);
+        title.setText(data.getCateName());
+    }
+    private void initBottomBar() {
+        Log.e("DataTools.isFavExists(this, data.getSid())", String.valueOf(DataTools.isFavExists(this, data.getSid())));
+        if (DataTools.isFavExists(this, data.getSid()) == true) {
+            favorAction.setTag("selected");
+            favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
+            Drawable drawable= getResources().getDrawable(R.drawable.fav_selected);
+            drawable.setBounds(0, 0, 30, 30);
+            favorAction.setCompoundDrawables(null, drawable, null, null);
+        }
     }
     private void initWebView() {
         WebSettings webSettings = webView.getSettings();
@@ -156,15 +165,20 @@ public class DetailActivity extends Activity {
         if (favorAction.getTag() == "selected") {
             favorAction.setTextAppearance(this, R.style.tool_item_text);
             favorAction.setTag("");
-            if (favId != 0) {
-                FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
-                favDao.deleteByKey(favId);
-            }
+            FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
+            favDao.deleteByKey(data.getSid());
+            Drawable drawable= getResources().getDrawable(R.drawable.fav_normal);
+            drawable.setBounds(0, 0, 30, 30);
+            favorAction.setCompoundDrawables(null, drawable, null, null);
         } else {
             favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
             favorAction.setTag("selected");
+            Drawable drawable= getResources().getDrawable(R.drawable.fav_selected);
+            drawable.setBounds(0, 0, 30, 30);
+            favorAction.setCompoundDrawables(null, drawable, null, null);
             FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
-            favId = favDao.insertOrReplace(data);
+            data.setCreateTime(new Date().getTime());
+            favDao.insertOrReplace(data);
         }
         Log.i("title", data.getTitle());
     }

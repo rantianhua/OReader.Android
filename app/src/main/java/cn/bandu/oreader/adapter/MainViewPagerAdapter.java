@@ -6,37 +6,51 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import cn.bandu.oreader.OReaderConst;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bandu.oreader.OReaderApplication;
+import cn.bandu.oreader.dao.Cate;
+import cn.bandu.oreader.dao.CateDao;
 import cn.bandu.oreader.fragments.MainListViewFragment_;
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final static String TAG = MainViewPagerAdapter.class.getSimpleName();
 
+    public List<Cate> CATEGORY;
 
-    private int mCount = OReaderConst.CONTENT.size();
     Activity activity;
 
     public MainViewPagerAdapter(FragmentManager fm, Activity activity) {
         super(fm);
         this.activity = activity;
+        getCateGory();
     }
 
     @Override
     public Fragment getItem(int position) {
         Log.d(TAG, "get Item: " + position);
         MainListViewFragment_ mainListViewFragment = new MainListViewFragment_();
-        mainListViewFragment.setContent(OReaderConst.CONTENT.get(position % OReaderConst.CONTENT.size()));
+        mainListViewFragment.setContent(CATEGORY.get(position % CATEGORY.size()));
         return mainListViewFragment;
     }
 
     @Override
     public int getCount() {
-        return mCount;
+        return CATEGORY.size();
     }
-
     @Override
     public CharSequence getPageTitle(int position) {
-        return OReaderConst.CONTENT.get(position % OReaderConst.CONTENT.size()).getName();
+        return CATEGORY.get(position % CATEGORY.size()).getName();
+    }
+
+    private void getCateGory() {
+        CateDao cateDao = OReaderApplication.getDaoSession(activity).getCateDao();
+        CATEGORY = cateDao.loadAll();
+        if (CATEGORY == null || CATEGORY.size() == 0) {
+            CATEGORY = new ArrayList<Cate>();
+            CATEGORY.add(new Cate(0, "推荐", 0));
+        }
     }
 }

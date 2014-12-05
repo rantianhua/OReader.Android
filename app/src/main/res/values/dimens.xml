@@ -12,7 +12,7 @@
     <dimen name="item_inner_margin_height">4.0dp</dimen>
     <dimen name="common_text_size">15dp</dimen>
     <dimen name="divider">10.0dp</dimen>
-    <dimen name="bottom_bar_height">48.0dp</dimen>
+    <dimen name="bottom_bar_height">50.0dp</dimen>
     <dimen name="item_image_line_height">76.0dp</dimen>
     <dimen name="item_image_line_width">97.0dp</dimen>
     <dimen name="item_image_width_line">97.5dp</dimen>

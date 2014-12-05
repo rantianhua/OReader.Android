@@ -32,7 +32,7 @@
                 <TextView
                     android:id="@+id/favor_text"
                     android:text="@string/mine_item_favorite"
-                    android:drawableLeft="@drawable/favoriteicon_profile"
+                    android:drawableLeft="@drawable/slid_fav"
                     style="@style/mine_item_text" />
                 <ImageView
                     android:id="@+id/favor_arrow"
@@ -45,7 +45,7 @@
                 <TextView
                     android:id="@+id/clear_cacahe"
                     android:text="@string/mine_item_clearcache"
-                    android:drawableLeft="@drawable/feedbackicon_profile"
+                    android:drawableLeft="@drawable/clear_cache"
                     style="@style/mine_item_text" />
                 <ImageView style="@style/mine_btn_line" />
             </RelativeLayout>
@@ -55,22 +55,10 @@
                 <TextView
                     android:id="@+id/about_text"
                     android:text="@string/mine_item_about"
-                    android:drawableLeft="@drawable/feedbackicon_profile"
+                    android:drawableLeft="@drawable/slid_about"
                     style="@style/mine_item_text" />
                 <ImageView
                     android:id="@+id/about_arrow"
-                    style="@style/mine_arrow" />
-                <ImageView style="@style/mine_btn_line" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/appstore_btn"
-                style="@style/mine_item">
-                <TextView android:id="@+id/appstore_text"
-                    android:text="@string/mine_item_appstore"
-                    android:drawableLeft="@drawable/recomicon_profile"
-                    style="@style/mine_item_text" />
-                <ImageView
-                    android:id="@+id/appstore_arrow"
                     style="@style/mine_arrow" />
                 <ImageView style="@style/mine_btn_line" />
             </RelativeLayout>
@@ -80,7 +68,7 @@
                 <TextView
                     android:id="@+id/feedback_text"
                     android:text="@string/mine_item_feedback"
-                    android:drawableLeft="@drawable/feedbackicon_profile"
+                    android:drawableLeft="@drawable/slid_feedback"
                     style="@style/mine_item_text" />
                 <ImageView
                     android:id="@+id/feedback_arrow"

@@ -9,6 +9,7 @@ public class Cate implements java.io.Serializable {
     private long sid;
     /** Not-null value. */
     private String name;
+    private long date;
 
     public Cate() {
     }
@@ -17,9 +18,10 @@ public class Cate implements java.io.Serializable {
         this.sid = sid;
     }
 
-    public Cate(long sid, String name) {
+    public Cate(long sid, String name, long date) {
         this.sid = sid;
         this.name = name;
+        this.date = date;
     }
 
     public long getSid() {
@@ -38,6 +40,14 @@ public class Cate implements java.io.Serializable {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
 }

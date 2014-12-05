@@ -2,7 +2,6 @@ package cn.bandu.oreader.activity;
 
 
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Toast;
@@ -34,7 +33,6 @@ public class MainActivity extends FragmentActivity {
     long lastBackPressed = 0;
     Toast quitToast;
 
-    FragmentManager sm = getSupportFragmentManager();
     SlidingMenuFragment_ menuFragment;
     SlidingMenu menu;
 
@@ -44,24 +42,22 @@ public class MainActivity extends FragmentActivity {
     public void afterViews() {
         mainPagerAdapter = new MainViewPagerAdapter(this.getSupportFragmentManager(), this);
         mainPager.setAdapter(mainPagerAdapter);
+        Log.e("cate name", mainPagerAdapter.CATEGORY.get(0).getName());
         if(mainPagerAdapter.getCount() < 2) {
             //TODO only one pager, we should hide indicator.
         }
         tabTitle.setViewPager(mainPager);
-        //初始化滑动菜单
         initSlidingMenu();
     }
 
     private void initSlidingMenu() {
         menuFragment = new SlidingMenuFragment_();
         menu = new SlidingMenu(this);
-
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-//        menu.setShadowDrawable(R.drawable.sliding_shadow);
+        menu.setMode(SlidingMenu.RIGHT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0f);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.fragment_sliding_menu);
         getSupportFragmentManager().beginTransaction()
@@ -70,14 +66,18 @@ public class MainActivity extends FragmentActivity {
 
 
     public void onBackPressed() {
+        if (menu.isMenuShowing()) {
+            menu.toggle();
+            return;
+        }
         long now = System.currentTimeMillis();
-           if((now - lastBackPressed) < 2000) {
-               if(null != quitToast) {
-                   Log.e(TAG, "cancel toast");
-                   quitToast.cancel();
-                   quitToast = null;
-           }
-           super.onBackPressed();
+        if((now - lastBackPressed) < 2000) {
+            if(null != quitToast) {
+                Log.e(TAG, "cancel toast");
+                quitToast.cancel();
+                quitToast = null;
+            }
+            super.onBackPressed();
         } else {
             lastBackPressed = now;
             Log.e(TAG, "last back pressed: " + now);
@@ -86,16 +86,12 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void showSlidingMenu() {
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-    }
-
-    public void hideSlidingMenu() {
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-    }
-
     @Click
     public void moreBtn() {
-        Toast.makeText(this, "更多功能即将实现，敬请期待！", Toast.LENGTH_SHORT).show();
+        if (menu.isMenuShowing()) {
+            menu.toggle();
+            return;
+        }
+        menu.showMenu();
     }
 }

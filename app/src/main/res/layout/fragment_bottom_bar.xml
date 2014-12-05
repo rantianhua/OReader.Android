@@ -43,7 +43,6 @@
             android:layout_width="fill_parent"
             android:layout_height="40.0dp"
             android:text="@string/favorite_text"
-            android:drawableTop="@drawable/fav"
             android:background="@drawable/mine_item_bg"
             android:layout_weight="1"
             style="@style/tool_item_text" />

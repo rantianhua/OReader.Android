@@ -8,12 +8,27 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     <include
         android:id="@+id/title_bar"
         layout="@layout/fragment_title_bar" />
-    <FrameLayout
+    <ListView
         android:id="@+id/favList"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title_bar">
-
+    </ListView>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_bar"
+        android:visibility="gone"
+        android:id="@+id/notice">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_bar"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:drawableTop="@drawable/no_fav"
+            android:text="@string/no_fav">
+        </TextView>
     </FrameLayout>
     <View android:layout_below="@id/title_bar" style="@style/title_bar_shadow" />
 </RelativeLayout>

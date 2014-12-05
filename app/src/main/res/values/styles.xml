@@ -190,11 +190,13 @@
     </style>
 
     <style name="tool_item_text" parent="mine_item_text">
+        <item name="android:drawableTop">@drawable/fav</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:drawablePadding">-3dp</item>
     </style>
     <style name="tool_item_text_selected" parent="mine_item_text">
+        <item name="android:drawableTop">@drawable/fav_selected</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/red</item>
