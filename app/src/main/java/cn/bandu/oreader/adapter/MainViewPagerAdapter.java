@@ -48,6 +48,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     private void getCateGory() {
         CateDao cateDao = OReaderApplication.getDaoSession(activity).getCateDao();
         CATEGORY = cateDao.loadAll();
+        Log.e("CATEGORY size = ", String.valueOf(CATEGORY.size()));
         if (CATEGORY == null || CATEGORY.size() == 0) {
             CATEGORY = new ArrayList<Cate>();
             CATEGORY.add(new Cate(0, "推荐", 0));

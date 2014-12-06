@@ -17,4 +17,6 @@
     <dimen name="item_image_line_width">97.0dp</dimen>
     <dimen name="item_image_width_line">97.5dp</dimen>
     <dimen name="item_image_height_line">76.0dp</dimen>
+    <dimen name="edit_text_left">20dp</dimen>
+    <dimen name="edit_text_right">20dp</dimen>
 </resources>

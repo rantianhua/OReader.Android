@@ -20,4 +20,5 @@
     <string name="no_internet">网络不可用，请检查网络设置</string>
     <string name="generic_error">未知错误</string>
     <string name="no_fav">暂无收藏</string>
+    <string name="publish">发布</string>
 </resources>

@@ -3,6 +3,7 @@ package cn.bandu.oreader;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,9 +35,11 @@ public class OReaderApplication extends Application {
 
     private ImageLoader mImageLoader;
 
+
     @Override
     public void onCreate(){
         super.onCreate();
+        Log.e("APPLICATION CREATE!", "");
         sInstance = this;
     }
 

@@ -45,6 +45,7 @@ public class MainActivity extends FragmentActivity {
         Log.e("cate name", mainPagerAdapter.CATEGORY.get(0).getName());
         if(mainPagerAdapter.getCount() < 2) {
             //TODO only one pager, we should hide indicator.
+//            tabTitle.setBackgroundResource(R.drawable.tab_indicator_none);
         }
         tabTitle.setViewPager(mainPager);
         initSlidingMenu();

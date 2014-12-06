@@ -27,4 +27,8 @@
     <color name="detail_divider_day">#ffb4b4b4</color>
     <color name="tab_backgroud">#FFE7E7E7</color>
     <color name="common_text">#FF3b3b3b</color>
+    <color name="comment_dlg_text">#ff333333</color>
+    <color name="comment_dlg_text_hint">#ff999999</color>
+    <color name="comment_dlg_bottom_hint">#ffbebebe</color>
+    <color name="report_btn_text">#ff505050</color>
 </resources>

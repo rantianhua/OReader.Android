@@ -1,31 +1,47 @@
 package cn.bandu.oreader.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.DrawableRes;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.bandu.oreader.OReaderApplication;
+import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
 import cn.bandu.oreader.tools.DataTools;
+import cn.bandu.oreader.tools.VolleyErrorHelper;
 
 /**
  * Created by yangmingfu on 14/11/14.
@@ -33,6 +49,8 @@ import cn.bandu.oreader.tools.DataTools;
 //@Fullscreen
 @EActivity(R.layout.activity_detail)
 public class DetailActivity extends Activity {
+
+    private final static String TAG = DetailActivity.class.getSimpleName();
 
     private Fav data;
 
@@ -44,6 +62,14 @@ public class DetailActivity extends Activity {
     TextView favorAction;
     @ViewById
     ProgressBar progressBar;
+    @DrawableRes(R.drawable.fav_selected)
+    Drawable fav_selected;
+
+
+    LayoutInflater inflater;
+    View dialogView;
+    AlertDialog dialog;
+    EditText commentText;
 
     private MainActivity_ mainActivity;
 
@@ -62,15 +88,15 @@ public class DetailActivity extends Activity {
         if (DataTools.isFavExists(this, data.getSid()) == true) {
             favorAction.setTag("selected");
             favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
-            Drawable drawable= getResources().getDrawable(R.drawable.fav_selected);
-            drawable.setBounds(0, 0, 30, 30);
-            favorAction.setCompoundDrawables(null, drawable, null, null);
+            fav_selected.setBounds(0, 0, 30, 30);
+            favorAction.setCompoundDrawables(null, fav_selected, null, null);
         }
     }
     private void initWebView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
+//        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
 
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
@@ -151,12 +177,71 @@ public class DetailActivity extends Activity {
 
     @Click
     public void commentWriteAction() {
+        //TODO login判断
 
+        inflater = (LayoutInflater) DetailActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        dialogView = inflater.inflate(R.layout.comment_dialog, null);
+        dialog = new AlertDialog.Builder(DetailActivity.this).setView(dialogView).show();
+        commentText = (EditText) dialogView.findViewById(R.id.commentText);
+
+//        commentText.setFocusable(true);
+//        commentText.setFocusableInTouchMode(true);
+//        commentText.requestFocus();
+//
+//
+//        InputMethodManager inputManager = (InputMethodManager)commentText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputManager.showSoftInput(commentText, 0);
+
+        dialogView.findViewById(R.id.publish_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String commentContent = commentText.getText().toString();
+                //TODO 内容合法判断
+
+                String url = String.format(OReaderConst.QUERY_COMMENT_COMMIT_URL, data.getSid());
+                StringRequest req = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //TODO 渲染到webview中
+                        try {
+                            //构造一个json对象
+                            JSONObject obj = new JSONObject();
+                            obj.put("content", commentContent);
+                            webView.loadUrl("javascript:insertComment('(" + obj.toString() + ")')");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("content = ", response);
+                        dialog.dismiss();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String message = VolleyErrorHelper.getMessage(error, DetailActivity.this);
+                        Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() {
+                        //在这里设置需要post的参数
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("content", commentContent);
+                        map.put("appid", OReaderApplication.getInstance().getAppid());
+                        map.put("sid", String.valueOf(data.getSid()));
+                        return map;
+                    }
+                };
+                //timeout 3s retry 0
+                req.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, 1.0f));
+                OReaderApplication.getInstance().addToRequestQueue(req, TAG);
+            }
+        });
     }
 
     @Click
     public void commentLookAction(){
-
+        webView.loadUrl("javascript:lookComment()");
     }
 
     @Click
@@ -173,9 +258,8 @@ public class DetailActivity extends Activity {
         } else {
             favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
             favorAction.setTag("selected");
-            Drawable drawable= getResources().getDrawable(R.drawable.fav_selected);
-            drawable.setBounds(0, 0, 30, 30);
-            favorAction.setCompoundDrawables(null, drawable, null, null);
+            fav_selected.setBounds(0, 0, 30, 30);
+            favorAction.setCompoundDrawables(null, fav_selected, null, null);
             FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
             data.setCreateTime(new Date().getTime());
             favDao.insertOrReplace(data);

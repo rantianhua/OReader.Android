@@ -32,7 +32,8 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
 
     @Override
     public Bitmap getBitmap(String url) {
-        return get(url);
+        Bitmap bitmap = get(url);
+        return bitmap;
     }
 
     @Override
