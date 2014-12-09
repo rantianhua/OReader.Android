@@ -22,18 +22,16 @@
         <TextView
             android:id="@+id/commentWriteAction"
             android:layout_width="fill_parent"
-            android:layout_height="40.0dp"
+            android:layout_height="@dimen/inner_bottom_bar_height"
             android:text="@string/comment_write"
             android:layout_weight="1"
             android:drawableTop="@drawable/write_comment"
-            android:background="@drawable/mine_item_bg"
             style="@style/tool_item_text" />
         <TextView
             android:id="@+id/commentLookAction"
             android:layout_width="fill_parent"
-            android:layout_height="40.0dp"
+            android:layout_height="@dimen/inner_bottom_bar_height"
             android:text="@string/comment_look"
-            android:background="@drawable/mine_item_bg"
             android:drawableTop="@drawable/look_comment"
             android:layout_weight="1"
             style="@style/tool_item_text" />
@@ -41,18 +39,16 @@
         <TextView
             android:id="@+id/favorAction"
             android:layout_width="fill_parent"
-            android:layout_height="40.0dp"
+            android:layout_height="@dimen/inner_bottom_bar_height"
             android:text="@string/favorite_text"
-            android:background="@drawable/mine_item_bg"
             android:layout_weight="1"
             style="@style/tool_item_text" />
         <TextView
             android:id="@+id/shareAction"
             android:layout_width="fill_parent"
-            android:layout_height="40.0dp"
+            android:layout_height="@dimen/inner_bottom_bar_height"
             android:text="@string/share_text"
             android:drawableTop="@drawable/share"
-            android:background="@drawable/mine_item_bg"
             android:layout_weight="1"
             android:textAlignment="center"
             style="@style/tool_item_text" />

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,6 +28,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.DrawableRes;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,9 +66,18 @@ public class DetailActivity extends Activity {
     TextView favorAction;
     @ViewById
     ProgressBar progressBar;
-    @DrawableRes(R.drawable.fav_selected)
-    Drawable fav_selected;
-
+    @DrawableRes(R.drawable.fav_pressed)
+    Drawable fav_pressed;
+    @DimensionPixelSizeRes
+    int inner_bottom_bar_image_height;
+    @ViewById
+    TextView editBtn;
+    @ViewById
+    TextView fontSize;
+    @ViewById
+    View tool_bar_layout;
+    @ViewById
+    View swipeContainer;
 
     LayoutInflater inflater;
     View dialogView;
@@ -84,21 +95,26 @@ public class DetailActivity extends Activity {
     }
     private void initTitleBar() {
         title.setText(data.getCateName());
+        editBtn.setVisibility(View.GONE);
+        fontSize.setVisibility(View.VISIBLE);
     }
     private void initBottomBar() {
-        Log.e("DataTools.isFavExists(this, data.getSid())", String.valueOf(DataTools.isFavExists(this, data.getSid())));
+        if (data.getSid() == 0) {
+            tool_bar_layout.setVisibility(View.GONE);
+            return;
+        }
         if (DataTools.isFavExists(this, data.getSid()) == true) {
             favorAction.setTag("selected");
             favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
-            fav_selected.setBounds(0, 0, 30, 30);
-            favorAction.setCompoundDrawables(null, fav_selected, null, null);
+            fav_pressed.setBounds(0, 0, inner_bottom_bar_image_height, inner_bottom_bar_image_height);
+            favorAction.setCompoundDrawables(null, fav_pressed, null, null);
         }
     }
     private void initWebView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
-//        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
+//        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
+        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
 
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
@@ -183,16 +199,13 @@ public class DetailActivity extends Activity {
 
         inflater = (LayoutInflater) DetailActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.comment_dialog, null);
-        dialog = new AlertDialog.Builder(DetailActivity.this).setView(dialogView).show();
+        dialog = new AlertDialog.Builder(this).setView(dialogView).show();
         commentText = (EditText) dialogView.findViewById(R.id.commentText);
+        commentText.requestFocus();
 
-//        commentText.setFocusable(true);
-//        commentText.setFocusableInTouchMode(true);
-//        commentText.requestFocus();
-//
-//
-//        InputMethodManager inputManager = (InputMethodManager)commentText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.showSoftInput(commentText, 0);
+        InputMethodManager inputManager = (InputMethodManager)commentText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(commentText, InputMethodManager.SHOW_FORCED);
+
 
         dialogView.findViewById(R.id.publish_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,9 +218,8 @@ public class DetailActivity extends Activity {
                 StringRequest req = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //TODO 渲染到webview中
                         try {
-                            //构造一个json对象
+                            //TODO 构造一个json对象,带头像的
                             JSONObject obj = new JSONObject();
                             obj.put("content", commentContent);
                             webView.loadUrl("javascript:insertComment('(" + obj.toString() + ")')");
@@ -255,13 +267,13 @@ public class DetailActivity extends Activity {
             FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
             favDao.deleteByKey(data.getSid());
             Drawable drawable= getResources().getDrawable(R.drawable.fav_normal);
-            drawable.setBounds(0, 0, 30, 30);
+            drawable.setBounds(0, 0, inner_bottom_bar_image_height, inner_bottom_bar_image_height);
             favorAction.setCompoundDrawables(null, drawable, null, null);
         } else {
             favorAction.setTextAppearance(this, R.style.tool_item_text_selected);
             favorAction.setTag("selected");
-            fav_selected.setBounds(0, 0, 30, 30);
-            favorAction.setCompoundDrawables(null, fav_selected, null, null);
+            fav_pressed.setBounds(0, 0, inner_bottom_bar_image_height, inner_bottom_bar_image_height);
+            favorAction.setCompoundDrawables(null, fav_pressed, null, null);
             FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
             data.setCreateTime(new Date().getTime());
             favDao.insertOrReplace(data);
@@ -278,27 +290,28 @@ public class DetailActivity extends Activity {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
-
-    // 分享时Notification的图标和文字
+        // 分享时Notification的图标和文字
         oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(getString(R.string.share));
+        oks.setTitle(data.getTitle());
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://sharesdk.cn");
+        oks.setTitleUrl(data.getWebUrl());
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
+        oks.setText(data.getTitle());
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+//        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        if (data.getImage0() != null && data.getImage0() !=  "") {
+            oks.setImageUrl(data.getImage0());
+        }
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
+        oks.setUrl(data.getWebUrl());
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
+//        oks.setComment("我是测试评论文本");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
-
-// 启动分享GUI
+        oks.setSiteUrl(data.getWebUrl());
+        // 启动分享GUI
         oks.show(this);
     }
 }

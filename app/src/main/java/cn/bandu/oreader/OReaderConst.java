@@ -18,4 +18,6 @@ public class OReaderConst {
     public static String QUERY_CATE_URL = QUERY_HOST + "getCate.php?appid=%d";
     public static String QUERY_LIST_URL = QUERY_HOST + "getList.php?appid=" + OReaderApplication.getInstance().getAppid() + "&nav=%d&page=%d&size=" + onceNum;
     public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "comment.php";
+    public static final String ABOUT_URL = QUERY_HOST + "about.html";
+
 }

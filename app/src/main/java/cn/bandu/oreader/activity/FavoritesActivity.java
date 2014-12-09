@@ -1,29 +1,26 @@
 package cn.bandu.oreader.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.ListAdapter;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
-import cn.bandu.oreader.fragments.MainListViewFragment_;
 import cn.bandu.oreader.tools.DataTools;
 
 
@@ -33,7 +30,6 @@ import cn.bandu.oreader.tools.DataTools;
 @Fullscreen
 @EActivity(R.layout.activity_favorites)
 public class FavoritesActivity extends FragmentActivity {
-    private MainListViewFragment_ mainListViewFragment;
 
     @ViewById
     TextView title;
@@ -47,19 +43,25 @@ public class FavoritesActivity extends FragmentActivity {
 
     @ViewById
     ListView favList;
+    @ViewById
+    TextView editBtn;
+    @ViewById
+    TextView fontSize;
+
+    int flag = 0;
+
+
+    @AfterViews
+    public void afterViews() {
+        editBtn.setVisibility(View.VISIBLE);
+        fontSize.setVisibility(View.GONE);
+    }
 
     @Override
     protected void onStart() {
-        datas = new ArrayList<Fav>();
         title.setText("我的收藏");
-        favDao = OReaderApplication.getDaoSession(this).getFavDao();
-
-        SQLiteDatabase db = OReaderApplication.getDaoMaster(this).getDatabase();
-        String textColumn = FavDao.Properties.CreateTime.columnName;
-        String orderBy = textColumn + " COLLATE LOCALIZED DESC";
-        Cursor cursor = db.query(favDao.getTablename(), favDao.getAllColumns(), null, null, null, null, orderBy);
-
-        adapter = new ListAdapter(this, DataTools.cursorToFav(cursor, datas));
+        datas = DataTools.getFavList(this);
+        adapter = new ListAdapter(this, datas);
         favList.setAdapter(adapter);
 
         if (datas.size() <=0 ) {
@@ -80,6 +82,8 @@ public class FavoritesActivity extends FragmentActivity {
 
     @ItemClick
     void favList(int position) {
+        Log.e("position", String.valueOf(position));
+
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("data", datas.get(position));
@@ -91,5 +95,15 @@ public class FavoritesActivity extends FragmentActivity {
 
         this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
+    }
+
+    @Click
+    public void editBtn() {
+        flag = (flag+1)%2;
+        int count = favList.getChildCount();
+        int visible = flag == 1 ?  View.VISIBLE : View.GONE;
+          for (int i=0;i<count;i++) {
+            favList.getChildAt(i).findViewById(R.id.conDel).setVisibility(visible);
+        }
     }
 }

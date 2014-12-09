@@ -9,10 +9,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.dao.Cate;
-import cn.bandu.oreader.dao.CateDao;
 import cn.bandu.oreader.fragments.MainListViewFragment_;
+import cn.bandu.oreader.tools.DataTools;
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -46,12 +45,11 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private void getCateGory() {
-        CateDao cateDao = OReaderApplication.getDaoSession(activity).getCateDao();
-        CATEGORY = cateDao.loadAll();
+        CATEGORY = DataTools.getCateDataFromDB(activity);
         Log.e("CATEGORY size = ", String.valueOf(CATEGORY.size()));
         if (CATEGORY == null || CATEGORY.size() == 0) {
             CATEGORY = new ArrayList<Cate>();
-            CATEGORY.add(new Cate(0, "推荐", 0));
+            CATEGORY.add(new Cate(0, "推荐", 0, 1));
         }
     }
 }

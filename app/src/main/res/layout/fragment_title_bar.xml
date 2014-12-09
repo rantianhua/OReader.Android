@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout style="@style/nav_title_bar_style"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/nav_title_bar_style">
     <TextView
         android:id="@+id/backTextView"
         style="@style/detail_back_view" />
-    <TextView android:id="@id/title"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="18.0dp"
-        style="@style/deail_title_text_style" />
+        style="@style/detaill_title_text_style" />
+    <TextView
+        android:id="@+id/editBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fav_edit"
+        android:layout_alignParentEnd="true"
+        android:ellipsize="marquee"
+        android:layout_centerInParent="true"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/fontSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@color/black"
+        android:layout_alignParentEnd="true"
+        android:ellipsize="marquee"
+        android:layout_centerInParent="true"
+        android:singleLine="true"/>
 </RelativeLayout>

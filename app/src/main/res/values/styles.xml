@@ -110,8 +110,8 @@
     </style>
 
 
-    <style name="deail_title_text_style">
-        <item name="android:textColor">@color/detail_title_text_color</item>
+    <style name="detaill_title_text_style">
+        <item name="android:textColor">@color/black</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center</item>
         <item name="android:singleLine">true</item>
@@ -150,7 +150,7 @@
     </style>
 
     <style name="mine_item_text">
-        <item name="android:textSize">14.0dp</item>
+        <item name="android:textSize">16.0dp</item>
         <item name="android:textColor">@color/mine_item_text</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_vertical</item>
@@ -168,7 +168,7 @@
         <item name="android:paddingLeft">8dp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">44.0dp</item>
+        <item name="android:minHeight">50.0dp</item>
     </style>
 
     <style name="mine_arrow">
@@ -196,10 +196,10 @@
         <item name="android:drawablePadding">-3dp</item>
     </style>
     <style name="tool_item_text_selected" parent="mine_item_text">
-        <item name="android:drawableTop">@drawable/fav_selected</item>
+        <item name="android:drawableTop">@drawable/fav_pressed</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/blue</item>
     </style>
     <style name="nav_title_bar_style" parent="@style/title_bar_style">
         <item name="android:layout_height">50.0dp</item>

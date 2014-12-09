@@ -1,9 +1,9 @@
 package cn.bandu.oreader.tools;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,8 +23,11 @@ public class DataTools {
     public static List<Cate> getCateDataFromDB(Context context) {
         DaoSession daoSession = OReaderApplication.getDaoSession(context);
         CateDao cateDao = daoSession.getCateDao();
-        if (cateDao.loadAll().size() > 0) {
-            return cateDao.loadAll();
+        List<Cate> data = cateDao.queryBuilder()
+                .orderAsc(CateDao.Properties.Sort)
+                .list();
+        if (data != null && data.size() > 0) {
+            return data;
         }
         return null;
     }
@@ -48,25 +51,13 @@ public class DataTools {
         }
         return false;
     }
-
-    public static List<Fav> cursorToFav(Cursor cursor, List<Fav> datas) {
-        for(cursor.moveToFirst();!cursor.isAfterLast();cursor.moveToNext()) {
-            Fav fav = new Fav(
-                    cursor.getLong(cursor.getColumnIndex(FavDao.Properties.Sid.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.Title.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.Description.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.Date.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.WebUrl.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.Image0.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.Image1.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.Image2.columnName)),
-                    cursor.getInt(cursor.getColumnIndex(FavDao.Properties.Model.columnName)),
-                    cursor.getLong(cursor.getColumnIndex(FavDao.Properties.Cateid.columnName)),
-                    cursor.getString(cursor.getColumnIndex(FavDao.Properties.CateName.columnName)),
-                    cursor.getLong(cursor.getColumnIndex(FavDao.Properties.CreateTime.columnName))
-            );
-            datas.add(fav);
-        }
+    public static List<Fav> getFavList(Context context) {
+        List<Fav> datas = new ArrayList<Fav>();
+        DaoSession daoSession = OReaderApplication.getDaoSession(context);
+        FavDao favDao = daoSession.getFavDao();
+        datas = favDao.queryBuilder()
+                .orderDesc(FavDao.Properties.CreateTime)
+                .list();
         return datas;
     }
 }

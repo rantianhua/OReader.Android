@@ -6,7 +6,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -54,6 +55,16 @@
                 android:layout_below="@id/description"
                 style="@style/item_secondary_text"
                 android:layout_marginTop="@dimen/item_inner_margin_height" />
+            <Button
+                android:id="@+id/conDel"
+                android:layout_width="60.0dp"
+                android:layout_height="40.0dp"
+                android:layout_alignRight="@id/right_image_table"
+                android:background="@drawable/del_fav"
+                android:text="删除"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone"/>
         </RelativeLayout>
         <ImageView
             android:layout_width="fill_parent"

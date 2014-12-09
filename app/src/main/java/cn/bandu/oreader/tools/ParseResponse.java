@@ -58,6 +58,7 @@ public class ParseResponse {
             cate.setSid(item.getLong("sid"));
             cate.setName(item.getString("name"));
             cate.setDate(new Date().getTime());
+            cate.setSort(item.getInt("sort"));
             data.add(cate);
         }
         return data;

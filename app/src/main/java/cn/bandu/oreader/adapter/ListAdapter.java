@@ -16,6 +16,7 @@ import java.util.List;
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.Fav;
+import cn.bandu.oreader.dao.FavDao;
 
 /**
  * Created by yangmingfu on 14-11-11.
@@ -71,7 +72,7 @@ public class ListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public View getView(final int i, View convertView, ViewGroup viewGroup) {
         Log.i("image model=", String.valueOf(datas.get(i).getModel()));
         switch (getItemViewType(i)) {
             case 0 : convertView = initTextView(i, convertView);break;
@@ -80,6 +81,15 @@ public class ListAdapter extends BaseAdapter {
             case 3 : convertView = initImgsTextView(i, convertView);break;
             default: convertView = initTextView(i, convertView);break;
         }
+        convertView.findViewById(R.id.conDel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FavDao favDao = OReaderApplication.getDaoSession(myContext).getFavDao();
+                favDao.deleteByKey(datas.get(i).getSid());
+                datas.remove(i);
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 

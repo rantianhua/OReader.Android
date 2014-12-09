@@ -19,4 +19,6 @@
     <dimen name="item_image_height_line">76.0dp</dimen>
     <dimen name="edit_text_left">20dp</dimen>
     <dimen name="edit_text_right">20dp</dimen>
+    <dimen name="inner_bottom_bar_height">44.0dp</dimen>
+    <dimen name="inner_bottom_bar_image_height">23.0dp</dimen>
 </resources>

@@ -1,6 +1,7 @@
 package cn.bandu.oreader.activity;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 
@@ -49,6 +50,7 @@ public class WelcomeActivity extends Activity {
 
     @AfterViews
     public void afterViews() {
+
         //从DB中获取
         cateList = DataTools.getCateDataFromDB(this);
         if (cateList != null && false == DataTools.isExpired(cateList.get(0).getDate())) {
@@ -85,11 +87,15 @@ public class WelcomeActivity extends Activity {
         req.setRetryPolicy(new DefaultRetryPolicy(1 * 1000, 1, 1.0f));
         OReaderApplication.getInstance().addToRequestQueue(req, TAG);
     }
-
     private void startMain() {
-        MainActivity_.intent(WelcomeActivity.this).start();
-        appPrefs.splash().put(false);
-        WelcomeActivity.this.finish();
-        WelcomeActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_in);
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                MainActivity_.intent(WelcomeActivity.this).start();
+                appPrefs.splash().put(false);
+                WelcomeActivity.this.finish();
+                WelcomeActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_in);
+            }
+        }, 2000);
     }
 }

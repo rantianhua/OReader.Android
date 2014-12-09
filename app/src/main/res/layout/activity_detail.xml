@@ -8,11 +8,21 @@
         android:id="@+id/title_bar"
         layout="@layout/fragment_title_bar" />
     <FrameLayout
+        android:id="@+id/tool_bar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+        <include
+            layout="@layout/fragment_bottom_bar"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </FrameLayout>
+    <FrameLayout
         android:id="@+id/swipeContainer"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_bar_height"
-        android:layout_below="@id/title_bar">
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_bar"
+        android:layout_above="@id/tool_bar_layout">
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
@@ -25,18 +35,8 @@
             android:layout_gravity="center"
             android:max="100"
             style="@style/CustomTabPageIndicator.Text" />
-        </FrameLayout>
+    </FrameLayout>
     <View android:layout_below="@id/title_bar" style="@style/title_bar_shadow" />
     <View android:layout_below="@id/swipeContainer" style="@style/title_bar_shadow" />
-    <FrameLayout
-        android:id="@+id/tool_bar_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-        <include
-            layout="@layout/fragment_bottom_bar"
-            android:layout_below="@id/swipeContainer"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-    </FrameLayout>
+
 </RelativeLayout>

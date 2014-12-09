@@ -51,7 +51,7 @@
     -->
     
     <ShareSDK 
-        AppKey = "androidv1101"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
+        AppKey = "496bbd704ef6"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
     
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo
@@ -147,7 +147,7 @@
         ApiKey="fc5b8aed373c4c27a05b712acba0f8c3"
         SecretKey="f29df781abdd4f49beca5a2194676ca4"
         Enable="true" />
-    
+
     <KaiXin
         Id="11"
         SortId="11"
@@ -155,7 +155,7 @@
         AppSecret="da32179d859c016169f66d90b6db2a23"
         RedirectUri="http://www.sharesdk.cn"
         Enable="true" />
-    
+
     <Email
         Id="12" 
         SortId="12"
@@ -165,7 +165,7 @@
         Id="13" 
         SortId="13"
         Enable="true" />
-    
+
     <Douban
         Id="16"
         SortId="16"
@@ -173,7 +173,7 @@
         Secret="9f1e7b4f71304f2f"
         RedirectUri="http://www.sharesdk.cn"
         Enable="true" />
-    
+
     <YouDao
         Id="17"
         SortId="17"
@@ -182,7 +182,7 @@
         ConsumerSecret="d98217b4020e7f1874263795f44838fe"
         RedirectUri="http://www.sharesdk.cn/"
         Enable="true" />
-        
+
 	<SohuSuishenkan
         Id="18"
         SortId="18"
