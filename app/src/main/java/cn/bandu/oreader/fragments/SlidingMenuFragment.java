@@ -44,7 +44,7 @@ public class SlidingMenuFragment extends Fragment{
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 //TODO 删除缓存
-                Toast.makeText(getActivity(), "清除成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "清除成功", Toast.LENGTH_SHORT).show();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override

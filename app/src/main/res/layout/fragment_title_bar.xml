@@ -17,9 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/fav_edit"
-        android:layout_alignParentEnd="true"
         android:ellipsize="marquee"
         android:layout_centerInParent="true"
+        android:layout_alignRight="@id/title"
         android:singleLine="true"/>
 
     <TextView
@@ -27,8 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableRight="@color/black"
-        android:layout_alignParentEnd="true"
         android:ellipsize="marquee"
         android:layout_centerInParent="true"
+        android:layout_alignRight="@id/title"
         android:singleLine="true"/>
 </RelativeLayout>

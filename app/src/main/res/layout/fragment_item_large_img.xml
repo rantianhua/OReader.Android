@@ -19,6 +19,16 @@
             <TextView android:ellipsize="end"
                 android:id="@+id/title"
                 style="@style/item_title" />
+            <Button
+                android:id="@+id/conDel"
+                android:layout_width="60.0dp"
+                android:layout_height="40.0dp"
+                android:layout_alignRight="@id/title"
+                android:background="@drawable/del_fav"
+                android:text="删除"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/description"
                 android:layout_width="fill_parent"
@@ -40,7 +50,8 @@
                     android:layout_width="340.0dp"
                     android:layout_gravity="center"
                     android:gravity="center|center_vertical|center_horizontal">
-                    <com.android.volley.toolbox.NetworkImageView                        android:id="@+id/large_image"
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/large_image"
                         android:layout_width="340dp"
                         android:layout_height="175dp"
                         android:scaleType="fitXY"
