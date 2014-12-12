@@ -2,6 +2,9 @@ package cn.bandu.oreader;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -10,8 +13,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.jakewharton.disklrucache.DiskLruCache;
 
 import org.androidannotations.annotations.EApplication;
+
+import java.io.File;
+import java.io.IOException;
 
 import cn.bandu.oreader.dao.DaoMaster;
 import cn.bandu.oreader.dao.DaoSession;
@@ -31,9 +38,12 @@ public class OReaderApplication extends Application {
 
     private static OReaderApplication sInstance;
 
+    private static DiskLruCache diskLruCache = null;
+
     private RequestQueue mRequestQueue;
 
     private ImageLoader mImageLoader;
+
 
 
     @Override
@@ -147,4 +157,38 @@ public class OReaderApplication extends Application {
     public static String getAppid() {
         return "111";
     }
+
+    public int getAppVersion() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+    public DiskLruCache getDiskLruCache(String uniqueName) {
+        try {
+            diskLruCache = DiskLruCache.open(getDiskCacheDir(uniqueName), OReaderApplication.getInstance().getAppVersion(), 1, OReaderConst.DISK_MAX_SIZE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return diskLruCache;
+    }
+
+    /**
+     * 获取disk缓存位置
+     * @param uniqueName
+     * @return
+     */
+    public File getDiskCacheDir(String uniqueName) {
+        String cachePath;
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            cachePath = String.valueOf(Environment.getExternalStorageDirectory());
+        } else {
+            cachePath = this.getCacheDir().getPath();
+        }
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
 }

@@ -5,13 +5,18 @@ package cn.bandu.oreader;
  */
 public class OReaderConst {
 
+
     //图片缓存模式，默认是disk，可选lru与disk
     public static String IMAGE_CACHE_PATTERN = "disk";
+    public static String DISK_IMAGE_CACHE_DIR = "image";
+
 
     public static String DATABASE_NAME = "OREADER";
     public static int onceNum = 10;
 
     public static long expired = 86400000;
+    //硬盘存储空间
+    public static final long DISK_MAX_SIZE = 10 * 1024 * 1024;
 
 
     public static String QUERY_HOST = "http://app.51tbzb.cn/";

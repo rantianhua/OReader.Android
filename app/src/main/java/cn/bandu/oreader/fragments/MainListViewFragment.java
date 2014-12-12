@@ -3,7 +3,6 @@ package cn.bandu.oreader.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +70,6 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
         listSwipeContainer.setLoadNoFull(false);
 
         adapter = new ListAdapter(getActivity(), datas);
-        Log.e("datas=", String.valueOf(datas.size()));
         list.setAdapter(adapter);
         initDefaultData();
     }
@@ -89,6 +88,7 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
     public void onRefresh() {
         page = 1;
         String FirstPage = String.format(OReaderConst.QUERY_LIST_URL, cate.getSid(), page);
+        datas.clear();
         requestDataFromNet(FirstPage);
     }
 
@@ -194,6 +194,21 @@ public class MainListViewFragment extends Fragment implements SwipeRefreshLayout
     public void onDestroy() {
         //取消所有该页面网络请求
         OReaderApplication.getInstance().cancelPendingRequests(TAG);
+        try {
+            OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

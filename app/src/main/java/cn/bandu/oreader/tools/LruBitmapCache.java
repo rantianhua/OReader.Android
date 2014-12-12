@@ -2,7 +2,6 @@ package cn.bandu.oreader.tools;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
@@ -17,15 +16,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import cn.bandu.oreader.OReaderApplication;
+import cn.bandu.oreader.OReaderConst;
 
 /**
  * Created by yangmingfu on 14/12/2.
  */
 public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache {
 
-    DiskLruCache diskLruCache;
-    String DISK_CACHE_DIR = "image";
-    final long DISK_MAX_SIZE = 10 * 1024 * 1024;
+
 
     public static int getDefaultLruCacheSize() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -37,13 +35,10 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
 
     public LruBitmapCache() {
         this(getDefaultLruCacheSize());
-        File cacheDir = getDiskCacheDir(DISK_CACHE_DIR);
+        File cacheDir = OReaderApplication.getInstance().getDiskCacheDir(OReaderConst.DISK_IMAGE_CACHE_DIR);
+        Log.e("CacheDir=", String.valueOf(cacheDir));
         if(!cacheDir.exists()) {
             cacheDir.mkdir();
-        } try {
-            diskLruCache = DiskLruCache.open(cacheDir, 1, 1, DISK_MAX_SIZE);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -60,14 +55,15 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     public Bitmap getBitmap(String url) {
         String key = hashKeyForDisk(url);
         Bitmap bitmap = get(url);
+        Log.e("lru url bitmap", url + bitmap);
         if (bitmap == null) {
-            Log.e("get from disklru=", url);
             bitmap = getBitmapFromDiskLruCache(key);
+            Log.e("disk url bitmap", url + bitmap);
+
             if(bitmap != null) {
                 put(url, bitmap);
             }
         }
-        Log.e("get bitmap=", String.valueOf(bitmap));
         return bitmap;
     }
 
@@ -78,24 +74,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
         putBitmapToDiskLruCache(key, bitmap);
     }
 
-    /**
-     * 获取disk缓存位置
-     * @param uniqueName
-     * @return
-     */
-    public File getDiskCacheDir(String uniqueName) {
-        String cachePath;
-        Log.e("Environment.MEDIA_MOUNTED", Environment.MEDIA_MOUNTED);
-        Log.e("Environment.getExternalStorageState", Environment.getExternalStorageState());
 
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-            cachePath = String.valueOf(Environment.getExternalStorageDirectory());
-        } else {
-            cachePath = OReaderApplication.getInstance().getCacheDir().getPath();
-        }
-        Log.e("cachePath=", cachePath);
-        return new File(cachePath + File.separator + uniqueName);
-    }
 
     /**
      * 从disk中获取图片
@@ -104,7 +83,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
      */
     private Bitmap getBitmapFromDiskLruCache(String key) {
         try {
-            DiskLruCache.Snapshot snapshot = diskLruCache.get(key);
+            DiskLruCache.Snapshot snapshot = OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).get(key);
             if (snapshot!=null) {
                 InputStream inputStream = snapshot.getInputStream(0);
                 if (inputStream != null) {
@@ -126,19 +105,20 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
      */
     private void putBitmapToDiskLruCache(String key, Bitmap bitmap) {
         try {
-            DiskLruCache.Editor editor = diskLruCache.edit(key);
+            DiskLruCache.Editor editor = OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).edit(key);
 
             if(editor != null) {
                 OutputStream outputStream = editor.newOutputStream(0);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-                editor.commit();
+                if (bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)) {
+                    editor.commit();
+                } else {
+                    editor.abort();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     public String hashKeyForDisk(String key) {

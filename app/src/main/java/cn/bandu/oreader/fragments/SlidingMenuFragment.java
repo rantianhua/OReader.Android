@@ -5,12 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
+import java.io.IOException;
+
+import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.DetailActivity_;
@@ -23,9 +28,11 @@ import cn.bandu.oreader.dao.Fav;
 @EFragment(R.layout.fragment_sliding_menu)
 public class SlidingMenuFragment extends Fragment{
 
+    @ViewById
+    TextView clear_cacahe;
+
     @AfterViews
     public void afterViews() {
-
     }
 
     @Click
@@ -44,7 +51,13 @@ public class SlidingMenuFragment extends Fragment{
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 //TODO 删除缓存
-                Toast.makeText(getActivity(), "清除成功", Toast.LENGTH_SHORT).show();
+                float size = OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).size()/1024/1024;
+                try {
+                    OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).delete();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getActivity(), "清除成功,共删除" + size + "M", Toast.LENGTH_SHORT).show();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
