@@ -3,6 +3,7 @@ package cn.bandu.oreader.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -196,17 +197,20 @@ public class DetailActivity extends Activity {
     @Click
     public void commentWriteAction() {
         //TODO login判断
-
         inflater = (LayoutInflater) DetailActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.comment_dialog, null);
-        dialog = new AlertDialog.Builder(this).setView(dialogView).show();
+        final AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
+        dialog = alertDialog.create();;
         commentText = (EditText) dialogView.findViewById(R.id.commentText);
-        commentText.requestFocus();
 
-        InputMethodManager inputManager = (InputMethodManager)commentText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(commentText, InputMethodManager.SHOW_FORCED);
-
-
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(commentText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+        dialog.setView(dialogView);
+        dialog.show();
         dialogView.findViewById(R.id.publish_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
