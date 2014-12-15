@@ -7,6 +7,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/imgView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <ImageView
+        android:id="@+id/download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15.0dip"
+        android:layout_marginBottom="15.0dip"
+        android:src="@drawable/image_download"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

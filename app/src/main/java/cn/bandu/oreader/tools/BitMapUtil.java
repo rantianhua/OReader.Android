@@ -22,4 +22,5 @@ public class BitMapUtil {
             return null;
         }
     }
+
 }

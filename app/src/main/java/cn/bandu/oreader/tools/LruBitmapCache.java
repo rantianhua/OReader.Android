@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.OReaderConst;
@@ -29,7 +27,6 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         Log.e("maxMemory", String.valueOf(Runtime.getRuntime().maxMemory()));
         final int cacheSize = maxMemory / 8;
-
         return cacheSize;
     }
 
@@ -53,7 +50,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
 
     @Override
     public Bitmap getBitmap(String url) {
-        String key = hashKeyForDisk(url);
+        String key = DataTools.hashKeyForDisk(url);
         Bitmap bitmap = get(url);
         Log.e("lru url bitmap", url + bitmap);
         if (bitmap == null) {
@@ -70,11 +67,9 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     @Override
     public void putBitmap(String url, Bitmap bitmap) {
         put(url, bitmap);
-        String key = hashKeyForDisk(url);
+        String key = DataTools.hashKeyForDisk(url);
         putBitmapToDiskLruCache(key, bitmap);
     }
-
-
 
     /**
      * 从disk中获取图片
@@ -106,7 +101,6 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     private void putBitmapToDiskLruCache(String key, Bitmap bitmap) {
         try {
             DiskLruCache.Editor editor = OReaderApplication.getInstance().getDiskLruCache(OReaderConst.DISK_IMAGE_CACHE_DIR).edit(key);
-
             if(editor != null) {
                 OutputStream outputStream = editor.newOutputStream(0);
                 if (bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)) {
@@ -120,28 +114,4 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
         }
     }
 
-
-    public String hashKeyForDisk(String key) {
-        String cacheKey;
-        try {
-            final MessageDigest mDigest = MessageDigest.getInstance("MD5");
-            mDigest.update(key.getBytes());
-            cacheKey = bytesToHexString(mDigest.digest());
-        } catch (NoSuchAlgorithmException e) {
-            cacheKey = String.valueOf(key.hashCode());
-        }
-        return cacheKey;
-    }
-
-    private String bytesToHexString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
-            if (hex.length() == 1) {
-                sb.append('0');
-            }
-            sb.append(hex);
-        }
-        return sb.toString();
-    }
 }

@@ -45,8 +45,6 @@ import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
 import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.VolleyErrorHelper;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
  * Created by yangmingfu on 14/11/14.
@@ -200,17 +198,19 @@ public class DetailActivity extends Activity {
         inflater = (LayoutInflater) DetailActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.comment_dialog, null);
         final AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
-        dialog = alertDialog.create();;
+        dialog = alertDialog.create();
         commentText = (EditText) dialogView.findViewById(R.id.commentText);
-
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             public void onShow(DialogInterface dialog) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(commentText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
+
         dialog.setView(dialogView);
         dialog.show();
+
+
         dialogView.findViewById(R.id.publish_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,35 +287,8 @@ public class DetailActivity extends Activity {
 
     @Click
     public void shareAction() {
-        showShare();
+        DataTools.showShare(this, data.getTitle(), data.getDescription(), data.getWebUrl(), data.getImage0());
     }
-    private void showShare() {
-        ShareSDK.initSDK(this);
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-        // 分享时Notification的图标和文字
-        oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(data.getTitle());
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl(data.getWebUrl());
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText(data.getTitle());
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-        if (data.getImage0() != null && data.getImage0() !=  "") {
-            oks.setImageUrl(data.getImage0());
-        }
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(data.getWebUrl());
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-//        oks.setComment("我是测试评论文本");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl(data.getWebUrl());
-        // 启动分享GUI
-        oks.show(this);
-    }
+
+
 }

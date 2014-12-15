@@ -46,6 +46,7 @@ public class OReaderApplication extends Application {
 
 
 
+
     @Override
     public void onCreate(){
         super.onCreate();
@@ -167,6 +168,19 @@ public class OReaderApplication extends Application {
         }
         return 1;
     }
+
+    public String getAppName() {
+        String appName = "";
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            appName = info.applicationInfo.loadLabel(getPackageManager()).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appName;
+    }
+
+
     public DiskLruCache getDiskLruCache(String uniqueName) {
         try {
             diskLruCache = DiskLruCache.open(getDiskCacheDir(uniqueName), OReaderApplication.getInstance().getAppVersion(), 1, OReaderConst.DISK_MAX_SIZE);
