@@ -25,5 +25,6 @@ public class OReaderConst {
     public static String QUERY_LIST_URL = QUERY_HOST + "getList.php?appid=" + OReaderApplication.getInstance().getAppid() + "&nav=%d&page=%d&size=" + onceNum;
     public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "comment.php";
     public static final String ABOUT_URL = QUERY_HOST + "about.html";
+    public static final String STAT_URL = QUERY_HOST + "stat.gif?appid=%s";
 
 }
