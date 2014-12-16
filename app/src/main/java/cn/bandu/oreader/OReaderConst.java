@@ -5,9 +5,6 @@ package cn.bandu.oreader;
  */
 public class OReaderConst {
 
-
-    //图片缓存模式，默认是disk，可选lru与disk
-    public static String IMAGE_CACHE_PATTERN = "disk";
     public static String DISK_IMAGE_CACHE_DIR = "image";
 
 
@@ -26,5 +23,4 @@ public class OReaderConst {
     public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "comment.php";
     public static final String ABOUT_URL = QUERY_HOST + "about.html";
     public static final String STAT_URL = QUERY_HOST + "stat.gif?appid=%s";
-
 }

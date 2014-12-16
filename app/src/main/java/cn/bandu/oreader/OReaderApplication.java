@@ -62,6 +62,7 @@ public class OReaderApplication extends Application {
             sendStatCode();
             updateFirestUsed();
         }
+        getAppName();
     }
 
     /**
@@ -165,7 +166,7 @@ public class OReaderApplication extends Application {
     }
 
     public static String getAppid() {
-        return "111";
+        return OReaderApplication.getInstance().getResources().getString(R.string.appid);
     }
 
     public int getAppVersion() {
@@ -186,6 +187,7 @@ public class OReaderApplication extends Application {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        Log.e("appname = ", appName);
         return appName;
     }
 
