@@ -38,5 +38,4 @@
     </FrameLayout>
     <View android:layout_below="@id/title_bar" style="@style/title_bar_shadow" />
     <View android:layout_below="@id/swipeContainer" style="@style/title_bar_shadow" />
-
 </RelativeLayout>

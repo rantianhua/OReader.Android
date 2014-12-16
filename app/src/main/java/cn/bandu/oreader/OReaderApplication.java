@@ -2,16 +2,21 @@ package cn.bandu.oreader;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jakewharton.disklrucache.DiskLruCache;
 
@@ -52,6 +57,11 @@ public class OReaderApplication extends Application {
         super.onCreate();
         Log.e("APPLICATION CREATE!", "");
         sInstance = this;
+        if (isFirstUsed() == true) {
+            //TODO 记安装log
+            sendStatCode();
+            updateFirestUsed();
+        }
     }
 
     /**
@@ -124,7 +134,6 @@ public class OReaderApplication extends Application {
         return this.mImageLoader;
     }
 
-
     /**
      * 取得DaoMaster
      *
@@ -192,6 +201,7 @@ public class OReaderApplication extends Application {
 
     /**
      * 获取disk缓存位置
+     *
      * @param uniqueName
      * @return
      */
@@ -205,4 +215,47 @@ public class OReaderApplication extends Application {
         return new File(cachePath + File.separator + uniqueName);
     }
 
+    /**
+     * 判断是否是第一次使用
+     *
+     * @return false:已经使用过 true:第一次使用
+     */
+    public boolean isFirstUsed() {
+
+        Boolean isFirstIn = false;
+        SharedPreferences pref = this.getSharedPreferences("OREADER", 0);
+        //取得相应的值，如果没有该值，说明还未写入，用true作为默认值
+        isFirstIn = pref.getBoolean("isFirstIn", true);
+        Log.e("isFirstIn=", String.valueOf(isFirstIn));
+        return isFirstIn;
+    }
+
+    /**
+     * 更新第一次使用标识
+     */
+    public void updateFirestUsed() {
+        SharedPreferences pref = this.getSharedPreferences("OREADER", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("isFirstIn", false);
+        editor.commit();
+    }
+
+    public void sendStatCode() {
+        String url = String.format(OReaderConst.STAT_URL, this.getAppid());
+        this.getRequestQueue().getCache().invalidate(url, true);
+        Log.e("stat url = ", url);
+        StringRequest req = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("stat start", "stat start");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        //timeout 3s retry 1
+        req.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 1, 1.0f));
+        OReaderApplication.getInstance().addToRequestQueue(req, TAG);
+    }
 }
