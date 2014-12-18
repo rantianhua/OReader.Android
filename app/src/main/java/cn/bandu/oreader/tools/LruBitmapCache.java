@@ -3,7 +3,6 @@ package cn.bandu.oreader.tools;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
-import android.util.Log;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 import com.jakewharton.disklrucache.DiskLruCache;
@@ -25,7 +24,6 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
 
     public static int getDefaultLruCacheSize() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        Log.e("maxMemory", String.valueOf(Runtime.getRuntime().maxMemory()));
         final int cacheSize = maxMemory / 8;
         return cacheSize;
     }
@@ -33,7 +31,6 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     public LruBitmapCache() {
         this(getDefaultLruCacheSize());
         File cacheDir = OReaderApplication.getInstance().getDiskCacheDir(OReaderConst.DISK_IMAGE_CACHE_DIR);
-        Log.e("CacheDir=", String.valueOf(cacheDir));
         if(!cacheDir.exists()) {
             cacheDir.mkdir();
         }
@@ -52,11 +49,8 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     public Bitmap getBitmap(String url) {
         String key = DataTools.hashKeyForDisk(url);
         Bitmap bitmap = get(url);
-        Log.e("lru url bitmap", url + bitmap);
         if (bitmap == null) {
             bitmap = getBitmapFromDiskLruCache(key);
-            Log.e("disk url bitmap", url + bitmap);
-
             if(bitmap != null) {
                 put(url, bitmap);
             }
@@ -113,5 +107,4 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
             e.printStackTrace();
         }
     }
-
 }

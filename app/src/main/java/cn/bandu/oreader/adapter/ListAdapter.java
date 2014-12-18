@@ -15,34 +15,33 @@ import java.util.List;
 
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
-import cn.bandu.oreader.dao.Fav;
+import cn.bandu.oreader.dao.ArticleList;
 import cn.bandu.oreader.dao.FavDao;
 
 /**
  * Created by yangmingfu on 14-11-11.
  */
-
 public class ListAdapter extends BaseAdapter {
 
     private Context myContext;
-    private List<Fav> datas;
+    private List<ArticleList> datas;
 
     ImageLoader imageLoader = OReaderApplication.getInstance().getImageLoader();
 
     private LayoutInflater mInflater = null;
 
-    public ListAdapter(Context context, List<Fav> datas) {
+    public ListAdapter(Context context, List<ArticleList> datas) {
         this.myContext = context;
         setDatas(datas);
         mInflater = (LayoutInflater) myContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setDatas(List<Fav> datas) {
-        this.datas = (List<Fav>) datas;
+    public void setDatas(List<ArticleList> datas) {
+        this.datas = (List<ArticleList>) datas;
     }
 
-    public List<Fav> getDatas() {
+    public List<ArticleList> getDatas() {
         return datas;
     }
 
@@ -84,7 +83,7 @@ public class ListAdapter extends BaseAdapter {
         convertView.findViewById(R.id.conDel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FavDao favDao = OReaderApplication.getDaoSession(myContext).getFavDao();
+                FavDao favDao = OReaderApplication.getDaoSession(myContext, 1).getFavDao();
                 favDao.deleteByKey(datas.get(i).getSid());
                 datas.remove(i);
                 notifyDataSetChanged();
@@ -109,16 +108,16 @@ public class ListAdapter extends BaseAdapter {
             ViewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Fav fav = datas.get(i);
-        if (null != fav) {
-            ViewHolder.title.setText(fav.getTitle());
-            if (fav.getDescription() == "" || fav.getDescription() == null) {
+        ArticleList articleList = datas.get(i);
+        if (null != articleList) {
+            ViewHolder.title.setText(articleList.getTitle());
+            if (articleList.getDescription() == "" || articleList.getDescription() == null) {
                 ViewHolder.description.setVisibility(View.GONE);
             } else {
                 ViewHolder.description.setVisibility(View.VISIBLE);
-                ViewHolder.description.setText(fav.getDescription());
+                ViewHolder.description.setText(articleList.getDescription());
             }
-            ViewHolder.createTime.setText((CharSequence) fav.getDate());
+            ViewHolder.createTime.setText((CharSequence) articleList.getDate());
         }
         return convertView;
     }
@@ -141,20 +140,20 @@ public class ListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Fav fav = datas.get(i);
-        if (null != fav) {
-            viewHolder.title.setText(fav.getTitle());
-            if (fav.getDescription() == "" || fav.getDescription() == null) {
+        ArticleList articleList = datas.get(i);
+        if (null != articleList) {
+            viewHolder.title.setText(articleList.getTitle());
+            if (articleList.getDescription() == "" || articleList.getDescription() == null) {
                 viewHolder.description.setVisibility(View.GONE);
             } else {
                 viewHolder.description.setVisibility(View.VISIBLE);
-                viewHolder.description.setText(fav.getDescription());
+                viewHolder.description.setText(articleList.getDescription());
             }
 
-            viewHolder.createTime.setText(fav.getDate());
+            viewHolder.createTime.setText(articleList.getDate());
             viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
             viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);
-            viewHolder.image0.setImageUrl(fav.getImage0(), imageLoader);
+            viewHolder.image0.setImageUrl(articleList.getImage0(), imageLoader);
         }
         return convertView;
     }
@@ -182,21 +181,21 @@ public class ListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Fav fav = datas.get(i);
+        ArticleList articleList = datas.get(i);
 
-        if (null != fav) {
-            viewHolder.title.setText(fav.getTitle());
+        if (null != articleList) {
+            viewHolder.title.setText(articleList.getTitle());
             viewHolder.description.setVisibility(View.GONE);
-            viewHolder.createTime.setText(fav.getDate());
+            viewHolder.createTime.setText(articleList.getDate());
             viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
             viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);
-            viewHolder.image0.setImageUrl(fav.getImage0(), imageLoader);
+            viewHolder.image0.setImageUrl(articleList.getImage0(), imageLoader);
             viewHolder.image1.setDefaultImageResId(R.drawable.small_pic_loading);
             viewHolder.image1.setErrorImageResId(R.drawable.small_load_png_failed);
-            viewHolder.image1.setImageUrl(fav.getImage1(), imageLoader);
+            viewHolder.image1.setImageUrl(articleList.getImage1(), imageLoader);
             viewHolder.image2.setDefaultImageResId(R.drawable.small_pic_loading);
             viewHolder.image2.setErrorImageResId(R.drawable.small_load_png_failed);
-            viewHolder.image2.setImageUrl(fav.getImage2(), imageLoader);
+            viewHolder.image2.setImageUrl(articleList.getImage2(), imageLoader);
         }
         return convertView;
     }
@@ -215,14 +214,14 @@ public class ListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Fav fav = datas.get(i);
-        if (null != fav) {
-            ((TextView) convertView.findViewById(R.id.title)).setText(fav.getTitle());
+        ArticleList articleList = datas.get(i);
+        if (null != articleList) {
+            ((TextView) convertView.findViewById(R.id.title)).setText(articleList.getTitle());
             ((TextView) convertView.findViewById(R.id.description)).setVisibility(View.GONE);
-            viewHolder.createTime.setText(fav.getDate());
+            viewHolder.createTime.setText(articleList.getDate());
             viewHolder.image0.setDefaultImageResId(R.drawable.small_pic_loading);
             viewHolder.image0.setErrorImageResId(R.drawable.small_load_png_failed);
-            viewHolder.image0.setImageUrl(fav.getImage0(), imageLoader);;
+            viewHolder.image0.setImageUrl(articleList.getImage0(), imageLoader);
         }
         return convertView;
     }

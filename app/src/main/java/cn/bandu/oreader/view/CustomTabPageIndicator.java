@@ -27,8 +27,7 @@ public class CustomTabPageIndicator extends TabPageIndicator {
         super(context);
     }
 
-    public void setViewPager(ViewPager pager)
-    {
+    public void setViewPager(ViewPager pager) {
         super.setViewPager(pager);
         this.pager = pager;
     }

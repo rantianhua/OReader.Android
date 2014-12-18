@@ -37,9 +37,9 @@ public class OReaderApplication extends Application {
 
     public static final String TAG = "VolleyPatterns";
 
-    private static DaoMaster daoMaster;
+    private static DaoMaster[] daoMaster = {null, null};
 
-    private static DaoSession daoSession;
+    private static DaoSession[] daoSession = {null, null};
 
     private static OReaderApplication sInstance;
 
@@ -49,20 +49,15 @@ public class OReaderApplication extends Application {
 
     private ImageLoader mImageLoader;
 
-
-
-
     @Override
     public void onCreate(){
         super.onCreate();
         Log.e("APPLICATION CREATE!", "");
         sInstance = this;
         if (isFirstUsed() == true) {
-            //TODO 记安装log
             sendStatCode();
             updateFirestUsed();
         }
-        getAppName();
     }
 
     /**
@@ -141,12 +136,15 @@ public class OReaderApplication extends Application {
      * @param context
      * @return
      */
-    public static DaoMaster getDaoMaster(Context context) {
-        if (daoMaster == null) {
-            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context, OReaderConst.DATABASE_NAME, null);
-            daoMaster = new DaoMaster(helper.getWritableDatabase());
+    public static DaoMaster getDaoMaster(Context context, int index) {
+        if (daoMaster[index] == null) {
+            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context, OReaderConst.DATABASE_NAME[index], null);
+            daoMaster[index] = new DaoMaster(helper.getWritableDatabase());
         }
-        return daoMaster;
+        return daoMaster[index];
+    }
+    public static void setDaoMasterNull(int index) {
+        daoMaster[index] = null;
     }
     /**
      * 取得DaoSession
@@ -154,15 +152,14 @@ public class OReaderApplication extends Application {
      * @param context
      * @return
      */
-    public static DaoSession getDaoSession(Context context) {
-
-        if (daoSession == null) {
-            if (daoMaster == null) {
-                daoMaster = getDaoMaster(context);
+    public static DaoSession getDaoSession(Context context, int index) {
+        if (daoSession[index] == null) {
+            if (daoMaster[index] == null) {
+                daoMaster[index] = getDaoMaster(context, index);
             }
-            daoSession = daoMaster.newSession();
+            daoSession[index] = daoMaster[index].newSession();
         }
-        return daoSession;
+        return daoSession[index];
     }
 
     public static String getAppid() {

@@ -41,6 +41,8 @@ import java.util.Map;
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
+import cn.bandu.oreader.dao.ArticleList;
+import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
 import cn.bandu.oreader.tools.DataTools;
@@ -55,7 +57,9 @@ public class DetailActivity extends Activity {
 
     private final static String TAG = DetailActivity.class.getSimpleName();
 
-    private Fav data;
+    private ArticleList data;
+
+    private Cate cate;
 
     @ViewById
     WebView webView;
@@ -87,13 +91,14 @@ public class DetailActivity extends Activity {
 
     @AfterViews
     public void afterViews() {
-        data = (Fav) getIntent().getSerializableExtra("data");
+        data = (ArticleList) getIntent().getSerializableExtra("data");
+        cate = (Cate) getIntent().getSerializableExtra("cate");
         initTitleBar();
         initWebView();
         initBottomBar();
     }
     private void initTitleBar() {
-        title.setText(data.getCateName());
+        title.setText(cate.getName());
         editBtn.setVisibility(View.GONE);
         fontSize.setVisibility(View.VISIBLE);
     }
@@ -268,7 +273,7 @@ public class DetailActivity extends Activity {
         if (favorAction.getTag() == "selected") {
             favorAction.setTextAppearance(this, R.style.tool_item_text);
             favorAction.setTag("");
-            FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
+            FavDao favDao = OReaderApplication.getDaoSession(this, 1).getFavDao();
             favDao.deleteByKey(data.getSid());
             Drawable drawable= getResources().getDrawable(R.drawable.fav_normal);
             drawable.setBounds(0, 0, inner_bottom_bar_image_height, inner_bottom_bar_image_height);
@@ -278,9 +283,9 @@ public class DetailActivity extends Activity {
             favorAction.setTag("selected");
             fav_pressed.setBounds(0, 0, inner_bottom_bar_image_height, inner_bottom_bar_image_height);
             favorAction.setCompoundDrawables(null, fav_pressed, null, null);
-            FavDao favDao = OReaderApplication.getDaoSession(this).getFavDao();
-            data.setCreateTime(new Date().getTime());
-            favDao.insertOrReplace(data);
+            FavDao favDao = OReaderApplication.getDaoSession(this, 1).getFavDao();
+            Fav fav = DataTools.articleListToFav(data, new Date().getTime(), cate.getSid(), cate.getName());
+            favDao.insertOrReplace(fav);
         }
         Log.i("title", data.getTitle());
     }

@@ -15,12 +15,14 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.adapter.ListAdapter;
+import cn.bandu.oreader.dao.ArticleList;
+import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
-import cn.bandu.oreader.dao.FavDao;
 import cn.bandu.oreader.tools.DataTools;
 
 
@@ -38,8 +40,11 @@ public class FavoritesActivity extends FragmentActivity {
 
     private ListAdapter adapter;
 
-    private List<Fav> datas;
-    private FavDao favDao;
+    private List<ArticleList> datas = new ArrayList<ArticleList>();
+
+    private List<Cate> cates = new ArrayList<Cate>();
+
+    private List<Fav> fav;
 
     @ViewById
     ListView favList;
@@ -49,6 +54,9 @@ public class FavoritesActivity extends FragmentActivity {
     TextView fontSize;
 
     int flag = 0;
+
+    public FavoritesActivity() {
+    }
 
 
     @AfterViews
@@ -60,7 +68,15 @@ public class FavoritesActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         title.setText("我的收藏");
-        datas = DataTools.getFavList(this);
+        fav = DataTools.getFavList(this);
+        int count = fav.size();
+        datas.clear();
+        for(int i=0;i<count;i++) {
+            ArticleList articleList = DataTools.favToArticleList(fav.get(i));
+            datas.add(articleList);
+            cates.add(new Cate(fav.get(i).getCateid(), fav.get(i).getCateName(), 0, 0));
+        }
+
         adapter = new ListAdapter(this, datas);
         favList.setAdapter(adapter);
 
@@ -87,12 +103,12 @@ public class FavoritesActivity extends FragmentActivity {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("data", datas.get(position));
+        bundle.putSerializable("cate", cates.get(position));
         intent.putExtras(bundle);
 
         intent.setClass(this, DetailActivity_.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
-
         this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
