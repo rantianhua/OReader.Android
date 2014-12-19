@@ -5,5 +5,12 @@
     android:background="@drawable/welcome"
     android:orientation="horizontal"
     android:clickable="false">
-
+    <ProgressBar
+        android:id="@+id/downloadProgressBar"
+        android:layout_width="fill_parent"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_marginBottom="5dp"/>
 </FrameLayout>

@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -26,7 +27,6 @@ import cn.bandu.oreader.data.AppPrefs_;
 import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.FileDownloadThread;
 
-
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 @Fullscreen
 @EActivity(R.layout.activity_welcome)
@@ -38,6 +38,8 @@ public class WelcomeActivity extends Activity {
 
     @ViewById
     View root;
+    @ViewById
+    ProgressBar downloadProgressBar;
 
     private int downloadedSize = 0;
     private int fileSize = 0;
@@ -45,19 +47,16 @@ public class WelcomeActivity extends Activity {
 
     @AfterViews
     public void afterViews() {
-        String urlStr = OReaderConst.DATA_URL;
-        File dir = OReaderApplication.getInstance().getDiskCacheDir("download");
-        String fileName = OReaderConst.DATABASE_NAME[0];
-        file = new File(dir + fileName);
-        if (file.exists() == true) {
-            file.delete();
+        if (OReaderApplication.getInstance().isNetworkConnected(this) == false) {
+            startMain();
+        } else {
+            startDownLoadDatabase();
         }
-        if (dir.exists() == false) {
-            dir.mkdir();
-        }
-        new downloadTask(urlStr, 5, file + "").start();
     }
 
+    /**
+     * 启动mainactivity
+     */
     private void startMain() {
         new Handler().postDelayed(new Runnable(){
             @Override
@@ -70,6 +69,9 @@ public class WelcomeActivity extends Activity {
         }, 2000);
     }
 
+    /**
+     * 接受文件下载消息
+     */
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -77,9 +79,14 @@ public class WelcomeActivity extends Activity {
             if (progress == 100) {
                 refreshDatabase();
             }
+            downloadProgressBar.setDrawingCacheBackgroundColor(R.color.black);
+            downloadProgressBar.setProgress(progress);
         }
     };
 
+    /**
+     * 更新数据库
+     */
     private void refreshDatabase() {
         File dataFile = new File(OReaderApplication.getInstance().getDaoMaster(this, 0).getDatabase().getPath());
         DataTools.copyfile(file, dataFile, true);
@@ -87,6 +94,25 @@ public class WelcomeActivity extends Activity {
         startMain();
     }
 
+    /**
+     * 开始下载sqlite
+     */
+    private void startDownLoadDatabase() {
+        String urlStr = OReaderConst.DATA_URL;
+        File dir = OReaderApplication.getInstance().getDiskCacheDir("download");
+        String fileName = OReaderConst.DATABASE_NAME[0];
+        file = new File(dir + fileName);
+        if (file.exists() == true) {
+            file.delete();
+        }
+        if (dir.exists() == false) {
+            dir.mkdir();
+        }
+        downloadProgressBar.setVisibility(View.VISIBLE);
+        downloadProgressBar.setMax(100);
+        downloadProgressBar.setProgress(0);
+        new downloadTask(urlStr, 5, file + "").start();
+    }
     /**
      * 下载文件
      */
