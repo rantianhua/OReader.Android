@@ -45,6 +45,7 @@ import cn.bandu.oreader.dao.ArticleList;
 import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
+import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.VolleyErrorHelper;
 
@@ -200,7 +201,7 @@ public class DetailActivity extends Activity {
     @Click
     public void commentWriteAction() {
         //TODO login判断
-        inflater = (LayoutInflater) DetailActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.comment_dialog, null);
         final AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
         dialog = alertDialog.create();
@@ -250,7 +251,7 @@ public class DetailActivity extends Activity {
                         //在这里设置需要post的参数
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("content", commentContent);
-                        map.put("appid", OReaderApplication.getInstance().getAppid());
+                        map.put("appid", CommonUtil.getAppid());
                         map.put("sid", String.valueOf(data.getSid()));
                         return map;
                     }

@@ -13,6 +13,7 @@ import java.util.List;
 
 import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
+import cn.bandu.oreader.dao.User;
 
 /**
  * Created by yangmingfu on 14/12/2.
@@ -62,5 +63,21 @@ public class ParseResponse {
             data.add(cate);
         }
         return data;
+    }
+
+    public static User parseUserInfo(String response) throws JSONException{
+        if (response == null) {
+            return null;
+        }
+        JSONObject jo = new JSONObject(response);
+        int status = jo.getInt("status");
+        Log.e("status=", String.valueOf(status));
+        if (status == 0) {
+            return null;
+        }
+        JSONObject jsonObject = new JSONObject(jo.getString("data"));
+        Log.e("jsonobject", String.valueOf(jsonObject));
+        User user = new User(jsonObject.getLong("id"), jsonObject.getLong("uid"), jsonObject.getString("name"), jsonObject.getString("avatar"));
+        return user;
     }
 }

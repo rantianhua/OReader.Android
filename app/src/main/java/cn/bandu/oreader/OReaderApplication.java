@@ -1,35 +1,35 @@
 package cn.bandu.oreader;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMChatOptions;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import org.androidannotations.annotations.EApplication;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import cn.bandu.oreader.dao.DaoMaster;
 import cn.bandu.oreader.dao.DaoSession;
+import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.LruBitmapCache;
+import cn.bandu.oreader.tools.Stat;
 
 /**
  * Created by wanghua on 14/11/12.
@@ -37,7 +37,7 @@ import cn.bandu.oreader.tools.LruBitmapCache;
 @EApplication
 public class OReaderApplication extends Application {
 
-    public static final String TAG = "VolleyPatterns";
+    private final static String TAG = OReaderApplication_.class.getSimpleName();
 
     private static DaoMaster[] daoMaster = {null, null};
 
@@ -56,12 +56,59 @@ public class OReaderApplication extends Application {
         super.onCreate();
         Log.e("APPLICATION CREATE!", "");
         sInstance = this;
-        if (isFirstUsed() == true) {
-            sendStatCode();
-            updateFirestUsed();
+        if (CommonUtil.isFirstUsed(this) == true) {
+            Stat.sendInstallStat();
+            CommonUtil.updateFirestUsed(this);
         }
+        initHuanxin();
     }
 
+    private void initHuanxin() {
+        int pid = android.os.Process.myPid();
+        String processAppName = getProcessName(pid);
+        // 如果使用到百度地图或者类似启动remote service的第三方库，这个if判断不能少
+        if (processAppName == null || processAppName.equals("")) {
+            return;
+        }
+
+        //初始化环信SDK
+        Log.d("DemoApplication", "Initialize EMChat SDK");
+        EMChat.getInstance().init(this);
+        //获取到EMChatOptions对象
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        //添加好友不需要验证
+        options.setAcceptInvitationAlways(true);
+        //设置收到消息是否有新消息通知，默认为true
+        options.setNotificationEnable(false);
+        //设置收到消息是否有声音提示，默认为true
+        options.setNoticeBySound(false);
+        //设置收到消息是否震动 默认为true
+        options.setNoticedByVibrate(false);
+        //设置语音消息播放是否设置为扬声器播放 默认为true
+        options.setUseSpeaker(false);
+    }
+    private String getProcessName(int pID) {
+        String processName = null;
+        ActivityManager am = (ActivityManager) this
+                .getSystemService(ACTIVITY_SERVICE);
+        List l = am.getRunningAppProcesses();
+        Iterator i = l.iterator();
+        PackageManager pm = this.getPackageManager();
+        while (i.hasNext()) {
+            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i
+                    .next());
+            try {
+                if (info.pid == pID) {
+                    CharSequence c = pm.getApplicationLabel(pm
+                            .getApplicationInfo(info.processName,PackageManager.GET_META_DATA));
+                    processName = info.processName;
+                    return processName;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return processName;
+    }
     /**
      * @return ApplicationController singleton instance
      */
@@ -148,6 +195,7 @@ public class OReaderApplication extends Application {
     public static void setDaoMasterNull(int index) {
         daoMaster[index] = null;
     }
+
     /**
      * 取得DaoSession
      *
@@ -164,36 +212,9 @@ public class OReaderApplication extends Application {
         return daoSession[index];
     }
 
-    public static String getAppid() {
-        return OReaderApplication.getInstance().getResources().getString(R.string.appid);
-    }
-
-    public int getAppVersion() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-            return info.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 1;
-    }
-
-    public String getAppName() {
-        String appName = "";
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-            appName = info.applicationInfo.loadLabel(getPackageManager()).toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        Log.e("appname = ", appName);
-        return appName;
-    }
-
-
     public DiskLruCache getDiskLruCache(String uniqueName) {
         try {
-            diskLruCache = DiskLruCache.open(getDiskCacheDir(uniqueName), OReaderApplication.getInstance().getAppVersion(), 1, OReaderConst.DISK_MAX_SIZE);
+            diskLruCache = DiskLruCache.open(getDiskCacheDir(uniqueName), CommonUtil.getAppVersion(this), 1, OReaderConst.DISK_MAX_SIZE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -214,102 +235,5 @@ public class OReaderApplication extends Application {
             cachePath = this.getCacheDir().getPath();
         }
         return new File(cachePath + File.separator + uniqueName);
-    }
-
-    /**
-     * 判断是否是第一次使用
-     *
-     * @return false:已经使用过 true:第一次使用
-     */
-    public boolean isFirstUsed() {
-
-        Boolean isFirstIn = false;
-        SharedPreferences pref = this.getSharedPreferences("OREADER", 0);
-        //取得相应的值，如果没有该值，说明还未写入，用true作为默认值
-        isFirstIn = pref.getBoolean("isFirstIn", true);
-        Log.e("isFirstIn=", String.valueOf(isFirstIn));
-        return isFirstIn;
-    }
-
-    /**
-     * 更新第一次使用标识
-     */
-    public void updateFirestUsed() {
-        SharedPreferences pref = this.getSharedPreferences("OREADER", 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isFirstIn", false);
-        editor.commit();
-    }
-
-    public void sendStatCode() {
-        String url = String.format(OReaderConst.STAT_URL, this.getAppid());
-        this.getRequestQueue().getCache().invalidate(url, true);
-        Log.e("stat url = ", url);
-        StringRequest req = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("stat start", "stat start");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-        //timeout 3s retry 1
-        req.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 1, 1.0f));
-        OReaderApplication.getInstance().addToRequestQueue(req, TAG);
-    }
-
-    /**
-     * 是否有网络链接
-     * @param context
-     * @return
-     */
-    public boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 是否使用wifi
-     * @param context
-     * @return
-     */
-    public boolean isWifiConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWiFiNetworkInfo = mConnectivityManager
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (mWiFiNetworkInfo != null) {
-                return mWiFiNetworkInfo.isAvailable();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 3G/2G是否可用
-     * @param context
-     * @return
-     */
-    public boolean isMobileConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mMobileNetworkInfo = mConnectivityManager
-                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            if (mMobileNetworkInfo != null) {
-                return mMobileNetworkInfo.isAvailable();
-            }
-        }
-        return false;
     }
 }

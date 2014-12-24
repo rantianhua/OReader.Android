@@ -21,4 +21,5 @@
     <dimen name="edit_text_right">20dp</dimen>
     <dimen name="inner_bottom_bar_height">44.0dp</dimen>
     <dimen name="inner_bottom_bar_image_height">23.0dp</dimen>
+    <dimen name="chat_height_top_bar">46dp</dimen>
 </resources>

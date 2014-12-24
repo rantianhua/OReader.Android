@@ -29,6 +29,43 @@
             <View android:id="@+id/divider1"
                 style="@style/mine_item_divider" />
             <RelativeLayout
+                android:id="@+id/userinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/avatar"
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/avatar"/>
+                <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="安全退出"
+                    android:layout_toRightOf="@id/username"/>
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/reg_login"
+                style="@style/mine_item">
+                <TextView
+                    android:id="@+id/login_btn"
+                    android:text="登陆"
+                    style="@style/mine_item_text" />
+                <TextView
+                    android:id="@+id/reg_btn"
+                    android:text="注册"
+                    style="@style/mine_item_text"
+                    android:layout_toRightOf="@id/login_btn"/>
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/favorite_btn"
                 style="@style/mine_item">
                 <TextView

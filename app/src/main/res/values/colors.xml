@@ -30,4 +30,6 @@
     <color name="comment_dlg_bottom_hint">#ffbebebe</color>
     <color name="report_btn_text">#ff505050</color>
     <color name="slid_bg">#ffebebeb</color>
+    <color name="chat_top_bar_normal_bg">#4ebcd3</color>
+    <color name="chat_gray_normal">#666667</color>
 </resources>

@@ -26,6 +26,7 @@ import cn.bandu.oreader.R;
 import cn.bandu.oreader.data.AppPrefs_;
 import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.FileDownloadThread;
+import cn.bandu.oreader.tools.NetCheck;
 
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 @Fullscreen
@@ -47,7 +48,10 @@ public class WelcomeActivity extends Activity {
 
     @AfterViews
     public void afterViews() {
-        if (OReaderApplication.getInstance().isNetworkConnected(this) == false) {
+
+//        startMain();
+
+        if (NetCheck.isNetworkConnected(this) == false) {
             startMain();
         } else {
             startDownLoadDatabase();

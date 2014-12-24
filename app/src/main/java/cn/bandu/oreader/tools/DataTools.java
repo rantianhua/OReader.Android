@@ -172,7 +172,7 @@ public class DataTools {
         fos.close();
         // 其次把文件插入到系统图库
         MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                file.getAbsolutePath(), fileName, OReaderApplication.getInstance().getAppName());
+                file.getAbsolutePath(), fileName, CommonUtil.getAppName(context));
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + fileName)));
     }
@@ -183,7 +183,7 @@ public class DataTools {
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
         // 分享时Notification的图标和文字
-        oks.setNotification(R.drawable.ic_launcher, OReaderApplication.getInstance().getAppName());
+        oks.setNotification(R.drawable.ic_launcher, CommonUtil.getAppName(context));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         if (title != null && title != "") {
             oks.setTitle(title);
@@ -208,7 +208,7 @@ public class DataTools {
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
         //oks.setComment("我是测试评论文本");
         // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(OReaderApplication.getInstance().getAppName());
+        oks.setSite(CommonUtil.getAppName(context));
         // 启动分享GUI
         oks.show(context);
     }
