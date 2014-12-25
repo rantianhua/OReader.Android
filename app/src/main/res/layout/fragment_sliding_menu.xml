@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="安全退出"
-                    android:layout_toRightOf="@id/username"/>
+                    android:layout_alignParentRight="true"/>
                 <ImageView style="@style/mine_btn_line" />
             </RelativeLayout>
             <RelativeLayout
@@ -103,14 +103,28 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/feedback_btn"
-                style="@style/mine_item">
+                style="@style/mine_item"
+                android:visibility="gone">
+
                 <TextView
                     android:id="@+id/feedback_text"
                     android:text="@string/mine_item_feedback"
                     android:drawableLeft="@drawable/slid_feedback"
                     style="@style/mine_item_text" />
                 <ImageView
-                    android:id="@+id/feedback_arrow"
+                    style="@style/mine_arrow" />
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/msg_btn"
+                style="@style/mine_item"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/look_msg_text"
+                    android:text="@string/mine_item_lookmsg"
+                    android:drawableLeft="@drawable/slid_feedback"
+                    style="@style/mine_item_text" />
+                <ImageView
                     style="@style/mine_arrow" />
                 <ImageView style="@style/mine_btn_line" />
             </RelativeLayout>

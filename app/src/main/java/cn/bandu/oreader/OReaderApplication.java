@@ -30,6 +30,9 @@ import cn.bandu.oreader.dao.DaoSession;
 import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.LruBitmapCache;
 import cn.bandu.oreader.tools.Stat;
+import cn.huanxin.model.DefaultHXSDKModel;
+import cn.huanxin.model.HXSDKModel;
+import cn.huanxin.tools.HXSDKHelper;
 
 /**
  * Created by wanghua on 14/11/12.
@@ -46,6 +49,7 @@ public class OReaderApplication extends Application {
     private static OReaderApplication sInstance;
 
     private static DiskLruCache diskLruCache = null;
+    private HXSDKHelper hxSDKHelper;
 
     private RequestQueue mRequestQueue;
 
@@ -60,6 +64,7 @@ public class OReaderApplication extends Application {
             Stat.sendInstallStat();
             CommonUtil.updateFirestUsed(this);
         }
+        getHxHelper().onInit(this);
         initHuanxin();
     }
 
@@ -235,5 +240,17 @@ public class OReaderApplication extends Application {
             cachePath = this.getCacheDir().getPath();
         }
         return new File(cachePath + File.separator + uniqueName);
+    }
+
+    public HXSDKHelper getHxHelper() {
+        if (hxSDKHelper == null) {
+            hxSDKHelper = new HXSDKHelper() {
+                @Override
+                protected HXSDKModel createModel() {
+                    return new DefaultHXSDKModel(OReaderApplication.this);
+                }
+            };
+        }
+        return hxSDKHelper;
     }
 }

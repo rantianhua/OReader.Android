@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -43,6 +44,7 @@ public class ImageShowActivity extends Activity {
     public void initImageView() {
         Intent intent = getIntent();
         imgUri = intent.getStringExtra("imgUri");
+        Log.e("imgUri",imgUri);
         imgView.setDefaultImageResId(R.drawable.small_pic_loading);
         imgView.setErrorImageResId(R.drawable.small_load_png_failed);
         imgView.setImageUrl(imgUri, imageLoader);

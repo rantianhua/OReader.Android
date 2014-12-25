@@ -21,6 +21,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
+import com.easemob.EMCallBack;
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -38,9 +42,12 @@ import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.ChatActivity_;
 import cn.bandu.oreader.activity.DetailActivity_;
 import cn.bandu.oreader.activity.FavoritesActivity_;
-import cn.bandu.oreader.dao.Fav;
+import cn.bandu.oreader.activity.MsgActivity_;
+import cn.bandu.oreader.dao.ArticleList;
+import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.User;
 import cn.bandu.oreader.tools.CommonUtil;
+import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.ParseResponse;
 import cn.bandu.oreader.tools.VolleyErrorHelper;
 
@@ -62,15 +69,24 @@ public class SlidingMenuFragment extends Fragment{
     NetworkImageView avatar;
     @ViewById
     TextView username;
+    @ViewById
+    View msg_btn;
+    @ViewById
+    View feedback_btn;
 
     LayoutInflater inflater;
     View dialogView;
     AlertDialog dialog;
     EditText usernameText;
     EditText passwdText;
+    User user;
+    String author;
+    int btnTag;
+
 
     @AfterViews
     public void afterViews() {
+
         User user = CommonUtil.getUserInfo(getActivity());
         if (user != null) {
             reg_login.setVisibility(View.GONE);
@@ -81,11 +97,24 @@ public class SlidingMenuFragment extends Fragment{
             avatar.setImageUrl(user.getAvatar(), imageLoader);
             Log.e("avatar=", user.getAvatar());
             username.setText(user.getName());
+            //如果是作者本人，显示查看消息
+            String author_id = getResources().getString(R.string.author_id);
+            author = DataTools.uid2Username(author_id);
+            if (author_id.equals(String.valueOf(user.getId()))) {
+                msg_btn.setVisibility(View.VISIBLE);
+                feedback_btn.setVisibility(View.GONE);
+            } else {
+                msg_btn.setVisibility(View.GONE);
+                feedback_btn.setVisibility(View.VISIBLE);
+            }
         } else {
             reg_login.setVisibility(View.VISIBLE);
             userinfo.setVisibility(View.GONE);
+            msg_btn.setVisibility(View.GONE);
+            feedback_btn.setVisibility(View.VISIBLE);
         }
     }
+
 
     @Click
     public void favorite_btn() {
@@ -95,6 +124,7 @@ public class SlidingMenuFragment extends Fragment{
         this.startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
     @Click
     public void clear_cacahe_btn() {
         new AlertDialog.Builder(getActivity()).setTitle("确认清除缓存吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -120,26 +150,15 @@ public class SlidingMenuFragment extends Fragment{
     public void about_btn() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        Fav data = new Fav();
+        ArticleList data = new ArticleList();
         data.setSid(0);
         data.setWebUrl(OReaderConst.ABOUT_URL);
-        data.setCateName("关于我们");
+        Cate cate = new Cate();
+        cate.setName("关于我们");
         bundle.putSerializable("data", data);
+        bundle.putSerializable("cate", cate);
         intent.putExtras(bundle);
         intent.setClass(getActivity(), DetailActivity_.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(intent);
-        this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    @Click
-    public void feedback_btn() {
-        if (CommonUtil.getUserInfo(getActivity()) == null) {
-            login_btn();
-            return;
-        }
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), ChatActivity_.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -174,9 +193,6 @@ public class SlidingMenuFragment extends Fragment{
                     public void onResponse(String response) {
                         try {
                             User user = ParseResponse.parseUserInfo(response);
-                            Log.e("user.name", response);
-
-                            Log.e("user.name", user.getName());
                             if (user == null) {
                                 CommonUtil.setUserInfo(getActivity(), null);
                             } else {
@@ -225,6 +241,124 @@ public class SlidingMenuFragment extends Fragment{
     }
     @Click
     public void logout() {
+        CommonUtil.setUserInfo(getActivity(), null);
+    }
 
+    @Click
+    public void feedback_btn(View view) {
+        user = CommonUtil.getUserInfo(getActivity());
+        if (user == null) {
+            //TODO 跳转到登录
+            login_btn();
+            return;
+        }
+        btnTag = view.getId();
+        regOrLoginHuanXinUser();
+    }
+
+    @Click
+    public void msg_btn(View view) {
+        user = CommonUtil.getUserInfo(getActivity());
+        if (user == null) {
+            //TODO 跳转到登录
+            login_btn();
+            return;
+        }
+        btnTag = view.getId();
+        regOrLoginHuanXinUser();
+    }
+
+    /**
+     * 登录环信系统
+     */
+    private void loginHuanXin() {
+        Log.e("login start", "regorlogin start");
+        final String  userName = DataTools.uid2Username(String.valueOf(user.getId()));
+        final String password = DataTools.uid2Password(user.getId());
+        EMChatManager.getInstance().login(userName, password, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+
+                    }
+                });
+                // 登陆成功，保存用户名密码
+                OReaderApplication.getInstance().getHxHelper().setHXId(userName);
+                OReaderApplication.getInstance().getHxHelper().setPassword(password);
+                try {
+                    EMChatManager.getInstance().loadAllConversations();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (btnTag == R.id.feedback_btn) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), ChatActivity_.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("userId", author);
+                    getActivity().startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                } else if (btnTag == R.id.msg_btn) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), MsgActivity_.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getActivity(), "登录失败: " + message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 注册成为环信用户
+     */
+    private void regOrLoginHuanXinUser() {
+        Log.e("regorlogin start", "regorlogin start");
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    final String  userName = DataTools.uid2Username(String.valueOf(user.getId()));
+                    final String password = DataTools.uid2Password(user.getId());
+                    // 调用sdk注册方法
+                    EMChatManager.getInstance().createAccountOnServer(userName, password);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            OReaderApplication.getInstance().getHxHelper().setHXId(userName);
+                            loginHuanXin();
+                        }
+                    });
+                } catch (final EaseMobException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            int errorCode=e.getErrorCode();
+                            if(errorCode==EMError.NONETWORK_ERROR){
+                                Toast.makeText(getActivity(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
+                            } else if(errorCode==EMError.USER_ALREADY_EXISTS){
+                                Log.e("userexists", "userexists");
+                                loginHuanXin();
+                            } else if(errorCode==EMError.UNAUTHORIZED){
+                                Toast.makeText(getActivity(), "注册失败，无权限！", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

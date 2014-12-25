@@ -288,4 +288,22 @@ public class DataTools {
         return articleList;
     }
 
+    /**
+     * 构造环信用户名
+     * @param uid
+     * @return
+     */
+    public static String uid2Username(String uid) {
+        return hashKeyForDisk(uid);
+    }
+
+    /**
+     * 构造环信用户密码
+     * @param uid
+     * @return
+     */
+    public static String uid2Password(long uid) {
+        String salt = "b@a#ndu_huanxin_&";
+        return DataTools.hashKeyForDisk(salt + DataTools.hashKeyForDisk(String.valueOf(uid)));
+    }
 }

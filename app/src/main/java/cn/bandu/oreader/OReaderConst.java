@@ -32,7 +32,7 @@ public class OReaderConst {
     public static final String DATA_URL = QUERY_HOST + "OREADER";
 
     public static final String QUERY_LOGIN_URL = "http://bandu.ymf.bandu.in/app/login";
-    public static final String QUERY_REGHUANXIN_URL = "http://bandu.ymf.bandu.in/app/regHuanXin?username=%d";
+    public static final String QUERY_REGHUANXIN_URL = "http://bandu.ymf.bandu.in/app/regHuanXin?username=%s";
 
 
     public static final String NEW_FRIENDS_USERNAME = "item_new_friends";

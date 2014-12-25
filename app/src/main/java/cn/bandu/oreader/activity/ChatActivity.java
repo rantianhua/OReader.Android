@@ -30,14 +30,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
@@ -57,22 +54,18 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.TextChange;
+import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bandu.oreader.OReaderApplication;
-import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.User;
 import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.DataTools;
-import cn.bandu.oreader.tools.VolleyErrorHelper;
 import cn.huanxin.adapter.ExpressionAdapter;
 import cn.huanxin.adapter.ExpressionPagerAdapter;
 import cn.huanxin.adapter.MessageAdapter;
@@ -106,7 +99,8 @@ public class ChatActivity  extends Activity {
     public static final int REQUEST_CODE_FILE = 10;
     public static final int REQUEST_CODE_SELECT_FILE = 24;
 
-
+    @ViewById
+    ProgressBar pb_load_more;
     @ViewById
     ListView list;
     @ViewById
@@ -148,12 +142,12 @@ public class ChatActivity  extends Activity {
     private List<String> reslist;
     private InputMethodManager manager;
 
-
+    //当前登录用户
     private String userName;
-    private String password;
     private User user;
-    private String author_id;
-    private String author;
+    //对方
+    private String toUserId;
+
     private File cameraFile;
     private MessageAdapter adapter;
     private EMConversation conversation;
@@ -162,8 +156,10 @@ public class ChatActivity  extends Activity {
     private NewMessageBroadcastReceiver receiver;
 
     public String playMsgId;
-
-    private Boolean allowReg = true;
+    private VoiceRecorder voiceRecorder;
+    private boolean haveMoreData = true;
+    private boolean isloading;
+    private final int pagesize = 20;
 
     private Handler micImageHandler = new Handler() {
         @Override
@@ -172,28 +168,24 @@ public class ChatActivity  extends Activity {
             micImage.setImageDrawable(micImages[msg.what]);
         }
     };
-    private VoiceRecorder voiceRecorder;
 
 
     @AfterViews
     public void afterViews() {
+        Intent intent = getIntent();
+        toUserId = intent.getStringExtra("userId");
         initVar();
-        loginHuanXin();
         initView();
         setUpView();
     }
 
     private void initVar() {
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        author_id = this.getResources().getString(R.string.author_id);
-        author = DataTools.hashKeyForDisk(author_id);
         user = CommonUtil.getUserInfo(this);
         if (user == null) {
             //TODO 弹出登录
         }
-        userName = DataTools.hashKeyForDisk(String.valueOf(user.getId()));
-        String salt = "b@a#ndu_huanxin_&";
-        password = DataTools.hashKeyForDisk(salt + DataTools.hashKeyForDisk(String.valueOf(user.getId())));
+        userName = DataTools.uid2Username(String.valueOf(user.getId()));
     }
 
     private void initView() {
@@ -233,13 +225,14 @@ public class ChatActivity  extends Activity {
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
-        ((TextView) findViewById(R.id.name)).setText(author_id);
-        conversation = EMChatManager.getInstance().getConversation(author);
+        ((TextView) findViewById(R.id.name)).setText(toUserId);
+        conversation = EMChatManager.getInstance().getConversation(toUserId);
+        Log.e("conversation.count=", String.valueOf(conversation.getMsgCount()));
         // 把此会话的未读数置为0
         conversation.resetUnreadMsgCount();
-
-
-        adapter = new MessageAdapter(this, author, chatType);
+        List<EMMessage> messages;
+        messages = conversation.loadMoreMsgFromDB(null, pagesize);
+        adapter = new MessageAdapter(this, toUserId);
         // 显示消息
         list.setAdapter(adapter);
         list.setOnScrollListener(new ListScrollListener());
@@ -277,74 +270,6 @@ public class ChatActivity  extends Activity {
         IntentFilter deliveryAckMessageIntentFilter = new IntentFilter(EMChatManager.getInstance().getDeliveryAckMessageBroadcastAction());
         deliveryAckMessageIntentFilter.setPriority(5);
         registerReceiver(deliveryAckMessageReceiver, deliveryAckMessageIntentFilter);
-
-        // show forward message if the message is not null
-        String forward_msg_id = getIntent().getStringExtra("forward_msg_id");
-        if (forward_msg_id != null) {
-            // 显示发送要转发的消息
-            forwardMessage(forward_msg_id);
-        }
-    }
-    /**
-     * 登录环信系统
-     */
-    private void loginHuanXin() {
-        EMChatManager.getInstance().login(userName, password,
-                new EMCallBack() {//回调
-                    @Override
-                    public void onSuccess() {
-                        Log.e("success", "success");
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                            }
-                        });
-                    }
-                    @Override
-                    public void onProgress(int progress, String status) {
-                    }
-                    @Override
-                    public void onError(int code, String message) {
-                        //TODO 如果用户不存在，注册成为环信用户
-                        Log.e("code = ", String.valueOf(code));
-                        Log.e("main", "登陆聊天服务器失败！");
-                        //用户名密码错误，认为是未注册用户
-                        if (code == EMError.INVALID_PASSWORD_USERNAME && allowReg == true) {
-                            regHuanXinUser();
-                        }
-                    }
-                }
-        );
-    }
-
-    /**
-     * 注册成为环信用户
-     */
-    private void regHuanXinUser() {
-        Log.e("shit", "shit");
-        allowReg = false;
-        String url = String.format(OReaderConst.QUERY_REGHUANXIN_URL, user.getId());
-        StringRequest req = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    if (obj.getString("status") == "1") {
-                        loginHuanXin();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String message = VolleyErrorHelper.getMessage(error, ChatActivity.this);
-                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
-        //timeout 3s retry 0
-        req.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, 1.0f));
-        OReaderApplication.getInstance().addToRequestQueue(req, TAG);
     }
 
     /**
@@ -358,7 +283,7 @@ public class ChatActivity  extends Activity {
             // 设置消息body
             message.addBody(txtBody);
             // 设置要发给谁,用户username
-            message.setReceipt(author);
+            message.setReceipt(toUserId);
             // 把messgage加到conversation中
             conversation.addMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
@@ -366,19 +291,6 @@ public class ChatActivity  extends Activity {
             list.setSelection(list.getCount() - 1);
             et_sendmessage.setText("");
             setResult(RESULT_OK);
-            EMChatManager.getInstance().sendMessage(message, new EMCallBack(){
-                @Override
-                public void onSuccess() {
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-                }
-            });
         }
     }
     /**
@@ -390,7 +302,7 @@ public class ChatActivity  extends Activity {
     private void sendPicture(final String filePath) {
         // create and add image message in view
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
-        message.setReceipt(author);
+        message.setReceipt(toUserId);
         ImageMessageBody body = new ImageMessageBody(new File(filePath));
         // 默认超过100k的图片会压缩后发给对方，可以设置成发送原图
         // body.setSendOriginalImage(true);
@@ -431,7 +343,7 @@ public class ChatActivity  extends Activity {
         try {
             final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
             // 如果是群聊，设置chattype,默认是单聊
-            message.setReceipt(author);
+            message.setReceipt(toUserId);
             int len = Integer.parseInt(length);
             VoiceMessageBody body = new VoiceMessageBody(new File(filePath), len);
             message.addBody(body);
@@ -440,19 +352,6 @@ public class ChatActivity  extends Activity {
             adapter.notifyDataSetChanged();
             list.setSelection(list.getCount() - 1);
             setResult(RESULT_OK);
-            EMChatManager.getInstance().sendMessage(message, new EMCallBack(){
-                @Override
-                public void onSuccess() {
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -528,7 +427,7 @@ public class ChatActivity  extends Activity {
 
         // 创建一个文件消息
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.FILE);
-        message.setReceipt(author);
+        message.setReceipt(toUserId);
         // add message body
         NormalFileMessageBody body = new NormalFileMessageBody(new File(filePath));
         message.addBody(body);
@@ -537,19 +436,6 @@ public class ChatActivity  extends Activity {
         adapter.notifyDataSetChanged();
         list.setSelection(list.getCount() - 1);
         setResult(RESULT_OK);
-        EMChatManager.getInstance().sendMessage(message, new EMCallBack(){
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onError(int i, String s) {
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-            }
-        });
     }
 
     /**
@@ -599,6 +485,16 @@ public class ChatActivity  extends Activity {
                 setResult(RESULT_OK);
             }
         }
+    }
+
+    @Touch
+    public void list() {
+        hideKeyboard();
+        more.setVisibility(View.GONE);
+        iv_emoticons_normal.setVisibility(View.VISIBLE);
+        iv_emoticons_checked.setVisibility(View.INVISIBLE);
+        ll_face_container.setVisibility(View.GONE);
+        ll_btn_container.setVisibility(View.GONE);
     }
 
     @FocusChange(R.id.et_sendmessage)
@@ -863,37 +759,6 @@ public class ChatActivity  extends Activity {
         }
     }
     /**
-     * 转发消息
-     *
-     * @param forward_msg_id
-     */
-    protected void forwardMessage(String forward_msg_id) {
-        EMMessage forward_msg = EMChatManager.getInstance().getMessage(forward_msg_id);
-        EMMessage.Type type = forward_msg.getType();
-        switch (type) {
-            case TXT:
-                // 获取消息内容，发送消息
-                String content = ((TextMessageBody) forward_msg.getBody()).getMessage();
-                sendText(content);
-                break;
-            case IMAGE:
-                // 发送图片
-                String filePath = ((ImageMessageBody) forward_msg.getBody()).getLocalUrl();
-                if (filePath != null) {
-                    File file = new File(filePath);
-                    if (!file.exists()) {
-                        // 不存在大图发送缩略图
-                        String thumbImageName= filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
-                        filePath = PathUtil.getInstance().getImagePath()+"/"+ "th"+thumbImageName;
-                    }
-                    sendPicture(filePath);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-    /**
      * 消息广播接收者
      *
      */
@@ -911,7 +776,7 @@ public class ChatActivity  extends Activity {
             if (message.getChatType() == EMMessage.ChatType.GroupChat) {
                 username = message.getTo();
             }
-            if (!username.equals(author)) {
+            if (!username.equals(toUserId)) {
                 // 消息不是发给当前会话，return
                 notifyNewMessage(message);
                 return;
@@ -921,7 +786,6 @@ public class ChatActivity  extends Activity {
             // 通知adapter有新消息，更新ui
             adapter.notifyDataSetChanged();
             list.setSelection(list.getCount() - 1);
-
         }
     }
     /**
@@ -996,15 +860,65 @@ public class ChatActivity  extends Activity {
         }
     };
 
+    /**
+     * listview滑动监听listener
+     *
+     */
     private class ListScrollListener implements AbsListView.OnScrollListener {
         @Override
-        public void onScrollStateChanged(AbsListView absListView, int i) {
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            switch (scrollState) {
+                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                    if (view.getFirstVisiblePosition() == 0 && !isloading && haveMoreData) {
+                        pb_load_more.setVisibility(View.VISIBLE);
+                        List<EMMessage> messages;
+                        try {
+                            // 获取更多messges，调用此方法的时候从db获取的messages
+                            // sdk会自动存入到此conversation中
+                            messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
+                        } catch (Exception e1) {
+                            pb_load_more.setVisibility(View.GONE);
+                            return;
+                        }
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
 
+                        }
+                        if (messages.size() != 0) {
+                            // 刷新ui
+                            adapter.notifyDataSetChanged();
+                            list.setSelection(messages.size() - 1);
+                            if (messages.size() != pagesize)
+                                haveMoreData = false;
+                        } else {
+                            haveMoreData = false;
+                        }
+                        pb_load_more.setVisibility(View.GONE);
+                        isloading = false;
+                    }
+                    break;
+            }
         }
+
         @Override
-        public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         }
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        // 点击notification bar进入聊天页面，保证只有一个聊天页面
+        String username = intent.getStringExtra("userId");
+        if (toUserId.equals(username))
+            super.onNewIntent(intent);
+        else {
+            finish();
+            startActivity(intent);
+        }
+
     }
 
     private PowerManager.WakeLock wakeLock;
@@ -1030,7 +944,7 @@ public class ChatActivity  extends Activity {
                         recording_container.setVisibility(View.VISIBLE);
                         recording_hint.setText(getString(R.string.chat_move_up_to_cancel));
                         recording_hint.setBackgroundColor(Color.TRANSPARENT);
-                        voiceRecorder.startRecording(null, author, getApplicationContext());
+                        voiceRecorder.startRecording(null, toUserId, getApplicationContext());
                     } catch (Exception e) {
                         e.printStackTrace();
                         v.setPressed(false);
@@ -1068,7 +982,7 @@ public class ChatActivity  extends Activity {
                         try {
                             int length = voiceRecorder.stopRecoding();
                             if (length > 0) {
-                                sendVoice(voiceRecorder.getVoiceFilePath(), voiceRecorder.getVoiceFileName(author),
+                                sendVoice(voiceRecorder.getVoiceFilePath(), voiceRecorder.getVoiceFileName(toUserId),
                                         Integer.toString(length), false);
                             } else if (length == EMError.INVALID_FILE) {
                                 Toast.makeText(getApplicationContext(), "无录音权限", Toast.LENGTH_SHORT).show();
@@ -1091,4 +1005,11 @@ public class ChatActivity  extends Activity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+        unregisterReceiver(ackMessageReceiver);
+        unregisterReceiver(deliveryAckMessageReceiver);
+    }
 }
