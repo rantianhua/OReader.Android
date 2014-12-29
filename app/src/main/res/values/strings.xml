@@ -2,6 +2,7 @@
     <string name="app_name">OReader</string>
     <string name="appid">11</string>
     <string name="author_id">8</string>
+    <string name="author_huanxin_id">82416</string>
     <string name="menu_test">个人中心</string>
     <string name="go_back">返回</string>
     <string name="load">加载数据中....</string>
@@ -42,4 +43,8 @@
     <string name="chat_send_fail">发送失败</string>
     <string name="chat_connect_failuer_toast">请检查网络或稍候重试</string>
     <string name="mine_item_lookmsg">查看消息</string>
+    <string name="chat_prompt">提示</string>
+    <string name="chat_ok">确定</string>
+    <string name="chat_cancel">取消</string>
+    <string name="chat_no_msg">暂无聊天记录</string>
 </resources>

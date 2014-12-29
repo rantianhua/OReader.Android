@@ -22,9 +22,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.easemob.EMCallBack;
-import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -47,7 +45,6 @@ import cn.bandu.oreader.dao.ArticleList;
 import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.User;
 import cn.bandu.oreader.tools.CommonUtil;
-import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.ParseResponse;
 import cn.bandu.oreader.tools.VolleyErrorHelper;
 
@@ -86,7 +83,6 @@ public class SlidingMenuFragment extends Fragment{
 
     @AfterViews
     public void afterViews() {
-
         User user = CommonUtil.getUserInfo(getActivity());
         if (user != null) {
             reg_login.setVisibility(View.GONE);
@@ -99,7 +95,7 @@ public class SlidingMenuFragment extends Fragment{
             username.setText(user.getName());
             //如果是作者本人，显示查看消息
             String author_id = getResources().getString(R.string.author_id);
-            author = DataTools.uid2Username(author_id);
+            author = getResources().getString(R.string.author_huanxin_id);
             if (author_id.equals(String.valueOf(user.getId()))) {
                 msg_btn.setVisibility(View.VISIBLE);
                 feedback_btn.setVisibility(View.GONE);
@@ -242,6 +238,24 @@ public class SlidingMenuFragment extends Fragment{
     @Click
     public void logout() {
         CommonUtil.setUserInfo(getActivity(), null);
+        EMChatManager.getInstance().logout(new EMCallBack(){
+            @Override
+            public void onSuccess() {
+                OReaderApplication.getInstance().getHxHelper().clearHXId();
+                OReaderApplication.getInstance().getHxHelper().clearPassword();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
+        afterViews();
     }
 
     @Click
@@ -272,9 +286,8 @@ public class SlidingMenuFragment extends Fragment{
      * 登录环信系统
      */
     private void loginHuanXin() {
-        Log.e("login start", "regorlogin start");
-        final String  userName = DataTools.uid2Username(String.valueOf(user.getId()));
-        final String password = DataTools.uid2Password(user.getId());
+        final String userName = OReaderApplication.getInstance().getHxHelper().getHXId();
+        final String password = OReaderApplication.getInstance().getHxHelper().getPassword();
         EMChatManager.getInstance().login(userName, password, new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -283,9 +296,6 @@ public class SlidingMenuFragment extends Fragment{
 
                     }
                 });
-                // 登陆成功，保存用户名密码
-                OReaderApplication.getInstance().getHxHelper().setHXId(userName);
-                OReaderApplication.getInstance().getHxHelper().setPassword(password);
                 try {
                     EMChatManager.getInstance().loadAllConversations();
                 } catch (Exception e) {
@@ -327,38 +337,33 @@ public class SlidingMenuFragment extends Fragment{
      * 注册成为环信用户
      */
     private void regOrLoginHuanXinUser() {
-        Log.e("regorlogin start", "regorlogin start");
-        new Thread(new Runnable() {
-            public void run() {
+        final String userName = OReaderApplication.getInstance().getHxHelper().getHXId();
+        final String password = OReaderApplication.getInstance().getHxHelper().getPassword();
+        if (userName != null && password != null) {
+            loginHuanXin();
+            return;
+        }
+        long user_id = user.getId();
+        String url = String.format(OReaderConst.QUERY_REGHUANXIN_URL, String.valueOf(user_id));
+        OReaderApplication.getInstance().getRequestQueue().getCache().invalidate(url, true);
+        StringRequest req = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
                 try {
-                    final String  userName = DataTools.uid2Username(String.valueOf(user.getId()));
-                    final String password = DataTools.uid2Password(user.getId());
-                    // 调用sdk注册方法
-                    EMChatManager.getInstance().createAccountOnServer(userName, password);
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            OReaderApplication.getInstance().getHxHelper().setHXId(userName);
-                            loginHuanXin();
-                        }
-                    });
-                } catch (final EaseMobException e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            int errorCode=e.getErrorCode();
-                            if(errorCode==EMError.NONETWORK_ERROR){
-                                Toast.makeText(getActivity(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
-                            } else if(errorCode==EMError.USER_ALREADY_EXISTS){
-                                Log.e("userexists", "userexists");
-                                loginHuanXin();
-                            } else if(errorCode==EMError.UNAUTHORIZED){
-                                Toast.makeText(getActivity(), "注册失败，无权限！", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    ParseResponse.parseHXUser(response, getActivity());
+                    loginHuanXin();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        }).start();
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message = VolleyErrorHelper.getMessage(error, getActivity());
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+        req.setRetryPolicy(new DefaultRetryPolicy(1 * 1000, 1, 1.0f));
+        OReaderApplication.getInstance().addToRequestQueue(req, TAG);
     }
 }

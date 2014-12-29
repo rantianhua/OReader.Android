@@ -1,5 +1,6 @@
 package cn.bandu.oreader.tools;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import java.util.List;
 import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.User;
+import cn.huanxin.model.DefaultHXSDKModel;
 
 /**
  * Created by yangmingfu on 14/12/2.
@@ -79,5 +81,21 @@ public class ParseResponse {
         Log.e("jsonobject", String.valueOf(jsonObject));
         User user = new User(jsonObject.getLong("id"), jsonObject.getLong("uid"), jsonObject.getString("name"), jsonObject.getString("avatar"));
         return user;
+    }
+
+    public static DefaultHXSDKModel parseHXUser(String response, Context context) throws JSONException {
+        DefaultHXSDKModel model = new DefaultHXSDKModel(context);
+        if (response == null) {
+            return null;
+        }
+        JSONObject jo = new JSONObject(response);
+        int status = jo.getInt("status");
+        if (status == 0) {
+            return null;
+        }
+        JSONObject jsonObject = new JSONObject(jo.getString("data"));
+        model.saveHXId(jsonObject.getString("username"));
+        model.savePassword(jsonObject.getString("password"));
+        return model;
     }
 }

@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by yangmingfu on 14/12/3.
@@ -23,4 +25,13 @@ public class BitMapUtil {
         }
     }
 
+    public static Bitmap file2Bitmap(String file) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            return BitmapFactory.decodeStream(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

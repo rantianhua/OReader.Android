@@ -173,7 +173,6 @@ public abstract class HXSDKHelper {
         if(hxId == null){
             hxId = hxModel.getHXId();
         }
-        hxId = "c9f0f895fb98ab9159f51fd0297e236d";
         return hxId;
     }
     
@@ -181,8 +180,7 @@ public abstract class HXSDKHelper {
         if(password == null){
             password = hxModel.getPwd();
         }
-        password = "ab534d936618e6ae7739adb378477c54";
-        return password;    
+        return password;
     }
     
     public void setHXId(String hxId){
@@ -192,11 +190,19 @@ public abstract class HXSDKHelper {
             }
         }
     }
-    
+
+    public void clearHXId() {
+        hxModel.clearHXId();
+    }
+
     public void setPassword(String password){
         if(hxModel.savePassword(password)){
             this.password = password;
         }
+    }
+
+    public void clearPassword() {
+        hxModel.clearPassword();
     }
     
     /**

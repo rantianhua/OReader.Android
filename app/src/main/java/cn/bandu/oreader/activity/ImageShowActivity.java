@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -17,11 +18,13 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import java.io.File;
 import java.io.IOException;
 
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.data.AppPrefs_;
+import cn.bandu.oreader.tools.BitMapUtil;
 import cn.bandu.oreader.tools.DataTools;
 
 /**
@@ -32,6 +35,10 @@ import cn.bandu.oreader.tools.DataTools;
 public class ImageShowActivity extends Activity {
     @ViewById
     NetworkImageView imgView;
+    @ViewById
+    ImageView download;
+    @ViewById
+    ImageView localImage;
 
     String imgUri;
 
@@ -44,14 +51,29 @@ public class ImageShowActivity extends Activity {
     public void initImageView() {
         Intent intent = getIntent();
         imgUri = intent.getStringExtra("imgUri");
-        Log.e("imgUri",imgUri);
-        imgView.setDefaultImageResId(R.drawable.small_pic_loading);
-        imgView.setErrorImageResId(R.drawable.small_load_png_failed);
-        imgView.setImageUrl(imgUri, imageLoader);
+        if (new File(imgUri).exists()) {
+            Bitmap bitMap = BitMapUtil.file2Bitmap(imgUri);
+            localImage.setImageBitmap(bitMap);
+            imgView.setVisibility(View.GONE);
+            download.setVisibility(View.GONE);
+        } else {
+            imgView.setDefaultImageResId(R.drawable.small_pic_loading);
+            imgView.setErrorImageResId(R.drawable.small_load_png_failed);
+            imgView.setImageUrl(imgUri, imageLoader);
+            download.setVisibility(View.VISIBLE);
+            imgView.setVisibility(View.VISIBLE);
+            localImage.setVisibility(View.GONE);
+        }
     }
 
     @Click
     public void imgView() {
+        this.finish();
+    }
+
+
+    @Click
+    public void localImage() {
         this.finish();
     }
 

@@ -7,7 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +32,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 import cn.bandu.oreader.R;
-import cn.bandu.oreader.tools.DataTools;
 import cn.huanxin.adapter.ChatAllHistoryAdapter;
 import cn.huanxin.tools.CommonUtils;
 
@@ -52,6 +51,8 @@ public class MsgActivity extends Activity {
 
     @ViewById
     ListView listView;
+    @ViewById
+    View notice;
 
     @Override
     protected void onStart() {
@@ -62,8 +63,13 @@ public class MsgActivity extends Activity {
     @AfterViews
     public void afterViews() {
         author_id = this.getResources().getString(R.string.author_id);
-        author = DataTools.hashKeyForDisk(author_id);
+        author = this.getResources().getString(R.string.author_huanxin_id);
         conversationList = loadConversationsWithRecentChat();
+        if (conversationList.size() == 0) {
+            notice.setVisibility(View.VISIBLE);
+        } else {
+            notice.setVisibility(View.GONE);
+        }
         adapter = new ChatAllHistoryAdapter(MsgActivity.this, 1, conversationList);
         listView.setAdapter(adapter);
 
@@ -108,12 +114,9 @@ public class MsgActivity extends Activity {
     private List<EMConversation> loadConversationsWithRecentChat() {
         //获取所有会话，包括陌生人
         Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
-        Log.e("conversations all size ", String.valueOf(conversations.size()));
         List<EMConversation> list = new ArrayList<EMConversation>();
         // 过滤掉messages seize为0的conversation
         for (EMConversation conversation : conversations.values()) {
-            Log.e("username", conversation.getUserName());
-            Log.e("conversation.getAllMessages().size()", String.valueOf(conversation.getAllMessages().size()));
             if (conversation.getAllMessages().size() != 0) {
                 list.add(conversation);
             }
@@ -129,6 +132,11 @@ public class MsgActivity extends Activity {
         conversationList.clear();
         conversationList.addAll(loadConversationsWithRecentChat());
         adapter.notifyDataSetChanged();
+        if (conversationList.size() == 0) {
+            notice.setVisibility(View.VISIBLE);
+        } else {
+            notice.setVisibility(View.GONE);
+        }
     }
     /**
      *

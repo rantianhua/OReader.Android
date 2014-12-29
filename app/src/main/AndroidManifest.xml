@@ -22,6 +22,7 @@
         <activity android:name=".activity.ChatActivity_" android:screenOrientation="portrait"/>
         <activity android:name=".activity.MsgActivity_" android:screenOrientation="portrait"/>
         <activity android:name="cn.huanxin.activity.ShowNormalFileActivity_" android:screenOrientation="portrait"/>
+        <activity android:name="cn.huanxin.activity.AlertDialogActivity_" android:screenOrientation="portrait" android:theme="@style/MyDialogStyle"/>
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

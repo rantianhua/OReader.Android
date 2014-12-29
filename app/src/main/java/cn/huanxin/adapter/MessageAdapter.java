@@ -19,8 +19,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.text.Spannable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
@@ -56,9 +57,11 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.ChatActivity;
 import cn.bandu.oreader.activity.ImageShowActivity_;
+import cn.bandu.oreader.tools.CommonUtil;
 import cn.huanxin.Constant;
 import cn.huanxin.activity.ShowNormalFileActivity_;
 import cn.huanxin.task.LoadImageTask;
@@ -170,7 +173,7 @@ public class MessageAdapter extends BaseAdapter{
 			if (message.getType() == Type.IMAGE) {
 				try {
 					holder.iv = ((ImageView) convertView.findViewById(R.id.iv_sendPicture));
-					holder.head_iv = (ImageView) convertView.findViewById(R.id.iv_userhead);
+					holder.head_iv = (NetworkImageView) convertView.findViewById(R.id.iv_userhead);
 					holder.tv = (TextView) convertView.findViewById(R.id.percentage);
 					holder.pb = (ProgressBar) convertView.findViewById(R.id.progressBar);
 					holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -182,7 +185,7 @@ public class MessageAdapter extends BaseAdapter{
 				try {
 					holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
 					holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
-					holder.head_iv = (ImageView) convertView.findViewById(R.id.iv_userhead);
+					holder.head_iv = (NetworkImageView) convertView.findViewById(R.id.iv_userhead);
 					// 这里是文字内容
 					holder.tv = (TextView) convertView.findViewById(R.id.tv_chatcontent);
 					holder.tv_userId = (TextView) convertView.findViewById(R.id.tv_userid);
@@ -191,7 +194,7 @@ public class MessageAdapter extends BaseAdapter{
 			} else if (message.getType() == EMMessage.Type.VOICE) {
                 try {
                     holder.iv = ((ImageView) convertView.findViewById(R.id.iv_voice));
-                    holder.head_iv = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.head_iv = (NetworkImageView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv = (TextView) convertView.findViewById(R.id.tv_length);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
                     holder.staus_iv = (ImageView) convertView.findViewById(R.id.msg_status);
@@ -201,7 +204,7 @@ public class MessageAdapter extends BaseAdapter{
                 }
             } else if (message.getType() == EMMessage.Type.FILE) {
                 try {
-                    holder.head_iv = (ImageView) convertView.findViewById(R.id.iv_userhead);
+                    holder.head_iv = (NetworkImageView) convertView.findViewById(R.id.iv_userhead);
                     holder.tv_file_name = (TextView) convertView.findViewById(R.id.tv_file_name);
                     holder.tv_file_size = (TextView) convertView.findViewById(R.id.tv_file_size);
                     holder.pb = (ProgressBar) convertView.findViewById(R.id.pb_sending);
@@ -242,6 +245,7 @@ public class MessageAdapter extends BaseAdapter{
 					}
 				}
 			}
+            holder.head_iv.setImageUrl(CommonUtil.getUserInfo(activity).getAvatar(), OReaderApplication.getInstance().getImageLoader());
 		} else {
 			if (message.getType() == Type.TXT) {
                 try {
@@ -448,8 +452,10 @@ public class MessageAdapter extends BaseAdapter{
         if (((ChatActivity)activity).playMsgId != null && ((ChatActivity)activity).playMsgId.equals(message.getMsgId()) && VoicePlayClickListener.isPlaying) {
             AnimationDrawable voiceAnimation;
             if (message.direct == EMMessage.Direct.RECEIVE) {
+                //noinspection ResourceType
                 holder.iv.setImageResource(R.anim.voice_from_icon);
             } else {
+                //noinspection ResourceType
                 holder.iv.setImageResource(R.anim.voice_to_icon);
             }
             voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
@@ -687,6 +693,8 @@ public class MessageAdapter extends BaseAdapter{
      */
     private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath, String remoteDir,
                                   final EMMessage message) {
+        Log.e("localFullSizePath", localFullSizePath);
+
         final String remote = remoteDir;
         // first check if the thumbnail image already loaded into cache
         Bitmap bitmap = ImageCache.getInstance().get(thumbernailPath);
@@ -700,11 +708,9 @@ public class MessageAdapter extends BaseAdapter{
                     Intent intent = new Intent(activity, ImageShowActivity_.class);
                     File file = new File(localFullSizePath);
                     if (file.exists()) {
-                        Uri uri = Uri.fromFile(file);
-                        intent.putExtra("imgUri", uri);
+                        intent.putExtra("imgUri", localFullSizePath);
                     } else {
                         ImageMessageBody body = (ImageMessageBody) message.getBody();
-                        intent.putExtra("secret", body.getSecret());
                         intent.putExtra("imgUri", remote);
                     }
                     if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked
@@ -843,7 +849,7 @@ public class MessageAdapter extends BaseAdapter{
 		TextView tv;
 		ProgressBar pb;
 		ImageView staus_iv;
-		ImageView head_iv;
+        NetworkImageView head_iv;
 		TextView tv_userId;
 		ImageView playBtn;
 		TextView timeLength;

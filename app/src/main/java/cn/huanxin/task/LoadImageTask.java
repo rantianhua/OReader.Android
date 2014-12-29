@@ -65,50 +65,52 @@ public class LoadImageTask extends AsyncTask<Object, Void, Bitmap> {
 
 	}
 
-	protected void onPostExecute(Bitmap image) {
-		if (image != null) {
-			iv.setImageBitmap(image);
-			ImageCache.getInstance().put(thumbnailPath, image);
-			iv.setClickable(true);
-			iv.setTag(thumbnailPath);
-			iv.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (thumbnailPath != null) {
+    protected void onPostExecute(Bitmap image) {
+        if (image != null) {
+            iv.setImageBitmap(image);
+            ImageCache.getInstance().put(thumbnailPath, image);
+            iv.setClickable(true);
+            iv.setTag(thumbnailPath);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (thumbnailPath != null) {
 
-						Intent intent = new Intent(activity, ImageShowActivity_.class);
-						intent.putExtra("imgUri", remotePath);
-						if (message.getChatType() != ChatType.Chat) {
-							// delete the image from server after download
-						}
-						if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked) {
-							message.isAcked = true;
-							try {
-								// 看了大图后发个已读回执给对方
-								EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-						activity.startActivity(intent);
-					}
-				}
-			});
-		} else {
-			if (message.status == EMMessage.Status.FAIL) {
-				if (CommonUtils.isNetWorkConnected(activity)) {
-					new Thread(new Runnable() {
+                        Intent intent = new Intent(activity, ImageShowActivity_.class);
+                        File file = new File(localFullSizePath);
+                        if (file.exists()) {
+                            intent.putExtra("imgUri", localFullSizePath);
+                        } else {
+                            intent.putExtra("imgUri", remotePath);
+                        }
+                        if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked) {
+                            message.isAcked = true;
+                            try {
+                                // 看了大图后发个已读回执给对方
+                                EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        activity.startActivity(intent);
+                    }
+                }
+            });
+        } else {
+            if (message.status == EMMessage.Status.FAIL) {
+                if (CommonUtils.isNetWorkConnected(activity)) {
+                    new Thread(new Runnable() {
 
-						@Override
-						public void run() {
-							EMChatManager.getInstance().asyncFetchMessage(message);
-						}
-					}).start();
-				}
-			}
+                        @Override
+                        public void run() {
+                            EMChatManager.getInstance().asyncFetchMessage(message);
+                        }
+                    }).start();
+                }
+            }
 
-		}
-	}
+        }
+    }
 
 	@Override
 	protected void onPreExecute() {

@@ -118,8 +118,8 @@ public class DetailActivity extends Activity {
     private void initWebView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-//        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
-        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
+//        webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
 
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 

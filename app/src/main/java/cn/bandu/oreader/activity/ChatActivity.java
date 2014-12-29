@@ -62,10 +62,11 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.User;
 import cn.bandu.oreader.tools.CommonUtil;
-import cn.bandu.oreader.tools.DataTools;
+import cn.huanxin.activity.AlertDialogActivity_;
 import cn.huanxin.adapter.ExpressionAdapter;
 import cn.huanxin.adapter.ExpressionPagerAdapter;
 import cn.huanxin.adapter.MessageAdapter;
@@ -143,7 +144,6 @@ public class ChatActivity  extends Activity {
     private InputMethodManager manager;
 
     //当前登录用户
-    private String userName;
     private User user;
     //对方
     private String toUserId;
@@ -151,7 +151,7 @@ public class ChatActivity  extends Activity {
     private File cameraFile;
     private MessageAdapter adapter;
     private EMConversation conversation;
-    static int resendPos;
+    public static int resendPos;
     private int chatType = CHATTYPE_SINGLE;
     private NewMessageBroadcastReceiver receiver;
 
@@ -185,7 +185,6 @@ public class ChatActivity  extends Activity {
         if (user == null) {
             //TODO 弹出登录
         }
-        userName = DataTools.uid2Username(String.valueOf(user.getId()));
     }
 
     private void initView() {
@@ -221,7 +220,6 @@ public class ChatActivity  extends Activity {
     }
 
     private void setUpView() {
-//        clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
@@ -230,8 +228,6 @@ public class ChatActivity  extends Activity {
         Log.e("conversation.count=", String.valueOf(conversation.getMsgCount()));
         // 把此会话的未读数置为0
         conversation.resetUnreadMsgCount();
-        List<EMMessage> messages;
-        messages = conversation.loadMoreMsgFromDB(null, pagesize);
         adapter = new MessageAdapter(this, toUserId);
         // 显示消息
         list.setAdapter(adapter);
@@ -455,8 +451,10 @@ public class ChatActivity  extends Activity {
         if (resultCode == RESULT_OK) { // 清空消息
             if (requestCode == REQUEST_CODE_EMPTY_HISTORY) {
                 // 清空会话
-                EMChatManager.getInstance().clearConversation(userName);
+                boolean res = EMChatManager.getInstance().clearConversation(toUserId);
+                Log.e("res=", String.valueOf(res));
                 adapter.notifyDataSetChanged();
+                Log.e("fuck", "fuck");
             } else if (requestCode == REQUEST_CODE_CAMERA) { // 发送照片
                 if (cameraFile != null && cameraFile.exists()) {
                     Log.e("cameraFile.getAbsolutePath()", cameraFile.getAbsolutePath());
@@ -598,7 +596,9 @@ public class ChatActivity  extends Activity {
 
     @Click
     public void delete_all() {
-
+        startActivityForResult(
+                new Intent(this, AlertDialogActivity_.class).putExtra("titleIsCancel", true).putExtra("msg", "是否清空所有聊天记录").putExtra("cancel", true),
+                REQUEST_CODE_EMPTY_HISTORY);
     }
 
     @Click
@@ -627,7 +627,7 @@ public class ChatActivity  extends Activity {
             return;
         }
 
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), userName + System.currentTimeMillis() + ".jpg");
+        cameraFile = new File(PathUtil.getInstance().getImagePath(), OReaderApplication.getInstance().getHxHelper().getHXId() + System.currentTimeMillis() + ".jpg");
         cameraFile.getParentFile().mkdirs();
         Log.e("cameraFile", String.valueOf(cameraFile));
         startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
@@ -918,7 +918,6 @@ public class ChatActivity  extends Activity {
             finish();
             startActivity(intent);
         }
-
     }
 
     private PowerManager.WakeLock wakeLock;

@@ -39,7 +39,7 @@ public class DefaultHXSDKModel extends HXSDKModel{
         context = ctx;
         HXPreferenceUtils.init(context);
     }
-    
+
     @Override
     public void setSettingMsgNotification(boolean paramBoolean) {
         // TODO Auto-generated method stub
@@ -109,6 +109,12 @@ public class DefaultHXSDKModel extends HXSDKModel{
     }
 
     @Override
+    public boolean clearHXId() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.edit().remove(PREF_USERNAME).commit();
+    }
+
+    @Override
     public boolean savePassword(String pwd) {
         // TODO Auto-generated method stub
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -120,5 +126,11 @@ public class DefaultHXSDKModel extends HXSDKModel{
         // TODO Auto-generated method stub
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(PREF_PWD, null);
+    }
+
+    @Override
+    public boolean clearPassword() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.edit().remove(PREF_PWD).commit();
     }
 }

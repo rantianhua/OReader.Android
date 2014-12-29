@@ -1,9 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/tab_backgroud">
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/mTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/chat_prompt"
+            android:textColor="#333"
+            android:visibility="visible"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/alert_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="#333"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/mButton"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/chat_btn_cancel_bj"
+            android:gravity="center"
+            android:text="@string/chat_cancel"
+            android:textColor="#666666"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/chatOk"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/chat_btn_blue_selector"
+            android:gravity="center"
+            android:text="@string/chat_ok"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>

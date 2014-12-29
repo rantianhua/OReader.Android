@@ -33,10 +33,13 @@ public abstract class HXSDKModel {
    
     public abstract boolean saveHXId(String hxId);
     public abstract String getHXId();
+    public abstract boolean clearHXId();
     
     public abstract boolean savePassword(String pwd);
     public abstract String getPwd();
-    
+    public abstract boolean clearPassword();
+
+
     /**
      * 是否总是接收好友邀请
      * @return
