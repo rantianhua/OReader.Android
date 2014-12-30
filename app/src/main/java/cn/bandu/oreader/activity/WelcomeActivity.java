@@ -1,6 +1,8 @@
 package cn.bandu.oreader.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -24,9 +26,12 @@ import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.data.AppPrefs_;
+import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.FileDownloadThread;
 import cn.bandu.oreader.tools.NetCheck;
+import cn.bandu.oreader.tools.Stat;
+
 
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 @Fullscreen
@@ -48,16 +53,44 @@ public class WelcomeActivity extends Activity {
 
     @AfterViews
     public void afterViews() {
-
-//        startMain();
-
-        if (NetCheck.isNetworkConnected(this) == false) {
+        Log.e("NetCheck.isNetworkConnected(this)=", String.valueOf(NetCheck.isNetworkConnected(this)));
+        Log.e("CommonUtil.isFirstUsed(this)=", String.valueOf(CommonUtil.isFirstUsed(this)));
+        //没有网络 && 第一次使用
+        if (NetCheck.isNetworkConnected(this) == false && CommonUtil.isFirstUsed(this) == true) {
+            startActivityForResult(new Intent(this, AlertDialogActivity_.class).putExtra("titleIsCancel", true).putExtra("msg", "网络连接不可用,是否进行设置?").putExtra("cancel", true), 1);
+            return;
+        }
+        if (NetCheck.isNetworkConnected(this) == false && CommonUtil.isFirstUsed(this) == false) {
             startMain();
-        } else {
+        }
+        if (CommonUtil.isFirstUsed(this) == true) {
+            Stat.sendInstallStat();
+            CommonUtil.updateFirestUsed(this);
+        }
+        if (NetCheck.isNetworkConnected(this) == true) {
             startDownLoadDatabase();
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                //跳转到系统设置
+                Intent intent=null;
+                //判断手机系统的版本  即API大于10 就是3.0或以上版本
+                if(android.os.Build.VERSION.SDK_INT>10){
+                    intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                } else {
+                    intent = new Intent();
+                    ComponentName component = new ComponentName("com.android.settings","com.android.settings.WirelessSettings");
+                    intent.setComponent(component);
+                    intent.setAction("android.intent.action.VIEW");
+                }
+                this.startActivity(intent);
+            }
+        }
+    }
     /**
      * 启动mainactivity
      */

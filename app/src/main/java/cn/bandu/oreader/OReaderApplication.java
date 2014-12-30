@@ -29,7 +29,6 @@ import cn.bandu.oreader.dao.DaoMaster;
 import cn.bandu.oreader.dao.DaoSession;
 import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.LruBitmapCache;
-import cn.bandu.oreader.tools.Stat;
 import cn.huanxin.model.DefaultHXSDKModel;
 import cn.huanxin.model.HXSDKModel;
 import cn.huanxin.tools.HXSDKHelper;
@@ -60,10 +59,6 @@ public class OReaderApplication extends Application {
         super.onCreate();
         Log.e("APPLICATION CREATE!", "");
         sInstance = this;
-        if (CommonUtil.isFirstUsed(this) == true) {
-            Stat.sendInstallStat();
-            CommonUtil.updateFirestUsed(this);
-        }
         getHxHelper().onInit(this);
         initHuanxin();
     }

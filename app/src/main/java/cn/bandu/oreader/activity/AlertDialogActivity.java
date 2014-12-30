@@ -1,4 +1,4 @@
-package cn.huanxin.activity;
+package cn.bandu.oreader.activity;
 
 import android.app.Activity;
 import android.view.MotionEvent;
@@ -12,7 +12,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import cn.bandu.oreader.R;
-import cn.bandu.oreader.activity.ChatActivity_;
 
 /**
  * Created by yangmingfu on 14/12/29.

@@ -66,7 +66,6 @@ import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.User;
 import cn.bandu.oreader.tools.CommonUtil;
-import cn.huanxin.activity.AlertDialogActivity_;
 import cn.huanxin.adapter.ExpressionAdapter;
 import cn.huanxin.adapter.ExpressionPagerAdapter;
 import cn.huanxin.adapter.MessageAdapter;
@@ -452,9 +451,7 @@ public class ChatActivity  extends Activity {
             if (requestCode == REQUEST_CODE_EMPTY_HISTORY) {
                 // 清空会话
                 boolean res = EMChatManager.getInstance().clearConversation(toUserId);
-                Log.e("res=", String.valueOf(res));
                 adapter.notifyDataSetChanged();
-                Log.e("fuck", "fuck");
             } else if (requestCode == REQUEST_CODE_CAMERA) { // 发送照片
                 if (cameraFile != null && cameraFile.exists()) {
                     Log.e("cameraFile.getAbsolutePath()", cameraFile.getAbsolutePath());
