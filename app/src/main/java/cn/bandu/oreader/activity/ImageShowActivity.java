@@ -14,7 +14,6 @@ import com.android.volley.toolbox.NetworkImageView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -30,7 +29,7 @@ import cn.bandu.oreader.tools.DataTools;
 /**
  * Created by yangmingfu on 14/11/14.
  */
-@Fullscreen
+//@Fullscreen
 @EActivity(R.layout.activity_image_show)
 public class ImageShowActivity extends Activity {
     @ViewById

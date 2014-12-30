@@ -70,6 +70,8 @@ public class SlidingMenuFragment extends Fragment{
     View msg_btn;
     @ViewById
     View feedback_btn;
+    @ViewById
+    View processBar;
 
     LayoutInflater inflater;
     View dialogView;
@@ -260,6 +262,8 @@ public class SlidingMenuFragment extends Fragment{
 
     @Click
     public void feedback_btn(View view) {
+        processBar.setVisibility(View.VISIBLE);
+        feedback_btn.setClickable(false);
         user = CommonUtil.getUserInfo(getActivity());
         if (user == null) {
             //TODO 跳转到登录
@@ -272,6 +276,8 @@ public class SlidingMenuFragment extends Fragment{
 
     @Click
     public void msg_btn(View view) {
+        processBar.setVisibility(View.VISIBLE);
+        msg_btn.setClickable(false);
         user = CommonUtil.getUserInfo(getActivity());
         if (user == null) {
             //TODO 跳转到登录
@@ -293,7 +299,9 @@ public class SlidingMenuFragment extends Fragment{
             public void onSuccess() {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-
+                        processBar.setVisibility(View.GONE);
+                        feedback_btn.setClickable(true);
+                        msg_btn.setClickable(true);
                     }
                 });
                 try {

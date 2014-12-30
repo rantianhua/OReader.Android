@@ -118,7 +118,7 @@
                 android:layout_weight="1"
                 android:gravity="bottom">
 
-                <cn.huanxin.view.PasteEditText
+                <EditText
                     android:id="@+id/et_sendmessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,7 +131,9 @@
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
                     android:paddingTop="3dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"/>
 
                 <ImageView
                     android:id="@+id/iv_emoticons_normal"

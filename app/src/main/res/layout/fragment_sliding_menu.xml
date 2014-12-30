@@ -130,4 +130,14 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/processBar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center_vertical"/>
+        </FrameLayout>
 </RelativeLayout>
