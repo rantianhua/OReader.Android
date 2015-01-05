@@ -112,12 +112,17 @@ public class WelcomeActivity extends Activity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            int progress = (Double.valueOf((downloadedSize * 1.0 / fileSize * 100))).intValue();
-            if (progress == 100) {
-                refreshDatabase();
+            Log.e("msg", String.valueOf(msg.what));
+            if (msg.what == 0) {
+                int progress = (Double.valueOf((downloadedSize * 1.0 / fileSize * 100))).intValue();
+                if (progress == 100) {
+                    refreshDatabase();
+                }
+                downloadProgressBar.setDrawingCacheBackgroundColor(R.color.black);
+                downloadProgressBar.setProgress(progress);
+            } else if (msg.what == 1) {
+                startMain();
             }
-            downloadProgressBar.setDrawingCacheBackgroundColor(R.color.black);
-            downloadProgressBar.setProgress(progress);
         }
     };
 
@@ -199,6 +204,7 @@ public class WelcomeActivity extends Activity {
                     sleep(1000);
                 }
             } catch (Exception e) {
+                handler.sendEmptyMessage(1);
                 e.printStackTrace();
             }
         }

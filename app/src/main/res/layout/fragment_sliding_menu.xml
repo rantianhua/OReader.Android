@@ -9,61 +9,62 @@
     android:id="@+id/title_bar"
     style="@style/title_bar_style"
     android:background="@color/slid_bg">
-    <TextView
-        android:id="@id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@null"
-        android:layout_centerInParent="true"
-        style="@style/title_text_style" />
-</RelativeLayout>
+        <TextView
+            android:id="@id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@null"
+            android:layout_centerInParent="true"
+            style="@style/title_text_style" />
+    </RelativeLayout>
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_bar">
         <LinearLayout
-            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <View android:id="@+id/divider1"
-                style="@style/mine_item_divider" />
+            android:layout_height="wrap_content"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:layout_gravity="center|center_horizontal|center_vertical">
             <RelativeLayout
                 android:id="@+id/userinfo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="140dp"
+                android:gravity="center">
                 <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/avatar"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
-                    android:gravity="center"
-                    android:layout_gravity="center" />
+                    android:layout_height="80dp"
+                    android:layout_width="80dp"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:layout_gravity="center|center_horizontal|center_vertical" />
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/avatar"/>
-                <TextView
-                    android:id="@+id/logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="安全退出"
-                    android:layout_alignParentRight="true"/>
-                <ImageView style="@style/mine_btn_line" />
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/avatar"
+                    android:textSize="20dp"
+                    android:text="yang"
+                    android:textColor="@color/login"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/reg_login"
-                style="@style/mine_item">
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:gravity="center">
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/login_btn"
-                    android:text="登陆"
-                    style="@style/mine_item_text" />
-                <TextView
-                    android:id="@+id/reg_btn"
-                    android:text="注册"
-                    style="@style/mine_item_text"
-                    android:layout_toRightOf="@id/login_btn"/>
-                <ImageView style="@style/mine_btn_line" />
+                    android:drawableTop="@drawable/default_avatar"
+                    android:layout_gravity="center|center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:drawablePadding="10dp"
+                    android:textSize="16.0sp"
+                    android:text="请登录"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/favorite_btn"
@@ -123,6 +124,18 @@
                     android:id="@+id/look_msg_text"
                     android:text="@string/mine_item_lookmsg"
                     android:drawableLeft="@drawable/slid_feedback"
+                    style="@style/mine_item_text" />
+                <ImageView
+                    style="@style/mine_arrow" />
+                <ImageView style="@style/mine_btn_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/logout"
+                style="@style/mine_item"
+                android:visibility="visible">
+                <TextView
+                    android:text="安全退出"
+                    android:drawableLeft="@drawable/slid_logout"
                     style="@style/mine_item_text" />
                 <ImageView
                     style="@style/mine_arrow" />

@@ -4,6 +4,7 @@ package cn.bandu.oreader.activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -69,6 +70,9 @@ public class MainActivity extends FragmentActivity {
     public void onBackPressed() {
         if (menu.isMenuShowing()) {
             menu.toggle();
+            menu.findViewById(R.id.processBar).setVisibility(View.GONE);
+            menu.findViewById(R.id.msg_btn).setClickable(true);
+            menu.findViewById(R.id.feedback_btn).setClickable(true);
             return;
         }
         long now = System.currentTimeMillis();

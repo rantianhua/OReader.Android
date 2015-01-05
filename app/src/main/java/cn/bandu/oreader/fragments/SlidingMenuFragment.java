@@ -1,7 +1,6 @@
 package cn.bandu.oreader.fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,8 +29,6 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import cn.bandu.oreader.OReaderApplication;
 import cn.bandu.oreader.OReaderConst;
@@ -40,6 +36,7 @@ import cn.bandu.oreader.R;
 import cn.bandu.oreader.activity.ChatActivity_;
 import cn.bandu.oreader.activity.DetailActivity_;
 import cn.bandu.oreader.activity.FavoritesActivity_;
+import cn.bandu.oreader.activity.LoginActivity_;
 import cn.bandu.oreader.activity.MsgActivity_;
 import cn.bandu.oreader.dao.ArticleList;
 import cn.bandu.oreader.dao.Cate;
@@ -90,8 +87,8 @@ public class SlidingMenuFragment extends Fragment{
             reg_login.setVisibility(View.GONE);
             userinfo.setVisibility(View.VISIBLE);
             ImageLoader imageLoader = OReaderApplication.getInstance().getImageLoader();
-            avatar.setDefaultImageResId(R.drawable.small_pic_loading);
-            avatar.setErrorImageResId(R.drawable.small_load_png_failed);
+            avatar.setDefaultImageResId(R.drawable.default_avatar);
+            avatar.setErrorImageResId(R.drawable.default_avatar);
             avatar.setImageUrl(user.getAvatar(), imageLoader);
             Log.e("avatar=", user.getAvatar());
             username.setText(user.getName());
@@ -111,8 +108,14 @@ public class SlidingMenuFragment extends Fragment{
             msg_btn.setVisibility(View.GONE);
             feedback_btn.setVisibility(View.VISIBLE);
         }
+        processBar.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        afterViews();
+    }
 
     @Click
     public void favorite_btn() {
@@ -164,78 +167,11 @@ public class SlidingMenuFragment extends Fragment{
 
     @Click
     public void login_btn() {
-        inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        dialogView = inflater.inflate(R.layout.dialog_login, null);
-        final AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getActivity());
-        dialog = alertDialog.create();
-        usernameText = (EditText) dialogView.findViewById(R.id.username);
-        passwdText = (EditText) dialogView.findViewById(R.id.passwd);
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            public void onShow(DialogInterface dialog) {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(usernameText, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-
-        dialog.setView(dialogView);
-        dialog.show();
-
-        dialogView.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String username = usernameText.getText().toString();
-                final String passwd = passwdText.getText().toString();
-                String url = OReaderConst.QUERY_LOGIN_URL;
-                StringRequest req = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            User user = ParseResponse.parseUserInfo(response);
-                            if (user == null) {
-                                CommonUtil.setUserInfo(getActivity(), null);
-                            } else {
-                                CommonUtil.setUserInfo(getActivity(), response);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        afterViews();
-                        dialog.dismiss();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String message = VolleyErrorHelper.getMessage(error, getActivity());
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        //在这里设置需要post的参数
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("username", username);
-                        map.put("password", passwd);
-                        map.put("autologin", "1");
-                        return map;
-                    }
-                };
-                //timeout 3s retry 0
-                req.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, 1.0f));
-                OReaderApplication.getInstance().addToRequestQueue(req, TAG);
-            }
-        });
-
-        dialogView.findViewById(R.id.canel_btn).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-    }
-    @Click
-    public void reg_btn() {
-
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), LoginActivity_.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
     @Click
     public void logout() {
