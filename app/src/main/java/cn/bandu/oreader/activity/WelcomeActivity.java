@@ -118,7 +118,7 @@ public class WelcomeActivity extends Activity {
                 if (progress == 100) {
                     refreshDatabase();
                 }
-                downloadProgressBar.setDrawingCacheBackgroundColor(R.color.black);
+                downloadProgressBar.setDrawingCacheBackgroundColor(getResources().getColor(R.color.black));
                 downloadProgressBar.setProgress(progress);
             } else if (msg.what == 1) {
                 startMain();
@@ -208,5 +208,11 @@ public class WelcomeActivity extends Activity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OReaderApplication.getDaoMaster(this, 0).getDatabase().close();
     }
 }

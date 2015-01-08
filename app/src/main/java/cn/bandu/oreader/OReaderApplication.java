@@ -48,6 +48,7 @@ public class OReaderApplication extends Application {
     private static OReaderApplication sInstance;
 
     private static DiskLruCache diskLruCache = null;
+
     private HXSDKHelper hxSDKHelper;
 
     private RequestQueue mRequestQueue;
@@ -186,15 +187,19 @@ public class OReaderApplication extends Application {
      * @return
      */
     public static DaoMaster getDaoMaster(Context context, int index) {
-        if (daoMaster[index] == null) {
+//        if (daoMaster[index] == null) {
             DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context, OReaderConst.DATABASE_NAME[index], null);
             daoMaster[index] = new DaoMaster(helper.getWritableDatabase());
-        }
+//        }
         return daoMaster[index];
     }
+
+
     public static void setDaoMasterNull(int index) {
         daoMaster[index] = null;
     }
+
+
 
     /**
      * 取得DaoSession
@@ -203,12 +208,12 @@ public class OReaderApplication extends Application {
      * @return
      */
     public static DaoSession getDaoSession(Context context, int index) {
-        if (daoSession[index] == null) {
-            if (daoMaster[index] == null) {
+//        if (daoSession[index] == null) {
+//            if (daoMaster[index] == null) {
                 daoMaster[index] = getDaoMaster(context, index);
-            }
+//            }
             daoSession[index] = daoMaster[index].newSession();
-        }
+//        }
         return daoSession[index];
     }
 

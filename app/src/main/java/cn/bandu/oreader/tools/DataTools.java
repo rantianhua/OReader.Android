@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bandu.oreader.OReaderApplication;
+import cn.bandu.oreader.OReaderConst;
 import cn.bandu.oreader.R;
 import cn.bandu.oreader.dao.ArticleList;
 import cn.bandu.oreader.dao.ArticleListDao;
 import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.CateDao;
+import cn.bandu.oreader.dao.DaoMaster;
 import cn.bandu.oreader.dao.DaoSession;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
@@ -94,12 +96,11 @@ public class DataTools {
      * @return
      */
     public static List<ArticleList> getArticleList(Context context, List<ArticleList> datas,  String tableName, int size, int offset) {
-        SQLiteDatabase db = OReaderApplication.getDaoMaster(context, 0).getDatabase();
-
+        DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context, OReaderConst.DATABASE_NAME[0], null);
+        SQLiteDatabase db = helper.getWritableDatabase();
         String orderBy = "SID COLLATE LOCALIZED ASC";
-        ArticleListDao articleListDao = OReaderApplication.getDaoSession(context, 0).getArticleListDao();
+        ArticleListDao articleListDao = new DaoMaster(db).newSession().getArticleListDao();
         Cursor cursor = db.query(tableName, articleListDao.getAllColumns(), null, null, null, null, orderBy, offset + "," + size);
-        Log.e("cursor count=", String.valueOf(cursor.getCount()));
         for(cursor.moveToFirst();!cursor.isAfterLast();cursor.moveToNext()) {
             ArticleList articleList = new ArticleList();
             int sidColumn = cursor.getColumnIndex(ArticleListDao.Properties.Sid.columnName);
@@ -123,7 +124,8 @@ public class DataTools {
             articleList.setModel(cursor.getInt(modelColumn));
             datas.add(articleList);
         }
-        Log.e("data.size=", String.valueOf(datas.size()));
+        cursor.close();
+        db.close();
         return datas;
     }
 

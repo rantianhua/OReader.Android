@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/chat_margin_chat_activity"
-        android:paddingRight="20dp" >
+        android:layout_marginRight="20dp" >
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/iv_userhead"
@@ -26,7 +26,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/chat_margin_chat_activity"
             android:background="@drawable/chat_mini_avatar_shadow"
-            android:onClick="contactDetails"
             android:scaleType="fitXY" />
 
         <TextView
@@ -105,5 +104,4 @@
             android:layout_centerVertical="true"
             android:visibility="invisible" />
     </RelativeLayout>
-
 </LinearLayout>

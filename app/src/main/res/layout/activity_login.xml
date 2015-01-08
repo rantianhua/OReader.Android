@@ -65,6 +65,7 @@
                 android:cursorVisible="true"
                 android:textCursorDrawable="@null"
                 android:textSize="20dp"
+                android:maxLines="1"
                 />
         </RelativeLayout>
         <RelativeLayout
@@ -95,7 +96,8 @@
                 android:textColor="@color/white"
                 android:cursorVisible="true"
                 android:textCursorDrawable="@null"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:maxLines="1"/>
         </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
