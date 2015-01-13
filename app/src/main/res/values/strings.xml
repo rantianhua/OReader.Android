@@ -1,8 +1,4 @@
 <resources>
-    <string name="app_name">OReader</string>
-    <string name="appid">11</string>
-    <string name="author_id">475</string>
-    <string name="author_huanxin_id">82418</string>
     <string name="menu_test">个人中心</string>
     <string name="go_back">返回</string>
     <string name="load">加载数据中....</string>

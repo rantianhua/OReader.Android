@@ -12,11 +12,20 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            storeFile file("/Users/yangmingfu/Developer/AndroidApp/code/OReader.jks")
+            storePassword "Ayang78654"
+            keyAlias "oreader"
+            keyPassword "Ayang78654"
+        }
+    }
     buildTypes {
         release {
             runProguard false
             applicationIdSuffix ''
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     productFlavors {
