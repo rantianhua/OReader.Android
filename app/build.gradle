@@ -14,7 +14,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("/home/yangmingfu/gradle/OReader.jks")
+            storeFile file("/data/wwwroot/AndroidSrc/resource/OReader.jks")
             storePassword "Ayang78654"
             keyAlias "oreader"
             keyPassword "Ayang78654"
