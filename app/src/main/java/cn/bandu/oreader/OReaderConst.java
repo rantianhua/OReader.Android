@@ -20,15 +20,15 @@ public class OReaderConst {
     public static final long DISK_MAX_SIZE = 10 * 1024 * 1024;
 
 
-    public static String QUERY_HOST = "http://app.51tbzb.cn/";
-//    public static String QUERY_HOST = "http://app.ymf.bandu.in/";
+//    public static String QUERY_HOST = "http://app.51tbzb.cn/";
+    public static String QUERY_HOST = "http://app.ymf.bandu.in/";
 //    public static String BANDU_HOST = "http://bandu.ymf.bandu.in/";
     public static String BANDU_HOST = "http://www.bandu.cn/";
 
 
     public static final String STAT_URL = QUERY_HOST + "stat.gif?appid=%s";
     public static final String ABOUT_URL = QUERY_HOST + "about.html";
-    public static final String VERIFY_URL = QUERY_HOST + "verify?appid=" + CommonUtil.getAppid() ;
+    public static final String VERIFY_URL = QUERY_HOST + "api/checkdata/" + CommonUtil.getAppid() ;
 
     public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "comment.php";
     public static final String DATA_URL = QUERY_HOST + "OREADER";

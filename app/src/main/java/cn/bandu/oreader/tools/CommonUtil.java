@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
@@ -29,7 +28,6 @@ public class CommonUtil {
         Boolean isFirstIn = false;
         SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
         isFirstIn = pref.getBoolean("isFirstIn", true);
-        Log.e("isFirstIn=", String.valueOf(isFirstIn));
         return isFirstIn;
     }
 
@@ -40,6 +38,29 @@ public class CommonUtil {
         SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("isFirstIn", false);
+        editor.commit();
+    }
+
+    /**
+     * 取出db md5值
+     * @param context
+     * @return
+     */
+    public static String getDBVersion(Context context) {
+        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        String dbVersion  = pref.getString("dbversion", null);
+        return dbVersion;
+    }
+
+    /**
+     * 设置db md5值
+     * @param context
+     * @param str
+     */
+    public static void updateDBVersion(Context context, String str) {
+        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("dbversion", str);
         editor.commit();
     }
 

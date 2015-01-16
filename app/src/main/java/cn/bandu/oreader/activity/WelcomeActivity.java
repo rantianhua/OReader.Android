@@ -10,12 +10,19 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.InputStream;
@@ -31,6 +38,7 @@ import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.FileDownloadThread;
 import cn.bandu.oreader.tools.NetCheck;
 import cn.bandu.oreader.tools.Stat;
+import cn.bandu.oreader.tools.VolleyErrorHelper;
 
 
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
@@ -53,8 +61,6 @@ public class WelcomeActivity extends Activity {
 
     @AfterViews
     public void afterViews() {
-        Log.e("NetCheck.isNetworkConnected(this)=", String.valueOf(NetCheck.isNetworkConnected(this)));
-        Log.e("CommonUtil.isFirstUsed(this)=", String.valueOf(CommonUtil.isFirstUsed(this)));
         //没有网络 && 第一次使用
         if (NetCheck.isNetworkConnected(this) == false && CommonUtil.isFirstUsed(this) == true) {
             startActivityForResult(new Intent(this, AlertDialogActivity_.class).putExtra("titleIsCancel", true).putExtra("msg", "网络连接不可用,是否进行设置?").putExtra("cancel", true), 1);
@@ -68,9 +74,10 @@ public class WelcomeActivity extends Activity {
             CommonUtil.updateFirestUsed(this);
         }
         if (NetCheck.isNetworkConnected(this) == true) {
-            startDownLoadDatabase();
+            verifyDataVersion();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,11 +143,49 @@ public class WelcomeActivity extends Activity {
         startMain();
     }
 
+    private boolean verifyDataVersion() {
+         //从接口获取
+        String url = OReaderConst.VERIFY_URL;
+
+        OReaderApplication.getInstance().getRequestQueue().getCache().remove(url);
+        StringRequest req = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String md5String = jsonObject.getJSONObject("data").getString("md5");
+                    String dbUrl = jsonObject.getJSONObject("data").getString("url");
+                    String dbVersion = CommonUtil.getDBVersion(WelcomeActivity.this);
+                    Log.e("md5dbVersion", dbVersion+"");
+                    Log.e("md5String", md5String);
+                    if (md5String.equals(dbVersion)) {
+                        Log.e("md5equail", "md");
+                        handler.sendEmptyMessage(1);
+                    } else {
+                        CommonUtil.updateDBVersion(WelcomeActivity.this, md5String);
+                        startDownLoadDatabase(dbUrl);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message = VolleyErrorHelper.getMessage(error, WelcomeActivity.this);
+            }
+        });
+        //timeout 1s retry 1
+        req.setRetryPolicy(new DefaultRetryPolicy(1 * 1000, 1, 1.0f));
+        OReaderApplication.getInstance().addToRequestQueue(req, TAG);
+
+        return true;
+    }
     /**
      * 开始下载sqlite
      */
-    private void startDownLoadDatabase() {
-        String urlStr = OReaderConst.DATA_URL;
+    private void startDownLoadDatabase(String dbUrl) {
+        String urlStr = dbUrl;
         File dir = OReaderApplication.getInstance().getDiskCacheDir("download");
         String fileName = OReaderConst.DATABASE_NAME[0];
         file = new File(dir + fileName);
