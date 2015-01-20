@@ -11,7 +11,7 @@ public class OReaderConst {
     public static String DISK_IMAGE_CACHE_DIR = "image";
 
 
-    public static String[] DATABASE_NAME = {"OREADER", "OREADER_FAV"};
+    public static String[] DATABASE_NAME = {"OREADER_"+ CommonUtil.getAppid(), "OREADER_FAV_"+ CommonUtil.getAppid()};
 
     public static int onceNum = 10;
 
@@ -28,14 +28,15 @@ public class OReaderConst {
 
     public static final String STAT_URL = QUERY_HOST + "stat.gif?appid=%s";
     public static final String ABOUT_URL = QUERY_HOST + "about.html";
-    public static final String VERIFY_URL = QUERY_HOST + "api/checkdata/" + CommonUtil.getAppid() ;
+    public static final String VERIFY_URL = QUERY_HOST + "api/checkdata/" + CommonUtil.getAppid();
 
     public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "comment.php";
-    public static final String DATA_URL = QUERY_HOST + "OREADER";
 
     public static final String QUERY_LOGIN_URL = BANDU_HOST + "app/login";
     public static final String QUERY_REGHUANXIN_URL = BANDU_HOST + "app/regHuanXin?username=%s";
 
     public static final String MESSAGE_ATTR_IS_VOICE_CALL = "is_voice_call";
+
+    public static final String SHARE_PREFERENCES = "OREADER_" + CommonUtil.getAppid();
 
 }

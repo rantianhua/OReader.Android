@@ -156,8 +156,6 @@ public class WelcomeActivity extends Activity {
                     String md5String = jsonObject.getJSONObject("data").getString("md5");
                     String dbUrl = jsonObject.getJSONObject("data").getString("url");
                     String dbVersion = CommonUtil.getDBVersion(WelcomeActivity.this);
-                    Log.e("md5dbVersion", dbVersion+"");
-                    Log.e("md5String", md5String);
                     if (md5String.equals(dbVersion)) {
                         Log.e("md5equail", "md");
                         handler.sendEmptyMessage(1);

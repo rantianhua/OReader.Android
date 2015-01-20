@@ -26,7 +26,7 @@ public class CommonUtil {
      */
     public static boolean isFirstUsed(Context context) {
         Boolean isFirstIn = false;
-        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences pref = context.getSharedPreferences(OReaderConst.SHARE_PREFERENCES, 0);
         isFirstIn = pref.getBoolean("isFirstIn", true);
         return isFirstIn;
     }
@@ -35,7 +35,7 @@ public class CommonUtil {
      * 更新第一次使用标识
      */
     public static void updateFirestUsed(Context context) {
-        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences pref = context.getSharedPreferences(OReaderConst.SHARE_PREFERENCES, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("isFirstIn", false);
         editor.commit();
@@ -47,18 +47,18 @@ public class CommonUtil {
      * @return
      */
     public static String getDBVersion(Context context) {
-        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences pref = context.getSharedPreferences(OReaderConst.SHARE_PREFERENCES, 0);
         String dbVersion  = pref.getString("dbversion", null);
         return dbVersion;
     }
 
     /**
-     * 设置db md5值
+     *
      * @param context
      * @param str
      */
     public static void updateDBVersion(Context context, String str) {
-        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences pref = context.getSharedPreferences(OReaderConst.SHARE_PREFERENCES, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("dbversion", str);
         editor.commit();
@@ -68,7 +68,7 @@ public class CommonUtil {
      * 获取用户登录信息
      */
     public static User getUserInfo(Context context) {
-        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences pref = context.getSharedPreferences(OReaderConst.SHARE_PREFERENCES, 0);
         String userinfo = pref.getString("userinfo", null);
         User user = null;
         try {
@@ -83,7 +83,7 @@ public class CommonUtil {
      * 更新用户登录信息
      */
     public static void setUserInfo(Context context, String userinfo) {
-        SharedPreferences pref = context.getSharedPreferences("OREADER", 0);
+        SharedPreferences pref = context.getSharedPreferences(OReaderConst.SHARE_PREFERENCES, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("userinfo", userinfo);
         editor.commit();
