@@ -118,10 +118,13 @@ public class DetailActivity extends Activity {
     private void initWebView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setBlockNetworkImage(true);
 //        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
         webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
 
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
 
         webView.addJavascriptInterface(new JsObj(getApplicationContext()), "imagelistner");
@@ -130,6 +133,7 @@ public class DetailActivity extends Activity {
         webView.loadUrl(data.getWebUrl());
 
     }
+
     private void addImageClickListner() {
         webView.loadUrl("javascript:(function(){"
                 + "var objs = document.getElementsByTagName(\"img\");"
@@ -161,6 +165,7 @@ public class DetailActivity extends Activity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            webView.getSettings().setDefaultTextEncodingName("UTF-8");
             webView.loadUrl(url);
             return true;
         }
