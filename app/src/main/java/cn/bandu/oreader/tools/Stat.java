@@ -18,9 +18,8 @@ public class Stat {
     private final static String TAG = Stat.class.getSimpleName();
 
     public static void sendInstallStat() {
-        String url = String.format(OReaderConst.STAT_URL,  CommonUtil.getAppid());
+        String url = OReaderConst.STAT_URL;
         OReaderApplication.getInstance().getRequestQueue().getCache().invalidate(url, true);
-        Log.e("stat url = ", url);
         StringRequest req = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
