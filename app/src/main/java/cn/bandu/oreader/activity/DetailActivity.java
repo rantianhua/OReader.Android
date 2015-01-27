@@ -45,6 +45,7 @@ import cn.bandu.oreader.dao.ArticleList;
 import cn.bandu.oreader.dao.Cate;
 import cn.bandu.oreader.dao.Fav;
 import cn.bandu.oreader.dao.FavDao;
+import cn.bandu.oreader.dao.User;
 import cn.bandu.oreader.tools.CommonUtil;
 import cn.bandu.oreader.tools.DataTools;
 import cn.bandu.oreader.tools.VolleyErrorHelper;
@@ -206,6 +207,14 @@ public class DetailActivity extends Activity {
     @Click
     public void commentWriteAction() {
         //TODO login判断
+        final User userInfo = CommonUtil.getUserInfo(DetailActivity.this);
+        if (userInfo == null) {
+            Intent intent = new Intent();
+            intent.setClass(this, LoginActivity_.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
+            this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
         inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.comment_dialog, null);
         final AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
@@ -225,7 +234,6 @@ public class DetailActivity extends Activity {
         dialogView.findViewById(R.id.publish_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final String commentContent = commentText.getText().toString();
                 //TODO 内容合法判断
 
@@ -234,9 +242,10 @@ public class DetailActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            //TODO 构造一个json对象,带头像的
                             JSONObject obj = new JSONObject();
                             obj.put("content", commentContent);
+                            obj.put("icon", userInfo.getAvatar());
+                            obj.put("name", userInfo.getName());
                             webView.loadUrl("javascript:insertComment('(" + obj.toString() + ")')");
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -258,6 +267,8 @@ public class DetailActivity extends Activity {
                         map.put("content", commentContent);
                         map.put("appid", CommonUtil.getAppid());
                         map.put("sid", String.valueOf(data.getSid()));
+                        map.put("uid", String.valueOf(userInfo.getId()));
+                        map.put("cateid", String.valueOf(cate.getSid()));
                         return map;
                     }
                 };

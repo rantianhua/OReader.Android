@@ -31,7 +31,7 @@ public class OReaderConst {
     public static final String ABOUT_URL = QUERY_HOST + "about.html";
     public static final String VERIFY_URL = QUERY_HOST + "api/checkdata/" + CommonUtil.getAppid();
 
-    public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "comment.php";
+    public static String QUERY_COMMENT_COMMIT_URL = QUERY_HOST + "api/comment";
 
     public static final String QUERY_LOGIN_URL = BANDU_HOST + "app/login";
     public static final String QUERY_REGHUANXIN_URL = BANDU_HOST + "app/regHuanXin?username=%s";
