@@ -121,11 +121,11 @@ public class DetailActivity extends Activity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setUseWideViewPort(true);
-        webSettings.setBlockNetworkImage(true);
+        webSettings.setBlockNetworkImage(false);
 //        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
         webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
 
-//        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
 
         webView.addJavascriptInterface(new JsObj(getApplicationContext()), "imagelistner");
