@@ -20,8 +20,8 @@ public class OReaderConst {
     public static final long DISK_MAX_SIZE = 10 * 1024 * 1024;
 
 
-//    public static String QUERY_HOST = "http://app.51tbzb.cn/";
-    public static String QUERY_HOST = "http://app.ymf.bandu.in/";
+    public static String QUERY_HOST = "http://app.bandu.cn/";
+//    public static String QUERY_HOST = "http://app.ymf.bandu.in/";
 //    public static String BANDU_HOST = "http://bandu.ymf.bandu.in/";
     public static String BANDU_HOST = "http://www.bandu.cn/";
     public static String STAT_HOST = "stat.51tbzb.cn";
