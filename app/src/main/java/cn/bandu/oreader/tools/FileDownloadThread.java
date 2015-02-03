@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class FileDownloadThread extends Thread{
-    private static final int BUFFER_SIZE=1024;
+    private static final int BUFFER_SIZE = 1024;
     private URL url;
     private File file;
     private int startPosition;

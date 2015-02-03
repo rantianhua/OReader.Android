@@ -158,7 +158,6 @@ public class WelcomeActivity extends Activity {
                     String dbUrl = jsonObject.getJSONObject("data").getString("url");
                     String dbVersion = CommonUtil.getDBVersion(WelcomeActivity.this);
                     if (md5String.equals(dbVersion)) {
-                        Log.e("md5equail", "md");
                         handler.sendEmptyMessage(1);
                     } else {
                         CommonUtil.updateDBVersion(WelcomeActivity.this, md5String);
@@ -184,6 +183,7 @@ public class WelcomeActivity extends Activity {
      * 开始下载sqlite
      */
     private void startDownLoadDatabase(String dbUrl) {
+        Log.e("fucjk","fuck");
         String urlStr = dbUrl;
         File dir = OReaderApplication.getInstance().getDiskCacheDir("download");
         String fileName = OReaderConst.DATABASE_NAME[0];
@@ -215,18 +215,19 @@ public class WelcomeActivity extends Activity {
 
         @Override
         public void run() {
-            FileDownloadThread[] fds = new FileDownloadThread[threadNum];
+            FileDownloadThread[] fds = new FileDownloadThread[threadNum+1];
             try {
                 URL url = new URL(urlStr);
                 URLConnection conn = url.openConnection();
                 InputStream in = conn.getInputStream();
                 fileSize = conn.getContentLength();
+                Log.e("fileSize", String.valueOf(fileSize));
                 blockSize = fileSize / threadNum;
                 downloadSizeMore = (fileSize % threadNum);
                 File file = new File(fileName);
                 for (int i = 0; i < threadNum; i++) {
                     //启动线程，分别下载自己需要下载的部分
-                    FileDownloadThread fdt = new FileDownloadThread(url, file, i * blockSize, (i + 1) * blockSize - 1);
+                    FileDownloadThread fdt = new FileDownloadThread(url, file, i * blockSize, (i + 1) * blockSize-1);
                     fdt.setName("Thread" + i);
                     fdt.start();
                     fds[i] = fdt;
