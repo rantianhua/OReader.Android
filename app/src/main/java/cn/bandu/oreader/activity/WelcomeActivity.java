@@ -128,6 +128,7 @@ public class WelcomeActivity extends Activity {
                 downloadProgressBar.setDrawingCacheBackgroundColor(getResources().getColor(R.color.black));
                 downloadProgressBar.setProgress(progress);
             } else if (msg.what == 1) {
+                CommonUtil.updateDBVersion(WelcomeActivity.this, null);
                 startMain();
             }
         }
@@ -186,7 +187,7 @@ public class WelcomeActivity extends Activity {
         String urlStr = dbUrl;
         File dir = OReaderApplication.getInstance().getDiskCacheDir("download");
         String fileName = OReaderConst.DATABASE_NAME[0];
-        file = new File(dir + fileName);
+        file = new File(dir + "/" + fileName);
         if (file.exists() == true) {
             file.delete();
         }

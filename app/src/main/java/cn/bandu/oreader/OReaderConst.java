@@ -24,7 +24,7 @@ public class OReaderConst {
 //    public static String QUERY_HOST = "http://app.ymf.bandu.in/";
 //    public static String BANDU_HOST = "http://bandu.ymf.bandu.in/";
     public static String BANDU_HOST = "http://www.bandu.cn/";
-    public static String STAT_HOST = "stat.51tbzb.cn";
+    public static String STAT_HOST = "http://stat.51tbzb.cn/";
 
 
     public static final String STAT_URL = STAT_HOST + "appfactory.gif?appid=" + CommonUtil.getAppid() + "&source=an";

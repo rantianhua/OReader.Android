@@ -95,6 +95,7 @@ public class DetailActivity extends Activity {
     public void afterViews() {
         data = (ArticleList) getIntent().getSerializableExtra("data");
         cate = (Cate) getIntent().getSerializableExtra("cate");
+//        data.setWebUrl("http://app.ymf.bandu.in/test/Details.html");
         initTitleBar();
         initWebView();
         initBottomBar();
@@ -122,6 +123,7 @@ public class DetailActivity extends Activity {
         webSettings.setBuiltInZoomControls(true);
         webSettings.setUseWideViewPort(true);
         webSettings.setBlockNetworkImage(false);
+//        webSettings.setLoadWithOverviewMode(true);
 //        webSettings.setCacheMode(webSettings.LOAD_NO_CACHE);
         webSettings.setCacheMode(webSettings.LOAD_CACHE_ELSE_NETWORK);
 
