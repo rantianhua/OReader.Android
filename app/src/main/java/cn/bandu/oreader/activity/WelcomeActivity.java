@@ -225,7 +225,7 @@ public class WelcomeActivity extends Activity {
                 blockSize = fileSize / threadNum;
                 downloadSizeMore = (fileSize % threadNum);
                 File file = new File(fileName);
-                for (int i = 0; i < threadNum; i++) {
+                for (int i = 0; i <= threadNum; i++) {
                     //启动线程，分别下载自己需要下载的部分
                     FileDownloadThread fdt = new FileDownloadThread(url, file, i * blockSize, (i + 1) * blockSize-1);
                     fdt.setName("Thread" + i);
